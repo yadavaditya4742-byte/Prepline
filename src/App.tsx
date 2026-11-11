@@ -4,7 +4,7 @@ import { IconList, IconPlan, IconPrices, IconRecipes, IconSettings } from './ui/
 import { ListScreen } from './ui/ListScreen';
 import { Onboarding } from './ui/Onboarding';
 import { PlanScreen } from './ui/PlanScreen';
-import { PricesPreview } from './ui/PricesPreview';
+import { PricesScreen } from './ui/PricesScreen';
 import { SettingsScreen } from './ui/SettingsScreen';
 
 type Tab = 'plan' | 'list' | 'recipes' | 'prices' | 'settings';
@@ -42,7 +42,7 @@ export default function App() {
             </div>
           </>
         )}
-        {tab === 'prices' && <PricesPreview />}
+        {tab === 'prices' && <PricesScreen />}
         {tab === 'settings' && <SettingsScreen />}
       </main>
 

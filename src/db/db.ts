@@ -1,6 +1,6 @@
 import { openDB, type DBSchema, type IDBPDatabase } from 'idb';
 import { DEFAULT_SETTINGS } from '../data';
-import type { Ingredient, PriceOverride, Recipe, Settings, WeekPlan } from '../types';
+import type { Ingredient, LivePriceFile, PriceOverride, Recipe, Settings, WeekPlan } from '../types';
 
 /*
  * Everything the user creates is stored on this device in IndexedDB.
@@ -55,6 +55,14 @@ export async function loadSettings(): Promise<Settings> {
 }
 export async function saveSettings(s: Settings) {
   await (await getDB()).put('kv', s, 'settings');
+}
+
+// ── Live prices cache (last good copy of public/prices/live.json) ──
+export async function loadLiveCache(): Promise<LivePriceFile | null> {
+  return ((await (await getDB()).get('kv', 'live')) as LivePriceFile | undefined) ?? null;
+}
+export async function saveLiveCache(f: LivePriceFile) {
+  await (await getDB()).put('kv', f, 'live');
 }
 
 // ── Price overrides ─────────────────────────────────────────

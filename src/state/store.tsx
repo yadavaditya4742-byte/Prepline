@@ -4,9 +4,9 @@ import * as db from '../db/db';
 import { makePriceFn, type PriceFn } from '../engine/cost';
 import { effectivePantry } from '../engine/pantry';
 import { generatePlan, type PlanInput } from '../engine/plan';
-import { resolvePrice, type PriceContext } from '../engine/prices';
+import { isLivePriceFile, overrideKey, resolvePrice, type PriceContext } from '../engine/prices';
 import { isoDate, mondayOf } from '../engine/week';
-import type { Ingredient, PlanDay, PriceOverride, Recipe, Settings, WeekPlan } from '../types';
+import type { Ingredient, LivePriceFile, PlanDay, PriceOverride, Recipe, Settings, StoreId, WeekPlan } from '../types';
 
 interface AppState {
   ready: boolean;
@@ -29,6 +29,13 @@ interface AppState {
   completeOnboarding: (s: Settings) => Promise<void>;
   togglePantry: (id: string, have: boolean) => Promise<void>;
   reload: () => Promise<void>;
+
+  live: LivePriceFile | null;
+  setPrice: (storeId: StoreId, ingredientId: string, p: { size: number; price: number; label: string }) => Promise<void>;
+  resetPrice: (storeId: StoreId, ingredientId: string) => Promise<void>;
+  resetStorePrices: (storeId: StoreId) => Promise<number>;
+  addIngredient: (ing: Ingredient) => Promise<void>;
+  deleteIngredient: (id: string) => Promise<void>;
 }
 
 const Ctx = createContext<AppState | null>(null);
@@ -41,6 +48,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [userRecipes, setUserRecipes] = useState<Recipe[]>([]);
   const [pantryExplicit, setPantryExplicit] = useState<Map<string, boolean>>(new Map());
   const [plan, setPlan] = useState<WeekPlan | null>(null);
+  const [live, setLive] = useState<LivePriceFile | null>(null);
   const weekStart = useMemo(() => isoDate(mondayOf(new Date())), []);
 
   const reload = useCallback(async () => {
@@ -65,6 +73,30 @@ export function AppProvider({ children }: { children: ReactNode }) {
     void reload();
   }, [reload]);
 
+  // Live Kroger prices: use the cached copy straight away, then try the latest file.
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      const cached = await db.loadLiveCache().catch(() => null);
+      if (cached && !cancelled) setLive(cached);
+      try {
+        const res = await fetch(`${import.meta.env.BASE_URL}prices/live.json`, { cache: 'no-cache' });
+        if (!res.ok) return;
+        const data: unknown = await res.json();
+        if (!isLivePriceFile(data) || cancelled) return;
+        if (!cached || data.fetchedAt >= cached.fetchedAt) {
+          setLive(data);
+          await db.saveLiveCache(data);
+        }
+      } catch {
+        /* offline or not deployed with live prices: keep the cache */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   // Theme
   useEffect(() => {
     const root = document.documentElement;
@@ -79,7 +111,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const recipes = useMemo(() => [...LIBRARY_RECIPES, ...userRecipes], [userRecipes]);
   const recipeById = useMemo(() => new Map(recipes.map((r) => [r.id, r])), [recipes]);
-  const priceCtx = useMemo<PriceContext>(() => ({ overrides, live: null }), [overrides]);
+  const priceCtx = useMemo<PriceContext>(() => ({ overrides, live }), [overrides, live]);
   const priceOf = useMemo(
     () => makePriceFn(ingredients, (ing) => resolvePrice(settings.storeId, ing, priceCtx)),
     [ingredients, settings.storeId, priceCtx],
@@ -143,6 +175,47 @@ export function AppProvider({ children }: { children: ReactNode }) {
     await db.setPantry(id, have);
   }, []);
 
+  const setPrice = useCallback(async (storeId: StoreId, ingredientId: string, p: { size: number; price: number; label: string }) => {
+    const o: PriceOverride = { key: overrideKey(storeId, ingredientId), storeId, ingredientId, ...p, updatedAt: new Date().toISOString() };
+    setOverrides((m) => new Map(m).set(o.key, o));
+    await db.saveOverride(o);
+  }, []);
+
+  const resetPrice = useCallback(async (storeId: StoreId, ingredientId: string) => {
+    const key = overrideKey(storeId, ingredientId);
+    setOverrides((m) => {
+      const n = new Map(m);
+      n.delete(key);
+      return n;
+    });
+    await db.deleteOverride(key);
+  }, []);
+
+  const resetStorePrices = useCallback(
+    async (storeId: StoreId) => {
+      const keys = [...overrides.values()].filter((o) => o.storeId === storeId).map((o) => o.key);
+      setOverrides((m) => {
+        const n = new Map(m);
+        keys.forEach((k) => n.delete(k));
+        return n;
+      });
+      await Promise.all(keys.map((k) => db.deleteOverride(k)));
+      return keys.length;
+    },
+    [overrides],
+  );
+
+  const addIngredient = useCallback(async (ing: Ingredient) => {
+    const withFlag = { ...ing, custom: true };
+    setCustomIngredients((list) => [...list.filter((x) => x.id !== ing.id), withFlag]);
+    await db.saveCustomIngredient(withFlag);
+  }, []);
+
+  const deleteIngredient = useCallback(async (id: string) => {
+    setCustomIngredients((list) => list.filter((x) => x.id !== id));
+    await db.deleteCustomIngredient(id);
+  }, []);
+
   const value: AppState = {
     ready,
     settings,
@@ -163,6 +236,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
     completeOnboarding,
     togglePantry,
     reload,
+    live,
+    setPrice,
+    resetPrice,
+    resetStorePrices,
+    addIngredient,
+    deleteIngredient,
   };
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

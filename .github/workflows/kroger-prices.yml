@@ -1,0 +1,46 @@
+# Refreshes live Kroger-family prices once a day and commits public/prices/live.json.
+# Free: runs on GitHub Actions' included minutes. Needs three repository settings:
+#   Secrets   → KROGER_CLIENT_ID, KROGER_CLIENT_SECRET   (free app at developer.kroger.com)
+#   Variables → KROGER_ZIP                               (e.g. 45202) — or KROGER_LOCATION_ID
+name: Kroger prices
+
+on:
+  schedule:
+    - cron: '17 9 * * *' # daily, 09:17 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kroger-prices
+  cancel-in-progress: true
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Fetch prices
+        run: npm run prices:kroger
+        env:
+          KROGER_CLIENT_ID: ${{ secrets.KROGER_CLIENT_ID }}
+          KROGER_CLIENT_SECRET: ${{ secrets.KROGER_CLIENT_SECRET }}
+          KROGER_ZIP: ${{ vars.KROGER_ZIP }}
+          KROGER_LOCATION_ID: ${{ vars.KROGER_LOCATION_ID }}
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- public/prices/live.json; then
+            echo "No price changes."
+            exit 0
+          fi
+          git config user.name "prepline-prices-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/prices/live.json
+          git commit -m "Update live Kroger prices"
+          git push

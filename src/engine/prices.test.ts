@@ -85,3 +85,37 @@ describe('bulkHint', () => {
     expect(bulkHint('wholefoods', ing('cilantro'), ctx)).toBeNull();
   });
 });
+
+describe('estimates track live Kroger prices', () => {
+  const onion = ing('onion');
+  const live = (price: number) => ({
+    source: 'Kroger Products API',
+    fetchedAt: '2026-11-10T06:00:00Z',
+    prices: { onion: { size: onion.base.size, price, label: '3 lb bag' } },
+  });
+
+  it('scales other stores by the live/seed ratio', () => {
+    const plain = resolvePrice('walmart', onion, { overrides: new Map() });
+    const up = resolvePrice('walmart', onion, { overrides: new Map(), live: live(onion.base.price * 1.2) });
+    expect(up.tracksLive).toBe(true);
+    expect(up.source).toBe('seed');
+    expect(up.price / plain.price).toBeCloseTo(1.2, 1);
+  });
+
+  it('clamps extreme ratios', () => {
+    const plain = resolvePrice('walmart', onion, { overrides: new Map() });
+    const crazy = resolvePrice('walmart', onion, { overrides: new Map(), live: live(onion.base.price * 10) });
+    expect(crazy.price / plain.price).toBeLessThanOrEqual(1.62);
+  });
+
+  it('never touches a price the user edited', () => {
+    const o = { key: 'walmart:onion', storeId: 'walmart' as const, ingredientId: 'onion', size: 1000, price: 1, label: 'x', updatedAt: '2026-11-01' };
+    const p = resolvePrice('walmart', onion, { overrides: new Map([[o.key, o]]), live: live(9) });
+    expect(p.source).toBe('user');
+    expect(p.price).toBe(1);
+  });
+
+  it('leaves items without a live price alone', () => {
+    expect(resolvePrice('walmart', ing('tofu'), { overrides: new Map(), live: live(5) }).tracksLive).toBeUndefined();
+  });
+});

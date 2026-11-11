@@ -1448,3 +1448,98 @@ h3 {
     border-radius: 12px;
   }
 }
+
+/* ── Prices ────────────────────────────────────────────────── */
+.store-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin: 18px -16px 0;
+  padding: 2px 16px 6px;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+}
+.store-strip::-webkit-scrollbar {
+  display: none;
+}
+.store-pill {
+  flex: none;
+  scroll-snap-align: start;
+  height: 52px;
+  min-width: 96px;
+  padding: 0 14px;
+  border-radius: 16px;
+  border: 1.5px solid var(--line);
+  background: #fbfaf6;
+  color: #13322c;
+  display: grid;
+  place-items: center;
+}
+.store-pill img {
+  height: 26px;
+  max-width: 96px;
+  object-fit: contain;
+}
+.store-pill[aria-selected='true'] {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px var(--glow);
+}
+.price-row {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+.list .price-row:first-child {
+  border-top: 0;
+}
+.price-row:hover {
+  background: var(--surface-2);
+}
+.price-row .tag {
+  margin-top: 4px;
+}
+.field {
+  display: grid;
+  gap: 6px;
+}
+.field > span {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+.money-input {
+  position: relative;
+}
+.money-input > span {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: 800;
+  color: var(--muted);
+}
+.money-input .input {
+  padding-left: 32px;
+  font-size: 20px;
+  font-weight: 800;
+}
+.cmp-logo {
+  width: 64px;
+  height: 30px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  background: #fbfaf6;
+  border-radius: 8px;
+}
+.cmp-logo img {
+  max-width: 56px;
+  max-height: 22px;
+  object-fit: contain;
+}
+.list-row.here {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}

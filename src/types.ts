@@ -92,6 +92,8 @@ export type PriceSource = 'seed' | 'live' | 'user';
 
 export interface ResolvedPrice extends Pack {
   source: PriceSource;
+  /** Seed estimate nudged by the live Kroger price for the same item. */
+  tracksLive?: boolean;
   /** ISO date for live/user prices. */
   updatedAt?: string;
 }

@@ -54,7 +54,29 @@ export function resolvePrice(
     const l = ctx.live.prices[ing.id];
     return { size: l.size, price: l.price, label: l.label, source: 'live', updatedAt: ctx.live.fetchedAt };
   }
-  return { ...seedPrice(storeId, ing), source: 'seed' };
+  const seed = seedPrice(storeId, ing);
+  const factor = liveFactor(ing, ctx.live);
+  if (factor !== null) {
+    return { ...seed, price: shelfRound(seed.price * factor), source: 'seed', tracksLive: true };
+  }
+  return { ...seed, source: 'seed' };
+}
+
+/** Live-market factor bounds: one odd product match can't swing estimates wildly. */
+export const LIVE_FACTOR_MIN = 0.6;
+export const LIVE_FACTOR_MAX = 1.6;
+
+/**
+ * How far the live Kroger unit price sits from our Kroger seed estimate.
+ * Other stores' estimates are scaled by this, so they follow real market moves.
+ */
+export function liveFactor(ing: Ingredient, live?: LivePriceFile | null): number | null {
+  const l = live?.prices[ing.id];
+  if (!l || l.size <= 0 || l.price <= 0) return null;
+  const seedUnit = unitPrice(seedPrice('kroger', ing));
+  if (seedUnit <= 0) return null;
+  const f = l.price / l.size / seedUnit;
+  return Math.min(LIVE_FACTOR_MAX, Math.max(LIVE_FACTOR_MIN, f));
 }
 
 export const unitPrice = (p: Pack) => (p.size > 0 ? p.price / p.size : 0);
@@ -79,4 +101,14 @@ export function bulkHint(
   if (a <= 0 || b <= 0) return null;
   const savingPct = 1 - b / a;
   return savingPct >= threshold ? { costco, savingPct } : null;
+}
+
+/** Light validation for public/prices/live.json before trusting it. */
+export function isLivePriceFile(x: unknown): x is LivePriceFile {
+  if (!x || typeof x !== 'object') return false;
+  const f = x as LivePriceFile;
+  if (typeof f.fetchedAt !== 'string' || !f.prices || typeof f.prices !== 'object') return false;
+  return Object.values(f.prices).every(
+    (p) => p && typeof p.size === 'number' && p.size > 0 && typeof p.price === 'number' && p.price > 0 && typeof p.label === 'string',
+  );
 }
