@@ -404,7 +404,10 @@ function SourceCard({ storeId }: { storeId: StoreId }) {
   const store = STORE_BY_ID[storeId];
   const live = storeId === 'kroger' ? app.live : app.liveState.liveByStore[storeId];
   const community = app.liveState.community?.stores[storeId];
-  const communityCount = community ? Object.values(community).filter((c) => c.reports >= 2).length : 0;
+  // Count only shopper prices that pass the freshness, report-count and plausibility checks.
+  const communityCount = community
+    ? Object.keys(community).filter((id) => app.ingredients[id] && resolvePrice(storeId, app.ingredients[id], app.priceCtx).source === 'community').length
+    : 0;
   const server = app.liveState.status.server;
 
   if (live) {

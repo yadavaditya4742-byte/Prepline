@@ -30,11 +30,17 @@ function isCommunityFile(x: unknown): x is CommunityPriceFile {
   return !!f && typeof f.fetchedAt === 'string' && !!f.stores && typeof f.stores === 'object';
 }
 
+/** Where daily price files live: this site, or (in app-store builds) your published website. */
+function pricesBase(): string {
+  const b = (import.meta.env.VITE_PRICES_BASE as string | undefined) || import.meta.env.BASE_URL;
+  return b.endsWith('/') ? b : `${b}/`;
+}
+
 async function staticFile<T>(name: string, valid: (x: unknown) => x is T): Promise<T | null> {
   const key = `prices:${name}`;
   const cached = await db.loadKV<T>(key).catch(() => null);
   try {
-    const res = await fetch(`${import.meta.env.BASE_URL}prices/${name}.json`, { cache: 'no-cache' });
+    const res = await fetch(`${pricesBase()}prices/${name}.json`, { cache: 'no-cache' });
     if (res.ok) {
       const data: unknown = await res.json();
       if (valid(data)) {
