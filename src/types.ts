@@ -183,11 +183,14 @@ export interface Settings {
   /** Ingredient ids the user never wants. */
   excludes: string[];
   priority: Priority;
+  /** Days that get a dinner, 0 = Monday … 6 = Sunday. */
+  cookDays: number[];
   theme: 'system' | 'light' | 'dark';
 }
 
 export interface PlanDay {
-  recipeId: string;
+  /** null = no dinner planned this day. */
+  recipeId: string | null;
   locked: boolean;
 }
 

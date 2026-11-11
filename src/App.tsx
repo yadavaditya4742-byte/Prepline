@@ -1,6 +1,11 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
+import { useApp } from './state/store';
 import { IconList, IconPlan, IconPrices, IconRecipes, IconSettings } from './ui/icons';
+import { ListScreen } from './ui/ListScreen';
+import { Onboarding } from './ui/Onboarding';
+import { PlanScreen } from './ui/PlanScreen';
 import { PricesPreview } from './ui/PricesPreview';
+import { SettingsScreen } from './ui/SettingsScreen';
 
 type Tab = 'plan' | 'list' | 'recipes' | 'prices' | 'settings';
 
@@ -12,44 +17,38 @@ const TABS: { id: Tab; label: string; icon: ReactNode }[] = [
   { id: 'settings', label: 'Settings', icon: <IconSettings /> },
 ];
 
-function ComingSoon({ title, stage }: { title: string; stage: number }) {
-  return (
-    <>
-      <h1 className="screen-title">{title}</h1>
-      <div className="card placeholder muted">Arrives in stage {stage}.</div>
-    </>
-  );
-}
-
 export default function App() {
-  const [tab, setTab] = useState<Tab>('prices');
+  const app = useApp();
+  const [tab, setTab] = useState<Tab>('plan');
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [tab]);
+
+  if (!app.ready) return null;
+  if (!app.settings.onboarded) return <Onboarding />;
 
   return (
     <div className="app">
-      <header className="topbar">
-        <div className="wordmark">
-          <span className="wordmark-mark" aria-hidden />
-          Prepline
-        </div>
-      </header>
-
       <main className="main">
-        {tab === 'plan' && <ComingSoon title="This week" stage={2} />}
-        {tab === 'list' && <ComingSoon title="Shopping list" stage={2} />}
-        {tab === 'recipes' && <ComingSoon title="Recipes" stage={4} />}
+        {tab === 'plan' && <PlanScreen onOpenList={() => setTab('list')} />}
+        {tab === 'list' && <ListScreen />}
+        {tab === 'recipes' && (
+          <>
+            <h1 className="display">Recipes</h1>
+            <div className="card" style={{ marginTop: 20, textAlign: 'center', padding: 32 }}>
+              <div style={{ fontSize: 40 }}>📖</div>
+              <p className="muted">Browse, search and add your own recipes. Coming in stage 4.</p>
+            </div>
+          </>
+        )}
         {tab === 'prices' && <PricesPreview />}
-        {tab === 'settings' && <ComingSoon title="Settings" stage={2} />}
+        {tab === 'settings' && <SettingsScreen />}
       </main>
 
-      <nav className="tabbar" aria-label="Main">
+      <nav className="dock" aria-label="Main">
         {TABS.map((t) => (
-          <button
-            key={t.id}
-            className="tab"
-            aria-current={tab === t.id ? 'page' : undefined}
-            onClick={() => setTab(t.id)}
-          >
-            <span className="tab-pip" />
+          <button key={t.id} aria-current={tab === t.id ? 'page' : undefined} onClick={() => setTab(t.id)}>
             {t.icon}
             {t.label}
           </button>
