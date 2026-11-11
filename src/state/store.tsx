@@ -36,6 +36,8 @@ interface AppState {
   resetStorePrices: (storeId: StoreId) => Promise<number>;
   addIngredient: (ing: Ingredient) => Promise<void>;
   deleteIngredient: (id: string) => Promise<void>;
+  saveRecipe: (r: Recipe) => Promise<void>;
+  deleteRecipe: (id: string) => Promise<void>;
 }
 
 const Ctx = createContext<AppState | null>(null);
@@ -216,6 +218,27 @@ export function AppProvider({ children }: { children: ReactNode }) {
     await db.deleteCustomIngredient(id);
   }, []);
 
+  const saveRecipe = useCallback(async (r: Recipe) => {
+    const withFlag = { ...r, user: true };
+    setUserRecipes((list) => [...list.filter((x) => x.id !== r.id), withFlag]);
+    await db.saveUserRecipe(withFlag);
+  }, []);
+
+  const deleteRecipe = useCallback(
+    async (id: string) => {
+      setUserRecipes((list) => list.filter((x) => x.id !== id));
+      await db.deleteUserRecipe(id);
+      // Clear it from this week's plan so the plan never points at a missing recipe.
+      if (plan?.days.some((d) => d.recipeId === id)) {
+        const days = plan.days.map((d) => (d.recipeId === id ? { recipeId: null, locked: false } : d));
+        const wp = { ...plan, days };
+        setPlan(wp);
+        await db.savePlan(wp);
+      }
+    },
+    [plan],
+  );
+
   const value: AppState = {
     ready,
     settings,
@@ -242,6 +265,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     resetStorePrices,
     addIngredient,
     deleteIngredient,
+    saveRecipe,
+    deleteRecipe,
   };
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

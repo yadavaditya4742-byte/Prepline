@@ -5,6 +5,7 @@ import { ListScreen } from './ui/ListScreen';
 import { Onboarding } from './ui/Onboarding';
 import { PlanScreen } from './ui/PlanScreen';
 import { PricesScreen } from './ui/PricesScreen';
+import { RecipesScreen } from './ui/RecipesScreen';
 import { SettingsScreen } from './ui/SettingsScreen';
 
 type Tab = 'plan' | 'list' | 'recipes' | 'prices' | 'settings';
@@ -33,15 +34,7 @@ export default function App() {
       <main className="main">
         {tab === 'plan' && <PlanScreen onOpenList={() => setTab('list')} />}
         {tab === 'list' && <ListScreen />}
-        {tab === 'recipes' && (
-          <>
-            <h1 className="display">Recipes</h1>
-            <div className="card" style={{ marginTop: 20, textAlign: 'center', padding: 32 }}>
-              <div style={{ fontSize: 40 }}>📖</div>
-              <p className="muted">Browse, search and add your own recipes. Coming in stage 4.</p>
-            </div>
-          </>
-        )}
+        {tab === 'recipes' && <RecipesScreen />}
         {tab === 'prices' && <PricesScreen />}
         {tab === 'settings' && <SettingsScreen />}
       </main>

@@ -1543,3 +1543,63 @@ h3 {
 .list-row.here {
   background: color-mix(in srgb, var(--accent) 16%, transparent);
 }
+
+/* ── Recipes ───────────────────────────────────────────────── */
+.scroll-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin-left: -16px;
+  margin-right: -16px;
+  padding: 2px 16px 4px;
+  scrollbar-width: none;
+}
+.scroll-chips::-webkit-scrollbar {
+  display: none;
+}
+.scroll-chips .chip {
+  flex: none;
+}
+.recipe-grid {
+  display: grid;
+  gap: 10px;
+}
+@media (min-width: 720px) {
+  .recipe-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.recipe-card {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  text-align: left;
+  padding: 12px;
+  border-radius: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  width: 100%;
+  min-width: 0;
+}
+.recipe-card:hover {
+  border-color: var(--ink-soft);
+}
+.ing-row {
+  padding: 10px;
+  border-radius: 16px;
+}
+.ing-row.unmatched {
+  border-color: var(--warn);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--warn) 20%, transparent);
+}
+.select.warn {
+  border-color: var(--warn);
+}
+.textarea {
+  min-height: 120px;
+  padding: 12px 14px;
+  line-height: 1.5;
+  resize: vertical;
+  font-weight: 500;
+}

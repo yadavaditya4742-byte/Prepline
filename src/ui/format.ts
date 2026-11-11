@@ -16,7 +16,9 @@ export function formatUnitPrice(perBaseUnit: number, unit: Unit): string {
 export function formatQty(qty: number, unit: Unit): string {
   if (unit === 'each') {
     const r = Math.round(qty * 4) / 4;
-    return `${r % 1 === 0 ? r : r.toFixed(2).replace(/0$/, '')}`;
+    const whole = Math.floor(r);
+    const frac = ({ 0.25: '¼', 0.5: '½', 0.75: '¾' } as Record<number, string>)[r - whole] ?? '';
+    return whole === 0 && frac ? frac : `${whole}${frac}`;
   }
   if (unit === 'g') {
     if (qty >= 454 * 0.9) return `${(qty / G_PER_LB).toFixed(1).replace(/\.0$/, '')} lb`;
