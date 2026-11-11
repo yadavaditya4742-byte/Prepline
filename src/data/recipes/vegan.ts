@@ -1,0 +1,110 @@
+import { r } from './helpers';
+
+/* Extra plant-based dinners so vegan weeks don't repeat. Original Prepline recipes. Serve 4; ≥25 g protein/serving (est.). */
+export const VEGAN_EXTRA = [
+  r({
+    id: 'tempeh-tikka-bowls',
+    title: 'Tempeh Tikka Bowls with Mint Chutney',
+    cuisine: 'Indian', region: 'North', minutes: 35,
+    appliances: ['oven', 'blender'],
+    blurb: 'Smoky roasted tempeh and peppers over brown rice with a bright herb chutney.',
+    items: [['tempeh', 454], ['edamame', 200], ['bell-pepper', 300], ['red-onion', 150], ['brown-rice', 200], ['lemon', 2], ['ginger', 10], ['garlic', 10], ['chili-powder', 5], ['garam-masala', 5], ['oil', 25], ['mint', 15], ['cilantro', 30], ['green-chili', 5], ['salt', 7]],
+    steps: [
+      'Boil the rice 30 minutes and drain.',
+      'Toss cubed tempeh, peppers and onion with oil, lemon, ginger, garlic, spices and salt; roast at 425°F for 22 minutes.',
+      'Blend mint, cilantro, chili, lemon, salt and a splash of water into chutney. Warm the edamame.',
+      'Build bowls with rice, tikka, edamame and chutney.',
+    ],
+  }),
+  r({
+    id: 'tofu-moong-tadka',
+    title: 'Moong Dal Tadka with Tofu',
+    cuisine: 'Indian', region: 'North', minutes: 30,
+    blurb: 'Quick yellow dal with a sizzling cumin-garlic tadka and golden tofu.',
+    items: [['moong-dal', 250], ['tofu', 397], ['tomato', 150], ['onion', 120], ['garlic', 15], ['ginger', 10], ['green-chili', 4], ['oil', 25], ['cumin-seeds', 4], ['turmeric', 3], ['chili-powder', 3], ['salt', 9], ['basmati', 200], ['cilantro', 10]],
+    steps: [
+      'Simmer moong dal with turmeric and 4 cups water for 20 minutes. Cook the rice.',
+      'Pan-fry tofu cubes in half the oil until golden.',
+      'Heat the rest of the oil, add cumin, garlic, onion, ginger and chili, then tomato and chili powder.',
+      'Pour into the dal, add tofu, and serve with rice and cilantro.',
+    ],
+  }),
+  r({
+    id: 'seitan-broccoli-stir-fry',
+    title: 'Seitan & Broccoli in Garlic Sauce',
+    cuisine: 'East Asian', minutes: 20,
+    blurb: 'Chewy seitan and crisp broccoli in a savory ginger-garlic glaze.',
+    items: [['seitan', 454], ['broccoli', 500], ['soy-sauce', 45], ['hoisin', 25], ['garlic', 15], ['ginger', 15], ['sesame-oil', 10], ['oil', 20], ['brown-rice', 200], ['scallion', 30]],
+    steps: [
+      'Boil the rice 30 minutes and drain.',
+      'Sear sliced seitan in oil until crisp-edged; set aside.',
+      'Stir-fry broccoli with a splash of water, then garlic and ginger.',
+      'Return seitan with soy, hoisin and sesame oil; toss and top with scallions.',
+    ],
+  }),
+  r({
+    id: 'lentil-walnut-tacos',
+    title: 'Smoky Lentil Tacos',
+    cuisine: 'Mexican', minutes: 30,
+    blurb: 'Taco-spiced lentils and black beans with pickled onion and avocado.',
+    items: [['green-lentils', 250], ['black-beans-can', 425], ['taco-seasoning', 20], ['tomato-paste', 30], ['onion', 120], ['corn-tortilla', 12], ['red-onion', 80], ['lime', 2], ['avocado', 1], ['romaine', 150], ['salsa', 200], ['oil', 15]],
+    steps: [
+      'Simmer lentils in salted water 20 minutes; drain.',
+      'Cook onion in oil, add taco seasoning, tomato paste, lentils, beans and a splash of water; mash lightly.',
+      'Quick-pickle sliced red onion in lime juice with salt.',
+      'Fill warm tortillas with lentils, lettuce, salsa, avocado and pickled onion.',
+    ],
+  }),
+  r({
+    id: 'edamame-soba-salad',
+    title: 'Edamame Soba Salad with Peanut Dressing',
+    cuisine: 'East Asian', minutes: 20,
+    blurb: 'Cold buckwheat noodles, edamame and crunchy veg in a ginger-peanut dressing.',
+    items: [['soba', 200], ['edamame', 400], ['tofu', 397], ['carrot', 150], ['cucumber', 200], ['bell-pepper', 150], ['peanut-butter', 50], ['soy-sauce', 40], ['rice-vinegar', 20], ['ginger', 10], ['lime', 1], ['scallion', 30], ['sesame-seeds', 8]],
+    steps: [
+      'Cook soba 4 minutes, adding edamame for the last minute; rinse cold.',
+      'Cube tofu (or sear it if you prefer it warm).',
+      'Whisk peanut butter, soy, vinegar, ginger, lime and warm water.',
+      'Toss noodles, edamame, tofu and sliced vegetables with the dressing; top with scallions and sesame.',
+    ],
+  }),
+  r({
+    id: 'vegan-soya-biryani',
+    title: 'Soya Chunk Biryani with Cucumber Salad',
+    cuisine: 'Indian', region: 'South', minutes: 45,
+    blurb: 'A Hyderabadi-style layered rice with spiced soya chunks — dairy-free.',
+    items: [['soy-chunks', 150], ['basmati', 250], ['onion', 250], ['tomato', 150], ['peas', 200], ['ginger', 10], ['garlic', 10], ['mint', 15], ['oil', 30], ['garam-masala', 6], ['chili-powder', 4], ['turmeric', 2], ['lemon', 1], ['salt', 10], ['cucumber', 250]],
+    steps: [
+      'Soak soya chunks in hot water 10 minutes and squeeze.',
+      'Brown onions in oil; add ginger, garlic, spices, tomato and soya and cook 5 minutes.',
+      'Add rice, peas, mint, lemon and 2 1/2 cups water; cover and cook on low 15 minutes, then rest.',
+      'Serve with a cucumber, lemon and salt salad.',
+    ],
+  }),
+  r({
+    id: 'black-bean-quinoa-chili',
+    title: 'Black Bean, Quinoa & Tofu Chili',
+    cuisine: 'American', minutes: 40,
+    blurb: 'A thick, smoky plant-based chili with crumbled tofu for extra protein.',
+    items: [['tofu', 397], ['black-beans-can', 850], ['quinoa', 100], ['crushed-tomato', 794], ['onion', 200], ['bell-pepper', 150], ['garlic', 15], ['cumin', 5], ['paprika', 5], ['chili-flakes', 2], ['oil', 15], ['avocado', 1], ['cilantro', 15]],
+    steps: [
+      'Crumble tofu and brown it in oil with onion and pepper.',
+      'Add garlic and spices, then tomatoes, beans, rinsed quinoa and 2 cups water.',
+      'Simmer 25 minutes until thick.',
+      'Serve with avocado and cilantro.',
+    ],
+  }),
+  r({
+    id: 'chickpea-spinach-curry-tofu',
+    title: 'Chickpea & Spinach Coconut Curry with Tofu',
+    cuisine: 'Indian', region: 'West', minutes: 30,
+    blurb: 'A Goan-leaning coconut curry loaded with chickpeas, greens and tofu.',
+    items: [['chickpeas-can', 878], ['tofu', 397], ['frozen-spinach', 283], ['coconut-milk', 400], ['onion', 150], ['tomato', 150], ['garlic', 10], ['ginger', 10], ['curry-powder', 10], ['tamarind', 10], ['oil', 15], ['salt', 7], ['brown-rice', 150]],
+    steps: [
+      'Boil the rice 30 minutes and drain.',
+      'Cook onion, garlic and ginger in oil; add curry powder and tomato.',
+      'Add coconut milk, tamarind, chickpeas, tofu and spinach; simmer 10 minutes.',
+      'Serve with rice.',
+    ],
+  }),
+];

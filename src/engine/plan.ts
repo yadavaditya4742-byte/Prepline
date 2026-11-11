@@ -130,13 +130,15 @@ function buildWeek(
   }
 
   // Repair: swap the day whose replacement saves the most, until under budget.
+  // Only the cheapest candidates can rescue an over-budget week, so limit the search (keeps it fast at 150+ recipes).
+  const repairPool = [...scored].sort((a, b) => a.usedCost - b.usedCost).slice(0, 40);
   for (let guard = 0; guard < 40 && weekBought(chosen, input) > weeklyBudget; guard++) {
     const current = weekBought(chosen, input);
     let best: { day: number; recipe: Recipe; total: number } | null = null;
     for (const day of open) {
       const original = chosen[day];
       const taken = used();
-      for (const s of scored) {
+      for (const s of repairPool) {
         if (taken.has(s.recipe.id) && s.recipe.id !== original?.id) continue;
         chosen[day] = s.recipe;
         const total = weekBought(chosen, input);

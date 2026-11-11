@@ -732,7 +732,7 @@ export const MORE_RECIPES = [
       ['chili-powder', 4],
       ['garam-masala', 4],
       ['salt', 8],
-      ['atta', 280],
+      ['atta', 200],
       ['cilantro', 15],
     ],
     steps: [

@@ -116,7 +116,7 @@ export const STARTER_RECIPES = [
     blurb: 'Tangy chickpea masala over quinoa, topped with yogurt and onion.',
     items: [
       ['chickpeas-can', 1317, '3 cans, drained'],
-      ['quinoa', 250],
+      ['quinoa', 180],
       ['onion', 250],
       ['crushed-tomato', 400],
       ['ginger', 15],
@@ -134,7 +134,7 @@ export const STARTER_RECIPES = [
       ['cilantro', 15],
     ],
     steps: [
-      'Rinse the quinoa and simmer in 2 cups salted water for 15 minutes, covered. Rest 5 minutes and fluff.',
+      'Rinse the quinoa and simmer in 1 1/2 cups salted water for 15 minutes, covered. Rest 5 minutes and fluff.',
       'Heat the oil, crackle the cumin seeds, then cook the onion until well browned, 8–10 minutes.',
       'Add ginger, garlic and chili, then coriander and chili powder. Pour in the crushed tomatoes and cook down 6 minutes.',
       'Add the chickpeas and 3/4 cup water. Simmer 10 minutes, mashing a few chickpeas to thicken.',

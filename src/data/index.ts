@@ -6,6 +6,7 @@ import { INDIAN_NORTH } from './recipes/indian-north';
 import { INDIAN_SOUTH } from './recipes/indian-south';
 import { MORE_RECIPES } from './recipes/more';
 import { STARTER_RECIPES } from './recipes/starter';
+import { VEGAN_EXTRA } from './recipes/vegan';
 
 export { INGREDIENTS, INGREDIENT_BY_ID, AISLE_ORDER } from './ingredients';
 export { STORES, STORE_BY_ID } from './stores';
@@ -19,6 +20,7 @@ export const LIBRARY_RECIPES: Recipe[] = [
   ...INDIAN_WEST,
   ...GLOBAL_A,
   ...GLOBAL_B,
+  ...VEGAN_EXTRA,
 ];
 
 export const DEFAULT_SETTINGS: Settings = {

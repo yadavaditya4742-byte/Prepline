@@ -7,12 +7,12 @@ export const INDIAN_NORTH = [
     title: 'Pindi Chole with Paneer & Kulcha',
     cuisine: 'Indian', region: 'North', minutes: 40,
     blurb: 'Dark, tangy Punjabi chickpeas with seared paneer cubes and soft whole-wheat flatbreads.',
-    items: [['chickpeas-can', 1317, '3 cans, drained'], ['paneer', 200, 'cubed'], ['onion', 200], ['tomato', 200], ['ginger', 15], ['garlic', 15], ['green-chili', 6], ['oil', 25], ['cumin-seeds', 3], ['coriander', 6], ['chili-powder', 4], ['garam-masala', 4], ['chaat-masala', 3], ['tamarind', 10], ['salt', 8], ['atta', 240], ['red-onion', 60]],
+    items: [['chickpeas-can', 1317, '3 cans, drained'], ['paneer', 200, 'cubed'], ['onion', 200], ['tomato', 200], ['ginger', 15], ['garlic', 15], ['green-chili', 6], ['oil', 15], ['cumin-seeds', 3], ['coriander', 6], ['chili-powder', 4], ['garam-masala', 4], ['chaat-masala', 3], ['tamarind', 10], ['salt', 8], ['atta', 180], ['red-onion', 60]],
     steps: [
       'Knead the atta with water and salt; rest while you cook.',
       'Fry onion in oil until dark brown, then ginger, garlic, chili and all the ground spices. Add tomato and cook to a paste.',
       'Add chickpeas, tamarind and 1 cup water; simmer 15 minutes, mashing a few chickpeas. Sear paneer separately and fold in.',
-      'Roll and cook 8 thick kulchas on a hot pan. Serve with raw red onion and chaat masala.',
+      'Roll and cook 8 small kulchas on a hot pan. Serve with raw red onion and chaat masala.',
     ],
   }),
   r({
