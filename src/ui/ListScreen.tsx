@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { AISLE_ORDER, STORE_BY_ID } from '../data';
 import { weekCost } from '../engine/cost';
+import { buildInstacartList } from '../engine/instacart';
 import { groupByAisle, listAsText } from '../engine/shopping';
+import { defaultPricesApi } from '../state/livePrices';
 import { addDays, monthDay } from '../engine/week';
 import { useApp } from '../state/store';
 import type { Recipe } from '../types';
@@ -51,6 +53,27 @@ export function ListScreen() {
   const store = STORE_BY_ID[settings.storeId];
   const weekLabel = `week of ${monthDay(addDays(app.weekStart, 0))}`;
   const text = () => listAsText({ storeName: store.name, weekLabel, groups, ingredients: app.ingredients, total: cost.bought });
+
+  const api = settings.pricesApi || defaultPricesApi();
+  const [icBusy, setIcBusy] = useState(false);
+  const openInstacart = async () => {
+    // Open the tab first (synchronously) so phones don't block it as a popup.
+    const tab = window.open('about:blank', '_blank');
+    setIcBusy(true);
+    try {
+      const body = buildInstacartList(`Prepline ${weekLabel}`, cost.lines, app.ingredients, location.origin + location.pathname);
+      const res = await fetch(`${api.replace(/\/$/, '')}/v1/instacart/list`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const data = (await res.json()) as { url?: string; error?: string };
+      if (!res.ok || !data.url) throw new Error(data.error ?? 'No link returned');
+      if (tab) tab.location.href = data.url;
+      else window.location.href = data.url;
+    } catch (e) {
+      tab?.close();
+      showToast(`Instacart isn’t available: ${(e as Error).message}`);
+    } finally {
+      setIcBusy(false);
+    }
+  };
 
   const copy = async () => {
     try {
@@ -112,11 +135,18 @@ export function ListScreen() {
         </div>
       </section>
 
-      {!store.liveCapable && (
-        <div className="notice" style={{ marginTop: 14 }}>
-          <span className="emoji">🏷️</span>
-          <span>{store.name} prices are estimates. Edit any of them in Prices to match your receipt.</span>
-        </div>
+      {api ? (
+        <button className="btn instacart-btn" onClick={openInstacart} disabled={icBusy}>
+          <span aria-hidden>🥕</span>
+          {icBusy ? 'Building your Instacart list…' : 'See live prices at any store on Instacart'}
+        </button>
+      ) : (
+        !store.liveCapable && (
+          <div className="notice" style={{ marginTop: 14 }}>
+            <span className="emoji">🏷️</span>
+            <span>Most {store.name} prices are estimates. Edit any of them in Prices to match your receipt.</span>
+          </div>
+        )
       )}
 
       {groups.map((g) => (

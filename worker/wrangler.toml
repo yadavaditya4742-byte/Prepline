@@ -1,0 +1,19 @@
+# Prepline price server — deploy with:  npx wrangler deploy   (free Cloudflare account)
+name = "prepline-prices"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+
+[vars]
+# Comma-separated list of sites allowed to call this server, e.g.
+# "https://yourname.github.io,https://prepline.pages.dev,capacitor://localhost,https://localhost"
+ALLOWED_ORIGINS = "*"
+# Use https://connect.dev.instacart.tools with a development key
+INSTACART_BASE = "https://connect.instacart.com"
+
+# Secrets are NOT stored here. Add them with:
+#   npx wrangler secret put KROGER_CLIENT_ID
+#   npx wrangler secret put KROGER_CLIENT_SECRET
+#   npx wrangler secret put INSTACART_API_KEY
+#   npx wrangler secret put WALMART_CONSUMER_ID      (optional, after affiliate approval)
+#   npx wrangler secret put WALMART_KEY_VERSION      (optional)
+#   npx wrangler secret put WALMART_PRIVATE_KEY      (optional, PKCS#8 PEM)

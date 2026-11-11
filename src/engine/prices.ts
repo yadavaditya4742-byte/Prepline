@@ -1,5 +1,6 @@
 import { STORE_BY_ID } from '../data/stores';
 import type {
+  CommunityPriceFile,
   Ingredient,
   LivePriceFile,
   Pack,
@@ -31,15 +32,34 @@ export const overrideKey = (storeId: StoreId, ingredientId: string) =>
 
 export interface PriceContext {
   overrides: Map<string, PriceOverride>;
-  /** Live Kroger-family prices, if the scheduled job has produced them. */
+  /** Live Kroger-family prices (official Kroger API). */
   live?: LivePriceFile | null;
+  /** Live prices for other stores with an official API (e.g. Walmart). */
+  liveByStore?: Partial<Record<StoreId, LivePriceFile>>;
+  /** Shopper-reported prices by chain (Open Prices). */
+  community?: CommunityPriceFile | null;
+  /** "Today" for freshness checks (tests pass a fixed date). */
+  now?: Date;
+}
+
+/** Community prices older than this are ignored. */
+export const COMMUNITY_MAX_AGE_DAYS = 365;
+/** A community unit price more than 2× off our estimate is treated as a bad product match. */
+export const COMMUNITY_SANITY = 2;
+/** One receipt is an anecdote; require at least this many. */
+export const COMMUNITY_MIN_REPORTS = 2;
+
+export function liveFileFor(storeId: StoreId, ctx: PriceContext): LivePriceFile | null {
+  if (storeId === 'kroger') return ctx.live ?? ctx.liveByStore?.kroger ?? null;
+  return ctx.liveByStore?.[storeId] ?? null;
 }
 
 /**
  * Resolve the price the app should use. Priority:
  *   1. the user's own edit
- *   2. a live price (Kroger family only)
- *   3. the seed estimate
+ *   2. a live price from the store's official API (Kroger, Walmart)
+ *   3. a shopper-reported price for that chain (Open Prices), if recent and sane
+ *   4. our estimate, nudged by the live Kroger market when available
  */
 export function resolvePrice(
   storeId: StoreId,
@@ -50,11 +70,27 @@ export function resolvePrice(
   if (o) {
     return { size: o.size, price: o.price, label: o.label, source: 'user', updatedAt: o.updatedAt };
   }
-  if (storeId === 'kroger' && ctx.live?.prices[ing.id]) {
-    const l = ctx.live.prices[ing.id];
-    return { size: l.size, price: l.price, label: l.label, source: 'live', updatedAt: ctx.live.fetchedAt };
+  const lf = liveFileFor(storeId, ctx);
+  if (lf?.prices[ing.id]) {
+    const l = lf.prices[ing.id];
+    return { size: l.size, price: l.price, label: l.label, source: 'live', updatedAt: lf.fetchedAt, sourceName: lf.source };
   }
   const seed = seedPrice(storeId, ing);
+  const c = ctx.community?.stores[storeId]?.[ing.id];
+  if (c && c.unitPrice > 0 && c.reports >= COMMUNITY_MIN_REPORTS) {
+    const ageDays = ((ctx.now ?? new Date()).getTime() - new Date(c.lastDate).getTime()) / 86_400_000;
+    const ratio = c.unitPrice / unitPrice(seed);
+    if (ageDays <= COMMUNITY_MAX_AGE_DAYS && ratio < COMMUNITY_SANITY && ratio > 1 / COMMUNITY_SANITY) {
+      return {
+        ...seed,
+        price: Math.round(c.unitPrice * seed.size * 100) / 100,
+        source: 'community',
+        sourceName: ctx.community!.source,
+        reports: c.reports,
+        updatedAt: c.lastDate,
+      };
+    }
+  }
   const factor = liveFactor(ing, ctx.live);
   if (factor !== null) {
     return { ...seed, price: shelfRound(seed.price * factor), source: 'seed', tracksLive: true };

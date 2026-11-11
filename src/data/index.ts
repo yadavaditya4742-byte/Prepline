@@ -32,4 +32,7 @@ export const DEFAULT_SETTINGS: Settings = {
   priority: 'balanced',
   cookDays: [0, 1, 2, 3, 4, 5, 6],
   theme: 'system',
+  zip: '',
+  pricesApi: '',
+  showLogos: import.meta.env?.VITE_STORE_BUILD !== '1',
 };

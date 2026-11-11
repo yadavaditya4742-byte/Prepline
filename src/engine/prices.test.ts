@@ -119,3 +119,39 @@ describe('estimates track live Kroger prices', () => {
     expect(resolvePrice('walmart', ing('tofu'), { overrides: new Map(), live: live(5) }).tracksLive).toBeUndefined();
   });
 });
+
+describe('multi-store live and community prices', () => {
+  const onion = ing('onion');
+  const walmartLive = { storeId: 'walmart' as const, source: 'Walmart API', fetchedAt: '2026-11-10T06:00:00Z', prices: { onion: { size: 1360, price: 2.97, label: '3 lb bag' } } };
+  const community = {
+    source: 'Open Prices',
+    license: 'ODbL',
+    fetchedAt: '2026-11-10T06:00:00Z',
+    stores: { aldi: { onion: { unitPrice: 2.49 / 1360, reports: 3, lastDate: '2026-10-20' } }, safeway: { onion: { unitPrice: 0.5, reports: 4, lastDate: '2026-10-20' } }, publix: { onion: { unitPrice: 2.49 / 1360, reports: 1, lastDate: '2026-10-20' } }, target: { onion: { unitPrice: 2 / 1360, reports: 2, lastDate: '2024-01-01' } } },
+  };
+  const ctx = { overrides: new Map(), liveByStore: { walmart: walmartLive }, community, now: new Date('2026-11-11') };
+
+  it('uses a store’s own live feed (Walmart)', () => {
+    const p = resolvePrice('walmart', onion, ctx);
+    expect(p).toMatchObject({ source: 'live', price: 2.97, sourceName: 'Walmart API' });
+  });
+  it('uses recent shopper-reported prices for chains without an API', () => {
+    const p = resolvePrice('aldi', onion, ctx);
+    expect(p.source).toBe('community');
+    expect(p.reports).toBe(3);
+    expect(p.price).toBeCloseTo((2.49 / 1360) * seedPrice('aldi', onion).size, 2);
+  });
+  it('ignores community prices that look like a bad match', () => {
+    expect(resolvePrice('safeway', onion, ctx).source).toBe('seed'); // $0.50/g onions is not real
+  });
+  it('needs at least two shopper reports', () => {
+    expect(resolvePrice('publix', onion, ctx).source).toBe('seed');
+  });
+  it('ignores stale community prices', () => {
+    expect(resolvePrice('target', onion, ctx).source).toBe('seed');
+  });
+  it('user edits still beat everything', () => {
+    const o = { key: 'aldi:onion', storeId: 'aldi' as const, ingredientId: 'onion', size: 1000, price: 1, label: 'x', updatedAt: '2026-11-01' };
+    expect(resolvePrice('aldi', onion, { ...ctx, overrides: new Map([[o.key, o]]) }).source).toBe('user');
+  });
+});

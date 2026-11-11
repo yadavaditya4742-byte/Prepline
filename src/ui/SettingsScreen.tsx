@@ -1,6 +1,7 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { exportBackup, importBackup } from '../db/db';
 import { isoDate } from '../engine/week';
+import { defaultPricesApi } from '../state/livePrices';
 import { useApp } from '../state/store';
 import type { Settings } from '../types';
 import { money } from './format';
@@ -108,6 +109,30 @@ export function SettingsScreen() {
         <SkipPicker value={s.excludes} onChange={(excludes) => set({ excludes })} />
       </Block>
 
+      <Block title="Live prices" sub="Optional. Uses your own free price server; nothing is shared with Prepline.">
+        <div className="card stack">
+          <label className="field">
+            <span>ZIP code (finds your nearest Kroger-family store)</span>
+            <input className="input" inputMode="numeric" maxLength={5} placeholder="e.g. 45202" value={s.zip} onChange={(e) => set({ zip: e.target.value.replace(/\D/g, '').slice(0, 5) }, false)} />
+          </label>
+          <label className="field">
+            <span>Price server URL {defaultPricesApi() && !s.pricesApi ? <span className="muted">(using the built-in one)</span> : null}</span>
+            <input className="input" inputMode="url" placeholder={defaultPricesApi() || 'https://prepline-prices.yourname.workers.dev'} value={s.pricesApi} onChange={(e) => set({ pricesApi: e.target.value.trim() }, false)} />
+          </label>
+          <div className="notice">
+            <span className="emoji">{app.liveState.status.server === 'ok' ? '✅' : app.liveState.status.server === 'error' ? '⚠️' : '📡'}</span>
+            <span>
+              {app.liveState.status.server === 'ok'
+                ? `Connected.${app.live?.locationName ? ` Kroger prices from ${app.live.locationName}.` : ''}${app.liveState.liveByStore.walmart ? ' Walmart prices live.' : ''}`
+                : app.liveState.status.server === 'error'
+                  ? 'Couldn’t reach the price server (or it has no store keys yet). Using saved and estimated prices.'
+                  : 'Not connected. You still get daily Kroger prices (if set up) and shopper-reported prices for every chain.'}
+              {app.liveState.status.community ? ` · ${app.liveState.status.community} from Open Prices.` : ''}
+            </span>
+          </div>
+        </div>
+      </Block>
+
       <Block title="Appearance">
         <Segmented
           value={s.theme}
@@ -118,6 +143,10 @@ export function SettingsScreen() {
             { value: 'dark', label: 'Dark' },
           ]}
         />
+        <label className="row card" style={{ marginTop: 10, cursor: 'pointer' }}>
+          <span style={{ flex: 1, fontWeight: 700 }}>Show store logos</span>
+          <input type="checkbox" checked={s.showLogos} onChange={(e) => set({ showLogos: e.target.checked }, false)} style={{ width: 22, height: 22 }} />
+        </label>
       </Block>
 
       <Block title="Your data" sub="No account, no server. Back up to move to a new phone.">
@@ -156,7 +185,8 @@ export function SettingsScreen() {
           <span className="emoji">ℹ️</span>
           <span>
             Nutrition figures are estimates from typical ingredient values. Prices are estimates unless marked
-            <b> Live</b> (Kroger family, from Kroger’s public product API) or <b>Edited</b> (your own number).
+            <b> Live</b> (from a store’s official API: Kroger, Walmart), <b>Shoppers</b> (real receipts shared on Open Prices by
+            Open Food Facts, ODbL open data) or <b>Edited</b> (your own number).
           </span>
         </div>
         <p className="muted small" style={{ margin: '10px 4px 0' }}>

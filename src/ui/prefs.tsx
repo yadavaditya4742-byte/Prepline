@@ -6,11 +6,12 @@ import type { Appliance, DietPreset, Priority, StoreId } from '../types';
 import { IconCheck, IconSearch } from './icons';
 import { Chip } from './kit';
 import { KitchenScene } from './KitchenScene';
+import { useApp } from '../state/store';
 
 // ── Store ─────────────────────────────────────────────────────
 const STORE_STYLE: Record<StoreId, { mono: string; color: string; tag?: string }> = {
-  kroger: { mono: 'K', color: '#2f5d9e', tag: 'Live-ready' },
-  walmart: { mono: 'W', color: '#3a7bd5' },
+  kroger: { mono: 'K', color: '#2f5d9e', tag: 'Live prices' },
+  walmart: { mono: 'W', color: '#3a7bd5', tag: 'Live-ready' },
   costco: { mono: 'C', color: '#b33a3a', tag: 'Bulk' },
   target: { mono: 'T', color: '#c2453d' },
   aldi: { mono: 'A', color: '#24427a' },
@@ -38,15 +39,16 @@ export function StoreMark({ id, size = 34 }: { id: StoreId; size?: number }) {
 }
 
 export function StorePicker({ value, onChange }: { value: StoreId; onChange: (s: StoreId) => void }) {
+  const showLogos = useApp().settings.showLogos;
   return (
     <div className="store-grid">
       {STORES.map((s) => {
         const st = STORE_STYLE[s.id];
         return (
           <button key={s.id} type="button" className="store-card" aria-pressed={value === s.id} onClick={() => onChange(s.id)} aria-label={s.name}>
-            {st.tag && <span className={`tag${s.liveCapable ? ' live' : ''}`}>{st.tag}</span>}
+            {st.tag && <span className={`tag${st.tag === 'Live prices' ? ' live' : ''}`}>{st.tag}</span>}
             <span className="store-logo">
-              {STORE_LOGO[s.id] ? (
+              {showLogos && STORE_LOGO[s.id] ? (
                 <img src={STORE_LOGO[s.id]} alt="" draggable={false} />
               ) : (
                 <span className="row" style={{ gap: 8 }}>

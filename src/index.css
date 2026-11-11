@@ -1603,3 +1603,15 @@ h3 {
   resize: vertical;
   font-weight: 500;
 }
+.tag.shoppers {
+  background: color-mix(in srgb, var(--good) 18%, transparent);
+  color: var(--good);
+}
+.instacart-btn {
+  width: 100%;
+  margin-top: 14px;
+  min-height: 52px;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  justify-content: center;
+}

@@ -13,7 +13,13 @@ import { STORE_LOGO, StoreMark } from './prefs';
 type Filter = 'all' | 'week' | 'edited';
 
 export function sourceTag(p: ResolvedPrice) {
-  if (p.source === 'live') return <span className="tag live">Live</span>;
+  if (p.source === 'live') return <span className="tag live" title={p.sourceName}>Live</span>;
+  if (p.source === 'community')
+    return (
+      <span className="tag shoppers" title={`Median of ${p.reports} shopper receipts (Open Prices), latest ${p.updatedAt}`}>
+        Shoppers · {p.reports}
+      </span>
+    );
   if (p.source === 'user') return <span className="tag user">Edited</span>;
   if (p.tracksLive) return <span className="tag" title="Estimate adjusted by today’s live Kroger price">Est. · live-tracked</span>;
   return <span className="tag">Estimate</span>;
@@ -30,7 +36,6 @@ export function PricesScreen() {
   const [adding, setAdding] = useState(false);
   const [toast, showToast] = useToast();
   const store = STORE_BY_ID[storeId];
-  const live = app.live;
 
   const weekIds = useMemo(() => {
     const planned = (app.plan?.days ?? []).map((d) => (d.recipeId ? app.recipeById.get(d.recipeId) : undefined)).filter((r): r is Recipe => !!r);
@@ -38,7 +43,6 @@ export function PricesScreen() {
   }, [app.plan, app.recipeById, app.settings.servings]);
 
   const editedHere = [...app.overrides.values()].filter((o) => o.storeId === storeId).length;
-  const liveCount = live ? Object.keys(live.prices).length : 0;
 
   const groups = useMemo(() => {
     const needle = q.trim().toLowerCase();
@@ -63,7 +67,7 @@ export function PricesScreen() {
       <div className="store-strip" role="tablist" aria-label="Store">
         {STORES.map((s) => (
           <button key={s.id} role="tab" aria-selected={s.id === storeId} className="store-pill" onClick={() => setStoreId(s.id)} title={s.name}>
-            {STORE_LOGO[s.id] ? <img src={STORE_LOGO[s.id]} alt={s.name} /> : (
+            {app.settings.showLogos && STORE_LOGO[s.id] ? <img src={STORE_LOGO[s.id]} alt={s.name} /> : (
               <span className="row" style={{ gap: 6 }}>
                 <StoreMark id={s.id} size={24} />
                 <span style={{ fontWeight: 700, fontSize: 13 }}>{s.name}</span>
@@ -74,36 +78,7 @@ export function PricesScreen() {
       </div>
 
       {/* Where the numbers come from */}
-      <section className={store.liveCapable && live ? 'hero' : 'card'} style={{ marginTop: 14 }}>
-        {store.liveCapable ? (
-          live ? (
-            <>
-              <div className="row">
-                <span className="tag live">Live</span>
-                <b>Kroger family prices, updated {shortDate(live.fetchedAt)}</b>
-              </div>
-              <p className="muted small" style={{ margin: '6px 0 0' }}>
-                {liveCount} items priced{live.locationName ? ` at ${live.locationName}` : ''} via Kroger’s public product API. Refreshed daily; your edits still win.
-              </p>
-            </>
-          ) : (
-            <>
-              <b>📡 Live prices are ready to switch on</b>
-              <p className="muted small" style={{ margin: '6px 0 0' }}>
-                Kroger-family stores support free daily live prices. Until the price job is connected (see the README), these are estimates.
-              </p>
-            </>
-          )
-        ) : (
-          <>
-            <b>🏷️ {store.name} prices are estimates</b>
-            <p className="muted small" style={{ margin: '6px 0 0' }}>
-              {store.name} has no public price feed, so we estimate from typical shelf prices
-              {live ? ' and nudge them by today’s live Kroger market' : ''}. Edit the items you buy most to match your receipt.
-            </p>
-          </>
-        )}
-      </section>
+      <SourceCard storeId={storeId} />
 
       <div className="stack" style={{ marginTop: 14 }}>
         <Segmented<Filter>
@@ -263,7 +238,7 @@ function PriceSheet({ ing, storeId, onClose, onSaved }: { ing: Ingredient; store
           <div className="list">
             {compare.map(({ s, p }) => (
               <div key={s.id} className={`list-row${s.id === storeId ? ' here' : ''}`}>
-                <span className="cmp-logo">{STORE_LOGO[s.id] ? <img src={STORE_LOGO[s.id]} alt="" /> : <StoreMark id={s.id} size={24} />}</span>
+                <span className="cmp-logo">{app.settings.showLogos && STORE_LOGO[s.id] ? <img src={STORE_LOGO[s.id]} alt="" /> : <StoreMark id={s.id} size={24} />}</span>
                 <div className="name">
                   <b style={{ fontSize: 14 }}>{s.name}</b>
                   <div className="muted small">{money(p.price)} · {p.label}</div>
@@ -421,5 +396,46 @@ function AddIngredientSheet({ storeId, onClose, onSaved }: { storeId: StoreId; o
         </button>
       </div>
     </Sheet>
+  );
+}
+
+function SourceCard({ storeId }: { storeId: StoreId }) {
+  const app = useApp();
+  const store = STORE_BY_ID[storeId];
+  const live = storeId === 'kroger' ? app.live : app.liveState.liveByStore[storeId];
+  const community = app.liveState.community?.stores[storeId];
+  const communityCount = community ? Object.values(community).filter((c) => c.reports >= 2).length : 0;
+  const server = app.liveState.status.server;
+
+  if (live) {
+    return (
+      <section className="hero" style={{ marginTop: 14 }}>
+        <div className="row">
+          <span className="tag live">Live</span>
+          <b>{store.name} prices, updated {shortDate(live.fetchedAt)}</b>
+        </div>
+        <p className="muted small" style={{ margin: '6px 0 0' }}>
+          {Object.keys(live.prices).length} items from the official {live.source}
+          {live.locationName ? ` at ${live.locationName}` : storeId === 'walmart' ? ' (walmart.com prices)' : ''}.
+          {communityCount ? ` Plus ${communityCount} shopper-reported prices.` : ''} Your edits still win.
+        </p>
+      </section>
+    );
+  }
+  return (
+    <section className="card" style={{ marginTop: 14 }}>
+      <b>
+        {communityCount ? `🧾 ${communityCount} real shopper prices at ${store.name}` : store.liveCapable ? '📡 Live prices are ready to switch on' : `🏷️ ${store.name} prices are estimates`}
+      </b>
+      <p className="muted small" style={{ margin: '6px 0 0' }}>
+        {communityCount
+          ? 'From receipts people shared on Open Prices (Open Food Facts), within the last year. Everything else is an estimate'
+          : store.liveCapable
+            ? 'Add your ZIP and a price server in Settings → Live prices to get your nearest store’s prices daily. Until then these are estimates'
+            : `${store.name} has no public price feed, so most prices are estimates`}
+        {app.live && !store.liveCapable ? ', nudged by today’s live Kroger market' : ''}. Edit what you buy most to match your receipt.
+        {storeId === 'walmart' && server !== 'ok' ? ' Live walmart.com prices turn on when your price server has Walmart affiliate keys.' : ''}
+      </p>
+    </section>
   );
 }

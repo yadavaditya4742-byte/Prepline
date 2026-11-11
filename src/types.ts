@@ -88,12 +88,22 @@ export interface Store {
   usesDesi?: boolean;
 }
 
-export type PriceSource = 'seed' | 'live' | 'user';
+/**
+ * seed      = our estimate
+ * live      = from a store's official API (Kroger, Walmart)
+ * community = shopper-reported receipt prices (Open Prices / Open Food Facts)
+ * user      = the user's own edit
+ */
+export type PriceSource = 'seed' | 'live' | 'community' | 'user';
 
 export interface ResolvedPrice extends Pack {
   source: PriceSource;
   /** Seed estimate nudged by the live Kroger price for the same item. */
   tracksLive?: boolean;
+  /** Where a live/community price came from, e.g. "Kroger API", "Walmart API", "Open Prices". */
+  sourceName?: string;
+  /** Number of shopper reports behind a community price. */
+  reports?: number;
   /** ISO date for live/user prices. */
   updatedAt?: string;
 }
@@ -110,7 +120,10 @@ export interface PriceOverride {
 }
 
 /** Live prices fetched by the scheduled job (public/prices/live.json). */
+/** A live price file for one store (public/prices/<storeId>.json or the prices API). */
 export interface LivePriceFile {
+  /** Which store this file prices. Defaults to 'kroger' for older files. */
+  storeId?: StoreId;
   source: string;
   fetchedAt: string;
   locationId?: string;
@@ -188,6 +201,12 @@ export interface Settings {
   /** Days that get a dinner, 0 = Monday … 6 = Sunday. */
   cookDays: number[];
   theme: 'system' | 'light' | 'dark';
+  /** US ZIP, used to find the nearest Kroger-family store (stays on device + your price server). */
+  zip: string;
+  /** Base URL of your Prepline price server (Cloudflare Worker). Empty = use the build default. */
+  pricesApi: string;
+  /** Show store logos (off by default in app-store builds). */
+  showLogos: boolean;
 }
 
 export interface PlanDay {
@@ -201,4 +220,13 @@ export interface WeekPlan {
   weekStart: string;
   days: PlanDay[];
   createdAt: string;
+}
+
+/** Shopper-reported prices per chain, built daily from Open Prices (public/prices/community.json). */
+export interface CommunityPriceFile {
+  source: string;
+  license: string;
+  fetchedAt: string;
+  /** storeId → ingredientId → median price per base unit. */
+  stores: Partial<Record<StoreId, Record<string, { unitPrice: number; reports: number; lastDate: string }>>>;
 }

@@ -57,6 +57,14 @@ export async function saveSettings(s: Settings) {
   await (await getDB()).put('kv', s, 'settings');
 }
 
+// ── Generic cached values (price files, API responses) ─────
+export async function loadKV<T>(key: string): Promise<T | null> {
+  return ((await (await getDB()).get('kv', key)) as T | undefined) ?? null;
+}
+export async function saveKV(key: string, value: unknown) {
+  await (await getDB()).put('kv', value, key);
+}
+
 // ── Live prices cache (last good copy of public/prices/live.json) ──
 export async function loadLiveCache(): Promise<LivePriceFile | null> {
   return ((await (await getDB()).get('kv', 'live')) as LivePriceFile | undefined) ?? null;

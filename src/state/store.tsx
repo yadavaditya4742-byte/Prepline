@@ -4,7 +4,8 @@ import * as db from '../db/db';
 import { makePriceFn, type PriceFn } from '../engine/cost';
 import { effectivePantry } from '../engine/pantry';
 import { generatePlan, type PlanInput } from '../engine/plan';
-import { isLivePriceFile, overrideKey, resolvePrice, type PriceContext } from '../engine/prices';
+import { overrideKey, resolvePrice, type PriceContext } from '../engine/prices';
+import { useLivePrices, type LiveState } from './livePrices';
 import { isoDate, mondayOf } from '../engine/week';
 import type { Ingredient, LivePriceFile, PlanDay, PriceOverride, Recipe, Settings, StoreId, WeekPlan } from '../types';
 
@@ -31,6 +32,7 @@ interface AppState {
   reload: () => Promise<void>;
 
   live: LivePriceFile | null;
+  liveState: LiveState;
   setPrice: (storeId: StoreId, ingredientId: string, p: { size: number; price: number; label: string }) => Promise<void>;
   resetPrice: (storeId: StoreId, ingredientId: string) => Promise<void>;
   resetStorePrices: (storeId: StoreId) => Promise<number>;
@@ -50,7 +52,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [userRecipes, setUserRecipes] = useState<Recipe[]>([]);
   const [pantryExplicit, setPantryExplicit] = useState<Map<string, boolean>>(new Map());
   const [plan, setPlan] = useState<WeekPlan | null>(null);
-  const [live, setLive] = useState<LivePriceFile | null>(null);
   const weekStart = useMemo(() => isoDate(mondayOf(new Date())), []);
 
   const reload = useCallback(async () => {
@@ -75,30 +76,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
     void reload();
   }, [reload]);
 
-  // Live Kroger prices: use the cached copy straight away, then try the latest file.
-  useEffect(() => {
-    let cancelled = false;
-    void (async () => {
-      const cached = await db.loadLiveCache().catch(() => null);
-      if (cached && !cancelled) setLive(cached);
-      try {
-        const res = await fetch(`${import.meta.env.BASE_URL}prices/live.json`, { cache: 'no-cache' });
-        if (!res.ok) return;
-        const data: unknown = await res.json();
-        if (!isLivePriceFile(data) || cancelled) return;
-        if (!cached || data.fetchedAt >= cached.fetchedAt) {
-          setLive(data);
-          await db.saveLiveCache(data);
-        }
-      } catch {
-        /* offline or not deployed with live prices: keep the cache */
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
   // Theme
   useEffect(() => {
     const root = document.documentElement;
@@ -113,7 +90,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const recipes = useMemo(() => [...LIBRARY_RECIPES, ...userRecipes], [userRecipes]);
   const recipeById = useMemo(() => new Map(recipes.map((r) => [r.id, r])), [recipes]);
-  const priceCtx = useMemo<PriceContext>(() => ({ overrides, live }), [overrides, live]);
+  const allIds = useMemo(() => Object.keys(ingredients).filter((id) => !ingredients[id].custom).sort(), [ingredients]);
+  const liveState = useLivePrices({ zip: settings.zip, pricesApi: settings.pricesApi, ingredientIds: allIds });
+  const live = liveState.liveByStore.kroger ?? null;
+  const priceCtx = useMemo<PriceContext>(
+    () => ({ overrides, live, liveByStore: liveState.liveByStore, community: liveState.community }),
+    [overrides, live, liveState],
+  );
   const priceOf = useMemo(
     () => makePriceFn(ingredients, (ing) => resolvePrice(settings.storeId, ing, priceCtx)),
     [ingredients, settings.storeId, priceCtx],
@@ -260,6 +243,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     togglePantry,
     reload,
     live,
+    liveState,
     setPrice,
     resetPrice,
     resetStorePrices,
