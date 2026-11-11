@@ -159,6 +159,10 @@ export function SettingsScreen() {
             <b> Live</b> (Kroger family, from Kroger’s public product API) or <b>Edited</b> (your own number).
           </span>
         </div>
+        <p className="muted small" style={{ margin: '10px 4px 0' }}>
+          Store names and logos are trademarks of their owners and are shown only to identify where prices apply.
+          Prepline is not affiliated with or endorsed by any store.
+        </p>
       </Block>
       {toast}
     </>

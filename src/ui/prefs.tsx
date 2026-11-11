@@ -5,6 +5,7 @@ import { DAY_SHORT } from '../engine/week';
 import type { Appliance, DietPreset, Priority, StoreId } from '../types';
 import { IconCheck, IconSearch } from './icons';
 import { Chip } from './kit';
+import { KitchenScene } from './KitchenScene';
 
 // ── Store ─────────────────────────────────────────────────────
 const STORE_STYLE: Record<StoreId, { mono: string; color: string; tag?: string }> = {
@@ -18,8 +19,23 @@ const STORE_STYLE: Record<StoreId, { mono: string; color: string; tag?: string }
   safeway: { mono: 'S', color: '#a8433a' },
   publix: { mono: 'P', color: '#3c7d3e' },
   heb: { mono: 'H', color: '#c23b32' },
-  desi: { mono: 'अ', color: '#c27a12', tag: 'Desi staples' },
+  desi: { mono: '🌶️', color: '#c27a12', tag: 'Desi staples' },
 };
+
+// Store logos are bundled from src/assets/logos/<storeId>.svg|png (works offline).
+const LOGO_FILES = import.meta.glob('../assets/logos/*.{svg,png,webp}', { eager: true, query: '?url', import: 'default' }) as Record<string, string>;
+export const STORE_LOGO: Partial<Record<StoreId, string>> = Object.fromEntries(
+  Object.entries(LOGO_FILES).map(([path, url]) => [path.split('/').pop()!.replace(/\.\w+$/, ''), url]),
+);
+
+export function StoreMark({ id, size = 34 }: { id: StoreId; size?: number }) {
+  const st = STORE_STYLE[id];
+  return (
+    <span className="mono" style={{ background: st.color, width: size, height: size }} aria-hidden>
+      {st.mono}
+    </span>
+  );
+}
 
 export function StorePicker({ value, onChange }: { value: StoreId; onChange: (s: StoreId) => void }) {
   return (
@@ -27,11 +43,19 @@ export function StorePicker({ value, onChange }: { value: StoreId; onChange: (s:
       {STORES.map((s) => {
         const st = STORE_STYLE[s.id];
         return (
-          <button key={s.id} type="button" className="store-card" aria-pressed={value === s.id} onClick={() => onChange(s.id)}>
-            <span className="mono" style={{ background: st.color }} aria-hidden>{st.mono}</span>
+          <button key={s.id} type="button" className="store-card" aria-pressed={value === s.id} onClick={() => onChange(s.id)} aria-label={s.name}>
             {st.tag && <span className={`tag${s.liveCapable ? ' live' : ''}`}>{st.tag}</span>}
+            <span className="store-logo">
+              {STORE_LOGO[s.id] ? (
+                <img src={STORE_LOGO[s.id]} alt="" draggable={false} />
+              ) : (
+                <span className="row" style={{ gap: 8 }}>
+                  <StoreMark id={s.id} size={36} />
+                  <span className="name">{s.name}</span>
+                </span>
+              )}
+            </span>
             <span>
-              <span className="name">{s.name}</span>
               <span className="muted small" style={{ display: 'block', lineHeight: 1.3, marginTop: 2 }}>
                 {s.id === 'kroger' ? 'Ralphs, Fred Meyer, King Soopers & more' : s.note}
               </span>
@@ -78,16 +102,7 @@ export const APPLIANCES: { id: Appliance; label: string; emoji: string }[] = [
 ];
 
 export function KitchenPicker({ value, onChange }: { value: Appliance[]; onChange: (a: Appliance[]) => void }) {
-  const toggle = (id: Appliance) => onChange(value.includes(id) ? value.filter((x) => x !== id) : [...value, id]);
-  return (
-    <div className="chips">
-      {APPLIANCES.map((a) => (
-        <Chip key={a.id} emoji={a.emoji} selected={value.includes(a.id)} onClick={() => toggle(a.id)}>
-          {a.label}
-        </Chip>
-      ))}
-    </div>
-  );
+  return <KitchenScene value={value} onChange={onChange} />;
 }
 
 // ── Priority ──────────────────────────────────────────────────

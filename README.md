@@ -17,3 +17,6 @@ npm run build    # type-check + production build into dist/
 - **Prices** are estimates unless marked *Live* (Kroger family, via Kroger's free public API) or *Edited* (your own value).
 - **Nutrition** figures are estimates computed from typical ingredient values.
 - Everything you enter is stored locally in your browser (IndexedDB). Use Settings → Backup to export a JSON file.
+
+## Trademarks
+Store names and logos (in `src/assets/logos/`) belong to their respective owners and are used only to identify which store a price refers to. Prepline is an independent personal project and is not affiliated with or endorsed by any retailer.
