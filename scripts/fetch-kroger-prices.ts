@@ -48,6 +48,24 @@ async function get<T>(path: string, bearer: string): Promise<T> {
   throw new Error(`${path} → gave up after retries`);
 }
 
+/** Kroger doesn't operate everywhere (e.g. Tampa). Widen the search, then fall back to a big Kroger market. */
+export const KROGER_FALLBACK_ZIP = '30303'; // Atlanta
+async function findKrogerStore(zip: string, bearer: string): Promise<{ id: string; name: string } | null> {
+  const tries: [string, number][] = [[zip, 10], [zip, 50], [zip, 100], [KROGER_FALLBACK_ZIP, 25]];
+  for (const [z, miles] of tries) {
+    const locs = await get<{ data: { locationId: string; name: string; chain: string }[] }>(
+      `/locations?filter.zipCode.near=${encodeURIComponent(z)}&filter.radiusInMiles=${miles}&filter.limit=1`,
+      bearer,
+    );
+    const d = locs.data?.[0];
+    if (d) {
+      const reference = z !== zip ? ' (market reference — no Kroger store near you)' : '';
+      return { id: d.locationId, name: `${d.chain} · ${d.name}${reference}` };
+    }
+  }
+  return null;
+}
+
 async function main() {
   if (!KROGER_CLIENT_ID || !KROGER_CLIENT_SECRET) {
     console.error('Set KROGER_CLIENT_ID and KROGER_CLIENT_SECRET (free at developer.kroger.com).');
@@ -59,13 +77,11 @@ async function main() {
   let locationName: string | undefined;
   if (!locationId) {
     if (!KROGER_ZIP) throw new Error('Set KROGER_ZIP or KROGER_LOCATION_ID.');
-    const locs = await get<{ data: { locationId: string; name: string; chain: string }[] }>(
-      `/locations?filter.zipCode.near=${encodeURIComponent(KROGER_ZIP)}&filter.limit=1`,
-      bearer,
-    );
-    if (!locs.data.length) throw new Error(`No Kroger-family store near ${KROGER_ZIP}.`);
-    locationId = locs.data[0].locationId;
-    locationName = `${locs.data[0].chain} · ${locs.data[0].name}`;
+    // Nearest store within 100 miles; otherwise a large Kroger market as a price reference.
+    const found = await findKrogerStore(KROGER_ZIP, bearer);
+    if (!found) throw new Error(`No Kroger-family store found near ${KROGER_ZIP} or the fallback market.`);
+    locationId = found.id;
+    locationName = found.name;
   }
   console.log(`Pricing at ${locationName ?? locationId}`);
 

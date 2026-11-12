@@ -111,10 +111,14 @@ async function kroger(url: URL, env: Env): Promise<{ status: number; body: unkno
   const token = await krogerAuth(env);
   const KROGER_API = env.KROGER_API_BASE || KROGER_DEFAULT;
   const loc = await cached(`kroger-loc:${zip}`, 7 * DAY, async () => {
-    const res = await fetch(`${KROGER_API}/locations?filter.zipCode.near=${zip}&filter.limit=1`, { headers: { Authorization: `Bearer ${token}` } });
-    if (!res.ok) return null;
-    const d = ((await res.json()) as { data: { locationId: string; name: string; chain: string }[] }).data[0];
-    return d ? { id: d.locationId, name: `${d.chain} · ${d.name}` } : null;
+    // Nearest store within 100 miles; otherwise a large Kroger market (Atlanta) as a price reference.
+    for (const [z, miles] of [[zip, 10], [zip, 50], [zip, 100], ['30303', 25]] as const) {
+      const res = await fetch(`${KROGER_API}/locations?filter.zipCode.near=${z}&filter.radiusInMiles=${miles}&filter.limit=1`, { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) continue;
+      const d = ((await res.json()) as { data: { locationId: string; name: string; chain: string }[] }).data?.[0];
+      if (d) return { id: d.locationId, name: `${d.chain} · ${d.name}${z !== zip ? ' (market reference)' : ''}` };
+    }
+    return null;
   });
   if (!loc) return { status: 404, body: { error: `No Kroger-family store near ${zip}` } };
 
