@@ -45,3 +45,12 @@ describe('local storage', () => {
     await expect(importBackup({ hello: 'world' })).rejects.toThrow(/not a Prepline backup/);
   });
 });
+
+describe('settings migration', () => {
+  it('turns an old single diet into food groups', async () => {
+    const { migrateSettings } = await import('./db');
+    expect(migrateSettings({ diet: 'eggetarian' } as never).eats.sort()).toEqual(['dairy', 'egg', 'plant']);
+    expect(migrateSettings({ eats: ['poultry'] }).eats).toEqual(['poultry']);
+    expect(migrateSettings(undefined).cuisines).toEqual([]);
+  });
+});

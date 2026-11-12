@@ -2,7 +2,8 @@
 
 A budget-aware weekly dinner planner. Pick your store, budget, diet and kitchen. Prepline plans high-protein dinners under your budget, prices every ingredient at your store, and builds one grocery list that adds up. It works offline, has no accounts, and keeps all your data on your device.
 
-- **168 original dinners**, about half Indian (North, South, East, West), the rest from around the world. Each has 25 g+ protein per serving (estimated).
+- **178 original dinners**, about half Indian (North, South, East, West), the rest from around the world. Each has 25 g+ protein per serving (estimated).
+- **Mix and match**: pick any food groups (say, vegetarian + chicken) and any cuisines (say, Indian + Mediterranean). Each week blends them and stays balanced.
 - **Weekly plan** under budget: lock days, regenerate the rest, and swap a meal with the new weekly total shown for each option.
 - **Grocery list** merged across the week and grouped by aisle, showing what to buy and what it costs. "Have it" toggles build your pantry. Share or copy the list.
 - **Prices** for 11 stores: edit any price, add ingredients, compare stores, see Costco bulk hints.
@@ -201,7 +202,7 @@ On a network that needs a proxy, run the price scripts with `NODE_USE_ENV_PROXY=
 
 ### Project map
 - `src/engine/`: cost engine, plan generator, diet filters, price resolution, unit and size parsing, store adapters (Kroger, Walmart, Instacart, Open Prices). All unit-tested.
-- `src/data/`: ingredients with nutrition and seed prices, 11 stores, 168 recipes.
+- `src/data/`: ingredients with nutrition and seed prices, 11 stores, 178 recipes.
 - `src/import/`: offline recipe-text parser and the **AI import extension point** (`aiImport.ts`).
 - `src/ui/`: screens. `src/state/`: app state and live-price loading. `src/db/`: IndexedDB and backup.
 - `scripts/`: daily price jobs. `worker/`: price server. `.github/workflows/`: daily prices and deploy.

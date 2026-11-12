@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { INGREDIENTS, INGREDIENT_BY_ID, LIBRARY_RECIPES, STORES } from '../data';
 import type { Appliance, DietPreset, PlanDay, Priority, StoreId } from '../types';
 import { makePriceFn } from './cost';
-import { fitsAppliances, fitsDiet, hasExcluded } from './diet';
+import { fitsAppliances, fitsDiet, hasExcluded, mainGroup, presetTags } from './diet';
 import { effectivePantry } from './pantry';
 import { cheapestWeek, generatePlan, rng, swapOptions, type PlanInput } from './plan';
 import { resolvePrice } from './prices';
@@ -19,7 +19,7 @@ function input(over: Partial<PlanInput['settings']> & { storeId?: StoreId } = {}
     recipes: LIBRARY_RECIPES,
     ingredients: INGREDIENT_BY_ID,
     settings: {
-      diet: 'everything',
+      eats: presetTags('everything'),
       appliances: ALL_APPLIANCES,
       excludes: [],
       servings: 2,
@@ -69,7 +69,7 @@ describe('filters inside generated plans', () => {
       const diet = DIETS[Math.floor(rand() * DIETS.length)];
       const appliances = ALL_APPLIANCES.filter((a) => a === 'stovetop' || rand() > 0.5);
       const excludes = rand() > 0.5 ? ['paneer', 'mushroom'] : ['tofu'];
-      const r = generatePlan(input({ diet, appliances, excludes }, { seed: i }));
+      const r = generatePlan(input({ eats: presetTags(diet), appliances, excludes }, { seed: i }));
       for (const d of r.days) {
         if (!d.recipeId) continue;
         const recipe = LIBRARY_RECIPES.find((x) => x.id === d.recipeId)!;
@@ -81,7 +81,7 @@ describe('filters inside generated plans', () => {
   });
 
   it('vegetarian never gets eggs, fish or chicken', () => {
-    const r = generatePlan(input({ diet: 'vegetarian' }));
+    const r = generatePlan(input({ eats: presetTags('vegetarian') }));
     for (const d of r.days) {
       const recipe = LIBRARY_RECIPES.find((x) => x.id === d.recipeId)!;
       for (const it of recipe.items) {
@@ -104,10 +104,10 @@ describe('budget', () => {
       if (cookDays.length === 0) cookDays.push(0);
 
       // The cheapest week the generator can find…
-      const floor = cheapestWeek(input({ storeId, diet, servings, cookDays, priority }));
+      const floor = cheapestWeek(input({ storeId, eats: presetTags(diet), servings, cookDays, priority }));
       // …then ask for a plan with a budget at or above that floor.
       const weeklyBudget = Math.round(floor * (1 + rand() * 0.8) * 100) / 100;
-      const r = generatePlan(input({ storeId, diet, servings, cookDays, priority, weeklyBudget }, { seed: i * 31 + 7 }));
+      const r = generatePlan(input({ storeId, eats: presetTags(diet), servings, cookDays, priority, weeklyBudget }, { seed: i * 31 + 7 }));
 
       expect(r.withinBudget, `run ${i}: ${storeId} ${diet} x${servings} ${priority} budget ${weeklyBudget} got ${r.cost.bought}`).toBe(true);
       expect(r.cost.bought).toBeLessThanOrEqual(weeklyBudget);
@@ -142,5 +142,47 @@ describe('swapOptions', () => {
     }
     // Sorted cheapest week first.
     expect(opts[0].weekTotal).toBeLessThanOrEqual(opts[opts.length - 1].weekTotal);
+  });
+});
+
+describe('mix and match', () => {
+  it('vegetarian + chicken (no fish, no eggs) plans only those, with both in the week', () => {
+    for (let seed = 1; seed <= 20; seed++) {
+      const r = generatePlan(input({ eats: ['dairy', 'poultry'], priority: 'protein' }, { seed }));
+      const recipes = r.days.map((d) => LIBRARY_RECIPES.find((x) => x.id === d.recipeId)!);
+      for (const recipe of recipes) {
+        for (const it of recipe.items) expect(['plant', 'dairy', 'poultry']).toContain(INGREDIENT_BY_ID[it.ingredientId].diet);
+      }
+      const groups = recipes.map((x) => mainGroup(x, INGREDIENT_BY_ID));
+      expect(groups.filter((g) => g === 'poultry').length, `seed ${seed}`).toBeLessThanOrEqual(5);
+      expect(groups.filter((g) => g === 'plant').length, `seed ${seed}`).toBeGreaterThanOrEqual(2);
+    }
+  });
+
+  it('plans only from the cuisines picked, mixing them', () => {
+    for (let seed = 1; seed <= 20; seed++) {
+      const r = generatePlan(input({ cuisines: ['Indian', 'Mediterranean'] }, { seed }));
+      const cuisines = r.days.map((d) => LIBRARY_RECIPES.find((x) => x.id === d.recipeId)!.cuisine);
+      expect(new Set(cuisines)).toEqual(new Set(['Indian', 'Mediterranean']));
+      expect(r.widenedCuisines).toBeUndefined();
+    }
+  });
+
+  it('keeps a picked cuisine in the week at an everyday budget', () => {
+    const staples = new Set(Object.values(INGREDIENT_BY_ID).filter((i) => i.staple).map((i) => i.id));
+    for (let seed = 1; seed <= 10; seed++) {
+      const r = generatePlan(input({ eats: ['dairy', 'poultry'], cuisines: ['Indian', 'Mediterranean'], weeklyBudget: 75 }, { seed, pantry: staples }));
+      const cuisines = r.days.map((d) => LIBRARY_RECIPES.find((x) => x.id === d.recipeId)!.cuisine);
+      expect(r.withinBudget, `seed ${seed}`).toBe(true);
+      expect(cuisines, `seed ${seed}`).toContain('Mediterranean');
+      expect(cuisines, `seed ${seed}`).toContain('Indian');
+    }
+  });
+
+  it('widens to other cuisines instead of repeating when the picks are too narrow', () => {
+    const r = generatePlan(input({ cuisines: ['Caribbean'], eats: ['dairy'], appliances: ['stovetop'] }, { seed: 3 }));
+    const ids = r.days.map((d) => d.recipeId);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(r.widenedCuisines).toBe(true);
   });
 });

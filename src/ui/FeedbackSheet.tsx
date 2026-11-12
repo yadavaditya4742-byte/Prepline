@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { dietLabel } from '../engine/diet';
 import { regionForZip } from '../engine/region';
 import { sendFeedback, type FeedbackKind } from '../state/feedback';
 import { useApp } from '../state/store';
@@ -37,7 +38,7 @@ export function FeedbackSheet({ onClose, onSent, screen = 'settings' }: { onClos
     app: `web ${__APP_BUILD__}`,
     store: s.storeId,
     region: regionForZip(s.zip) ?? '',
-    diet: s.diet,
+    diet: dietLabel(s.eats).slice(0, 30),
     screen,
     device: navigator.userAgent.slice(0, 160),
   };

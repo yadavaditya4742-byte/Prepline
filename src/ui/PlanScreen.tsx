@@ -38,7 +38,14 @@ export function PlanScreen({ onOpenList }: { onOpenList: () => void }) {
   const regenerate = async () => {
     const res = generatePlan(app.planInput(days));
     await app.setPlanDays(res.days);
-    showToast(res.withinBudget ? `New week · ${money(res.cost.bought)}` : `Closest we could get: ${money(res.cost.bought)}`);
+    const head = res.withinBudget ? `New week · ${money(res.cost.bought)}` : `Closest we could get: ${money(res.cost.bought)}`;
+    showToast(
+      res.droppedCuisines
+        ? `${head} · ${res.droppedCuisines.join(' & ')} didn’t fit the budget this week`
+        : res.widenedCuisines
+          ? `${head} · added other cuisines for variety`
+          : head,
+    );
   };
 
   const toggleLock = (i: number) => app.setPlanDays(days.map((d, j) => (j === i ? { ...d, locked: !d.locked } : d)));

@@ -18,7 +18,7 @@ const KEYWORDS: [RegExp, string][] = [
   [/bowl|salad/i, '🥗'],
 ];
 
-const CUISINE_EMOJI: Record<Cuisine, string> = {
+export const CUISINE_EMOJI: Record<Cuisine, string> = {
   Indian: '🍛',
   Mediterranean: '🫒',
   Mexican: '🌮',

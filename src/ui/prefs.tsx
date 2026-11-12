@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react';
 import { INGREDIENTS, STORES } from '../data';
-import { DIET_LABELS } from '../engine/diet';
+import { dietLabel, fitsDiet, FOOD_GROUPS, matchingPreset, presetTags } from '../engine/diet';
 import { DAY_SHORT } from '../engine/week';
-import type { Appliance, DietPreset, Priority, StoreId } from '../types';
+import type { Appliance, Cuisine, DietPreset, DietTag, Priority, StoreId } from '../types';
 import { IconCheck, IconSearch } from './icons';
 import { Chip } from './kit';
 import { KitchenScene } from './KitchenScene';
+import { CUISINE_EMOJI } from './visuals';
 import { useApp } from '../state/store';
 
 // ── Store ─────────────────────────────────────────────────────
@@ -69,25 +70,95 @@ export function StorePicker({ value, onChange }: { value: StoreId; onChange: (s:
   );
 }
 
-// ── Diet ──────────────────────────────────────────────────────
-const DIET_EMOJI: Record<DietPreset, string> = {
-  vegan: '🌱',
-  vegetarian: '🥕',
-  eggetarian: '🥚',
-  pescatarian: '🐟',
-  'chicken-fish': '🍗',
-  everything: '🥩',
-};
-const DIET_ORDER: DietPreset[] = ['vegan', 'vegetarian', 'eggetarian', 'pescatarian', 'chicken-fish', 'everything'];
+// ── Diet (mix and match) ──────────────────────────────────────
+const PRESETS: { id: DietPreset; label: string; emoji: string }[] = [
+  { id: 'vegan', label: 'Vegan', emoji: '🌱' },
+  { id: 'vegetarian', label: 'Vegetarian', emoji: '🥕' },
+  { id: 'eggetarian', label: 'Veg + eggs', emoji: '🥚' },
+  { id: 'pescatarian', label: 'Pescatarian', emoji: '🐟' },
+  { id: 'chicken-fish', label: 'Chicken & fish', emoji: '🍗' },
+  { id: 'everything', label: 'Everything', emoji: '🥩' },
+];
 
-export function DietPicker({ value, onChange }: { value: DietPreset; onChange: (d: DietPreset) => void }) {
+export function DietPicker({ value, onChange }: { value: DietTag[]; onChange: (eats: DietTag[]) => void }) {
+  const app = useApp();
+  const has = new Set(value);
+  const preset = matchingPreset(value);
+  const count = app.recipes.filter((r) => fitsDiet(r, value, app.ingredients)).length;
+  const toggle = (t: DietTag) => onChange(has.has(t) ? value.filter((x) => x !== t) : [...value, t]);
+
   return (
-    <div className="chips">
-      {DIET_ORDER.map((d) => (
-        <Chip key={d} emoji={DIET_EMOJI[d]} selected={value === d} onClick={() => onChange(d)}>
-          {DIET_LABELS[d]}
+    <div className="stack" style={{ gap: 18 }}>
+      <div>
+        <div className="field-label">Tap everything you eat</div>
+        <div className="chips">
+          <Chip selected emoji="🌱">Plants, beans & lentils</Chip>
+          {FOOD_GROUPS.map((g) => (
+            <Chip key={g.tag} emoji={g.emoji} selected={has.has(g.tag)} onClick={() => toggle(g.tag)}>
+              {g.label}
+            </Chip>
+          ))}
+        </div>
+      </div>
+
+      <div className="notice">
+        <span className="emoji">🍽️</span>
+        <span>
+          <b>{dietLabel(value)}</b> · {count} dinners to choose from.
+          {has.size > 1 && !preset ? ' Your week mixes them, so it’s never all one thing.' : ''}
+        </span>
+      </div>
+
+      <div>
+        <div className="field-label">Or start from a common diet</div>
+        <div className="chips">
+          {PRESETS.map((p) => (
+            <Chip key={p.id} small emoji={p.emoji} selected={preset === p.id} onClick={() => onChange(presetTags(p.id).filter((t) => t !== 'plant'))}>
+              {p.label}
+            </Chip>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Cuisines (mix and match) ──────────────────────────────────
+export const ALL_CUISINES: Cuisine[] = ['Indian', 'Mediterranean', 'Middle Eastern', 'Mexican', 'East Asian', 'Southeast Asian', 'Italian', 'American', 'Caribbean', 'African'];
+
+export function CuisinePicker({ value, onChange, eats }: { value: Cuisine[]; onChange: (c: Cuisine[]) => void; eats: DietTag[] }) {
+  const app = useApp();
+  const counts = useMemo(() => {
+    const m = new Map<Cuisine, number>();
+    for (const r of app.recipes) if (!r.user && fitsDiet(r, eats, app.ingredients)) m.set(r.cuisine, (m.get(r.cuisine) ?? 0) + 1);
+    return m;
+  }, [app.recipes, app.ingredients, eats]);
+  const picked = new Set(value);
+  const toggle = (c: Cuisine) => onChange(picked.has(c) ? value.filter((x) => x !== c) : [...value, c]);
+  const total = value.reduce((n, c) => n + (counts.get(c) ?? 0), 0);
+
+  return (
+    <div className="stack" style={{ gap: 16 }}>
+      <div className="chips">
+        <Chip emoji="🌍" selected={value.length === 0} onClick={() => onChange([])}>
+          Any cuisine
         </Chip>
-      ))}
+        {ALL_CUISINES.filter((c) => counts.get(c)).map((c) => (
+          <Chip key={c} emoji={CUISINE_EMOJI[c]} selected={picked.has(c)} onClick={() => toggle(c)}>
+            {c} <span className="muted" style={{ fontWeight: 600, marginLeft: 4 }}>{counts.get(c)}</span>
+          </Chip>
+        ))}
+      </div>
+      {value.length > 0 && (
+        <div className="notice">
+          <span className="emoji">{total >= 9 ? '✨' : '💡'}</span>
+          <span>
+            {total >= 9
+              ? `Your weeks will mix ${value.length === 1 ? value[0] : `${value.slice(0, -1).join(', ')} and ${value[value.length - 1]}`} (${total} dinners).`
+              : `Only ${total} dinners fit. We’ll add a few from other cuisines so you don’t eat the same thing twice.`}
+          </span>
+        </div>
+      )}
     </div>
   );
 }

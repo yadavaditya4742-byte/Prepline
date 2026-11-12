@@ -12,16 +12,17 @@ import { money } from './format';
 import { Logo } from './Logo';
 import { IconArrow, IconBack } from './icons';
 import { Range, Stepper } from './kit';
-import { DaysPicker, DietPicker, KitchenPicker, PriorityPicker, SkipPicker, StorePicker } from './prefs';
+import { CuisinePicker, DaysPicker, DietPicker, KitchenPicker, PriorityPicker, SkipPicker, StorePicker } from './prefs';
 import { recipeEmoji, recipeTint } from './visuals';
 
-type StepId = 'zip' | 'store' | 'diet' | 'kitchen' | 'skip' | 'priority' | 'days' | 'budget';
-const STEPS: StepId[] = ['zip', 'store', 'diet', 'kitchen', 'skip', 'priority', 'days', 'budget'];
+type StepId = 'zip' | 'store' | 'diet' | 'cuisines' | 'kitchen' | 'skip' | 'priority' | 'days' | 'budget';
+const STEPS: StepId[] = ['zip', 'store', 'diet', 'cuisines', 'kitchen', 'skip', 'priority', 'days', 'budget'];
 
 const COPY: Record<StepId, { title: string; lede: string }> = {
   zip: { title: 'Where do you live?', lede: 'Your ZIP code lets us price groceries for your area. It stays on your phone.' },
   store: { title: 'Where do you shop?', lede: 'Every price in your plan is worked out for this store.' },
-  diet: { title: 'How do you eat?', lede: 'Pick the closest fit. You can widen it any time.' },
+  diet: { title: 'What do you eat?', lede: 'Mix and match. Vegetarian + chicken, eggs but no fish, whatever fits you.' },
+  cuisines: { title: 'What are you craving?', lede: 'Pick one or mix a few. Indian and Mediterranean? Done.' },
   kitchen: { title: 'What can you cook with?', lede: 'We’ll only suggest dinners your kitchen can handle.' },
   skip: { title: 'Anything off the menu?', lede: 'Allergies, dislikes, or just “not this week”.' },
   priority: { title: 'What matters most?', lede: 'This decides which dinners rise to the top.' },
@@ -65,7 +66,8 @@ export function Onboarding() {
         <div style={{ marginTop: 26 }}>
           {id === 'zip' && <ZipStep zip={draft.zip} onChange={(zip) => set({ zip })} />}
           {id === 'store' && <StorePicker value={draft.storeId} onChange={(storeId) => set({ storeId })} />}
-          {id === 'diet' && <DietPicker value={draft.diet} onChange={(diet) => set({ diet })} />}
+          {id === 'diet' && <DietPicker value={draft.eats} onChange={(eats) => set({ eats })} />}
+          {id === 'cuisines' && <CuisinePicker value={draft.cuisines} eats={draft.eats} onChange={(cuisines) => set({ cuisines })} />}
           {id === 'kitchen' && <KitchenPicker value={draft.appliances} onChange={(appliances) => set({ appliances })} />}
           {id === 'skip' && <SkipPicker value={draft.excludes} onChange={(excludes) => set({ excludes })} />}
           {id === 'priority' && <PriorityPicker value={draft.priority} onChange={(priority) => set({ priority })} />}

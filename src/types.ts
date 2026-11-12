@@ -196,7 +196,10 @@ export interface Settings {
   onboarded: boolean;
   weeklyBudget: number;
   storeId: StoreId;
-  diet: DietPreset;
+  /** Food groups the user eats, mixed freely (plants always included). */
+  eats: DietTag[];
+  /** Cuisines to plan from. Empty = all cuisines. */
+  cuisines: Cuisine[];
   servings: number;
   appliances: Appliance[];
   /** Ingredient ids the user never wants. */

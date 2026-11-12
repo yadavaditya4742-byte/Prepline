@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { INGREDIENT_BY_ID, LIBRARY_RECIPES } from '../data';
 import type { Recipe } from '../types';
-import { fitsAppliances, fitsDiet, recipeAllowed, recipeDiet } from './diet';
+import { dietLabel, fitsAppliances, fitsDiet, presetTags, recipeAllowed, recipeDiet } from './diet';
 
 const byId = (id: string) => LIBRARY_RECIPES.find((r) => r.id === id)!;
 const ING = INGREDIENT_BY_ID;
@@ -44,9 +44,23 @@ describe('appliance and exclusion filters', () => {
   });
 
   it('excluded ingredients remove a recipe', () => {
-    const base = { diet: 'everything' as const, appliances: ['stovetop', 'oven'] as const };
+    const base = { eats: presetTags('everything'), appliances: ['stovetop', 'oven'] as const };
     const r = byId('tandoori-chicken-tray');
     expect(recipeAllowed(r, { ...base, appliances: [...base.appliances], excludes: [] }, ING)).toBe(true);
     expect(recipeAllowed(r, { ...base, appliances: [...base.appliances], excludes: ['bell-pepper'] }, ING)).toBe(false);
+  });
+});
+
+describe('diet labels for any mix', () => {
+  it.each([
+    [[], 'Vegan'],
+    [['dairy'], 'Vegetarian (no eggs)'],
+    [['dairy', 'egg'], 'Vegetarian + eggs'],
+    [['dairy', 'poultry'], 'Vegetarian + chicken'],
+    [['dairy', 'egg', 'poultry'], 'Vegetarian + eggs + chicken'],
+    [['egg', 'fish'], 'Plant-based + eggs + fish'],
+    [['dairy', 'egg', 'fish', 'poultry'], 'Chicken & fish'],
+  ] as const)('%j → %s', (eats, label) => {
+    expect(dietLabel(eats)).toBe(label);
   });
 });

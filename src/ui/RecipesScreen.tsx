@@ -11,7 +11,7 @@ import { ImportSheet, RecipeEditor, type Draft } from './RecipeEditor';
 import { RecipeSheet } from './RecipeSheet';
 import { recipeEmoji, recipeTags, recipeTint } from './visuals';
 
-const CUISINES: (Cuisine | 'All')[] = ['All', 'Indian', 'Mediterranean', 'Middle Eastern', 'Mexican', 'East Asian', 'Southeast Asian', 'Italian', 'American', 'Caribbean', 'African'];
+const CUISINES: Cuisine[] = ['Indian', 'Mediterranean', 'Middle Eastern', 'Mexican', 'East Asian', 'Southeast Asian', 'Italian', 'American', 'Caribbean', 'African'];
 const REGIONS: (IndianRegion | 'All')[] = ['All', 'North', 'South', 'East', 'West'];
 type Sort = 'protein' | 'cost' | 'time' | 'az';
 
@@ -19,7 +19,8 @@ export function RecipesScreen() {
   const app = useApp();
   const { settings } = app;
   const [q, setQ] = useState('');
-  const [cuisine, setCuisine] = useState<Cuisine | 'All'>('All');
+  // Starts on the cuisines picked in Settings; tap several to mix.
+  const [cuisines, setCuisines] = useState<Cuisine[]>(settings.cuisines);
   const [region, setRegion] = useState<IndianRegion | 'All'>('All');
   const [myDiet, setMyDiet] = useState(true);
   const [myKitchen, setMyKitchen] = useState(true);
@@ -50,9 +51,9 @@ export function RecipesScreen() {
         const hay = `${r.title} ${r.blurb ?? ''} ${r.cuisine} ${r.region ?? ''} ${r.items.map((i) => app.ingredients[i.ingredientId]?.name ?? '').join(' ')}`.toLowerCase();
         if (!needle.split(/\s+/).every((w) => hay.includes(w))) return false;
       }
-      if (cuisine !== 'All' && r.cuisine !== cuisine) return false;
-      if (cuisine === 'Indian' && region !== 'All' && r.region !== region) return false;
-      if (myDiet && (!fitsDiet(r, settings.diet, app.ingredients) || hasExcluded(r, settings.excludes))) return false;
+      if (cuisines.length && !cuisines.includes(r.cuisine)) return false;
+      if (r.cuisine === 'Indian' && region !== 'All' && r.region !== region) return false;
+      if (myDiet && (!fitsDiet(r, settings.eats, app.ingredients) || hasExcluded(r, settings.excludes))) return false;
       if (myKitchen && !fitsAppliances(r, settings.appliances)) return false;
       if (quick && r.minutes > 30) return false;
       if (highP && n.protein < 40) return false;
@@ -63,7 +64,7 @@ export function RecipesScreen() {
       sort === 'protein' ? b.n.protein - a.n.protein : sort === 'cost' ? a.pp - b.pp : sort === 'time' ? a.r.minutes - b.r.minutes : a.r.title.localeCompare(b.r.title),
     );
     return out;
-  }, [enriched, q, cuisine, region, myDiet, myKitchen, quick, highP, mine, sort, settings, app.ingredients]);
+  }, [enriched, q, cuisines, region, myDiet, myKitchen, quick, highP, mine, sort, settings, app.ingredients]);
 
   return (
     <>
@@ -87,13 +88,24 @@ export function RecipesScreen() {
       </div>
 
       <div className="scroll-chips" style={{ marginTop: 12 }}>
+        <Chip small selected={cuisines.length === 0} onClick={() => { setCuisines([]); setRegion('All'); }}>
+          All
+        </Chip>
         {CUISINES.map((c) => (
-          <Chip key={c} small selected={cuisine === c} onClick={() => { setCuisine(c); setRegion('All'); }}>
+          <Chip
+            key={c}
+            small
+            selected={cuisines.includes(c)}
+            onClick={() => {
+              setCuisines(cuisines.includes(c) ? cuisines.filter((x) => x !== c) : [...cuisines, c]);
+              if (c === 'Indian') setRegion('All');
+            }}
+          >
             {c}
           </Chip>
         ))}
       </div>
-      {cuisine === 'Indian' && (
+      {cuisines.includes('Indian') && (
         <div className="scroll-chips" style={{ marginTop: 8 }}>
           {REGIONS.map((g) => (
             <Chip key={g} small selected={region === g} onClick={() => setRegion(g)}>

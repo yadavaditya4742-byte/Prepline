@@ -1,6 +1,7 @@
 import { openDB, type DBSchema, type IDBPDatabase } from 'idb';
 import { DEFAULT_SETTINGS } from '../data';
-import type { Ingredient, LivePriceFile, PriceOverride, Recipe, Settings, WeekPlan } from '../types';
+import { presetTags } from '../engine/diet';
+import type { DietPreset, Ingredient, LivePriceFile, PriceOverride, Recipe, Settings, WeekPlan } from '../types';
 
 /*
  * Everything the user creates is stored on this device in IndexedDB.
@@ -50,8 +51,16 @@ export async function _resetDBForTests() {
 // ── Settings ────────────────────────────────────────────────
 export async function loadSettings(): Promise<Settings> {
   const db = await getDB();
-  const saved = (await db.get('kv', 'settings')) as Partial<Settings> | undefined;
-  return { ...DEFAULT_SETTINGS, ...saved };
+  const saved = (await db.get('kv', 'settings')) as (Partial<Settings> & { diet?: DietPreset }) | undefined;
+  return migrateSettings(saved);
+}
+
+/** Bring settings saved by older versions up to date (e.g. single diet → mixed food groups). */
+export function migrateSettings(saved: (Partial<Settings> & { diet?: DietPreset }) | undefined): Settings {
+  const { diet, ...rest } = saved ?? {};
+  const s: Settings = { ...DEFAULT_SETTINGS, ...rest };
+  if (!rest.eats && diet) s.eats = presetTags(diet);
+  return s;
 }
 export async function saveSettings(s: Settings) {
   await (await getDB()).put('kv', s, 'settings');

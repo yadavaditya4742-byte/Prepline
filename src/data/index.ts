@@ -1,5 +1,6 @@
 import type { Recipe, Settings } from '../types';
 import { GLOBAL_A } from './recipes/global-a';
+import { MEDITERRANEAN_BUDGET } from './recipes/mediterranean-budget';
 import { GLOBAL_B } from './recipes/global-b';
 import { INDIAN_EAST, INDIAN_WEST } from './recipes/indian-east-west';
 import { INDIAN_NORTH } from './recipes/indian-north';
@@ -19,6 +20,7 @@ export const LIBRARY_RECIPES: Recipe[] = [
   ...INDIAN_EAST,
   ...INDIAN_WEST,
   ...GLOBAL_A,
+  ...MEDITERRANEAN_BUDGET,
   ...GLOBAL_B,
   ...VEGAN_EXTRA,
 ];
@@ -27,7 +29,8 @@ export const DEFAULT_SETTINGS: Settings = {
   onboarded: false,
   weeklyBudget: 75,
   storeId: 'kroger',
-  diet: 'chicken-fish',
+  eats: ['dairy', 'egg', 'fish', 'poultry'],
+  cuisines: [],
   servings: 2,
   appliances: ['stovetop', 'oven', 'microwave'],
   excludes: [],

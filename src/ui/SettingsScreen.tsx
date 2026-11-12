@@ -8,7 +8,7 @@ import { FeedbackSheet } from './FeedbackSheet';
 import { money } from './format';
 import { IconRefresh } from './icons';
 import { Range, Segmented, Stepper, useToast } from './kit';
-import { DaysPicker, DietPicker, KitchenPicker, PriorityPicker, SkipPicker, StorePicker } from './prefs';
+import { CuisinePicker, DaysPicker, DietPicker, KitchenPicker, PriorityPicker, SkipPicker, StorePicker } from './prefs';
 
 function Block({ title, sub, children }: { title: string; sub?: string; children: ReactNode }) {
   return (
@@ -104,8 +104,12 @@ export function SettingsScreen() {
         <StorePicker value={s.storeId} onChange={(storeId) => set({ storeId })} />
       </Block>
 
-      <Block title="Diet">
-        <DietPicker value={s.diet} onChange={(diet) => set({ diet })} />
+      <Block title="What you eat" sub="Mix and match food groups.">
+        <DietPicker value={s.eats} onChange={(eats) => set({ eats })} />
+      </Block>
+
+      <Block title="Cuisines" sub="Your weekly plan mixes the ones you pick.">
+        <CuisinePicker value={s.cuisines} eats={s.eats} onChange={(cuisines) => set({ cuisines })} />
       </Block>
 
       <Block title="Planning priority">
