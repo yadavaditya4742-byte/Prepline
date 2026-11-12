@@ -114,7 +114,7 @@ export function recipeFromDraft(d: Draft, ingredients: Record<string, Ingredient
   };
 }
 
-function IngredientSelect({ value, onChange, ingredients }: { value: string; onChange: (id: string) => void; ingredients: Record<string, Ingredient> }) {
+export function IngredientSelect({ value, onChange, ingredients }: { value: string; onChange: (id: string) => void; ingredients: Record<string, Ingredient> }) {
   const groups = useMemo(() => {
     const all = Object.values(ingredients).sort((a, b) => a.name.localeCompare(b.name));
     return AISLE_ORDER.map((a) => [a, all.filter((i) => i.aisle === a)] as const).filter(([, l]) => l.length);

@@ -1717,3 +1717,24 @@ html {
   font-family: var(--font-display);
   letter-spacing: -0.01em;
 }
+
+/* ── Receipt scanner ───────────────────────────────────────── */
+.scan-btn {
+  width: 100%;
+  min-height: 54px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--font-display);
+}
+.receipt-row {
+  padding: 12px;
+}
+.receipt-row.off {
+  opacity: 0.55;
+}
+.receipt-raw {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 12px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

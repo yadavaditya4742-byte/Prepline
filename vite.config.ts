@@ -33,9 +33,16 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+        // The receipt-scanner engine is large; it's cached on first use instead of at install.
+        globIgnores: ['ocr/**'],
         navigateFallback: 'index.html',
         cleanupOutdatedCaches: true,
         runtimeCaching: [
+          {
+            urlPattern: ({ url }) => url.pathname.includes('/ocr/'),
+            handler: 'CacheFirst',
+            options: { cacheName: 'prepline-ocr', expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 180 } },
+          },
           {
             // Daily price files: try the network first, fall back to the last copy offline.
             urlPattern: ({ url }) => url.pathname.includes('/prices/') && url.pathname.endsWith('.json'),

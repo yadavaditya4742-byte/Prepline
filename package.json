@@ -4,15 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "node scripts/copy-ocr.mjs && vite",
+    "build": "node scripts/copy-ocr.mjs && tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
     "prices:kroger": "tsx scripts/fetch-kroger-prices.ts",
     "prices:community": "tsx scripts/fetch-community-prices.ts",
-    "build:store": "VITE_STORE_BUILD=1 vite build",
+    "build:store": "node scripts/copy-ocr.mjs && VITE_STORE_BUILD=1 vite build",
     "cap:sync": "npm run build:store && cap sync",
     "deploy:worker": "cd worker && npm install && npx wrangler deploy"
   },
@@ -20,9 +20,11 @@
     "@capacitor/core": "^8.6.0",
     "@fontsource/bricolage-grotesque": "^5.3.0",
     "@fontsource/figtree": "^5.3.0",
+    "@tesseract.js-data/eng": "^1.0.0",
     "idb": "^8.0.4",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "tesseract.js": "^7.0.0"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.6.0",

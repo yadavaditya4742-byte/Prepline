@@ -9,6 +9,7 @@ import { formatUnitPrice, money } from './format';
 import { IconPlus, IconSearch } from './icons';
 import { Segmented, Sheet, useToast } from './kit';
 import { STORE_LOGO, StoreMark } from './prefs';
+import { ReceiptSheet } from './ReceiptSheet';
 
 type Filter = 'all' | 'week' | 'edited';
 
@@ -34,6 +35,7 @@ export function PricesScreen() {
   const [filter, setFilter] = useState<Filter>('all');
   const [editing, setEditing] = useState<Ingredient | null>(null);
   const [adding, setAdding] = useState(false);
+  const [scanning, setScanning] = useState(false);
   const [toast, showToast] = useToast();
   const store = STORE_BY_ID[storeId];
 
@@ -66,7 +68,17 @@ export function PricesScreen() {
       {/* Store switcher */}
       <div className="store-strip" role="tablist" aria-label="Store">
         {STORES.map((s) => (
-          <button key={s.id} role="tab" aria-selected={s.id === storeId} className="store-pill" onClick={() => setStoreId(s.id)} title={s.name}>
+          <button
+            key={s.id}
+            role="tab"
+            aria-selected={s.id === storeId}
+            className="store-pill"
+            onClick={() => setStoreId(s.id)}
+            title={s.name}
+            ref={(el) => {
+              if (el && s.id === storeId) el.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+            }}
+          >
             {app.settings.showLogos && STORE_LOGO[s.id] ? <img src={STORE_LOGO[s.id]} alt={s.name} /> : (
               <span className="row" style={{ gap: 6 }}>
                 <StoreMark id={s.id} size={24} />
@@ -99,6 +111,9 @@ export function PricesScreen() {
             <IconPlus /> Add
           </button>
         </div>
+        <button className="btn scan-btn" onClick={() => setScanning(true)}>
+          <span aria-hidden>🧾</span> Scan a receipt to update {store.name} prices
+        </button>
       </div>
 
       {groups.length === 0 && (
@@ -156,6 +171,7 @@ export function PricesScreen() {
 
       {editing && <PriceSheet ing={editing} storeId={storeId} onClose={() => setEditing(null)} onSaved={(m) => { setEditing(null); showToast(m); }} />}
       {adding && <AddIngredientSheet storeId={storeId} onClose={() => setAdding(false)} onSaved={(m) => { setAdding(false); showToast(m); }} />}
+      {scanning && <ReceiptSheet defaultStore={storeId} onClose={() => setScanning(false)} onSaved={(m, sid) => { setScanning(false); setStoreId(sid); setFilter('edited'); showToast(m); }} />}
       {toast}
     </>
   );
