@@ -1,3 +1,4 @@
+import { REGION_LABEL, regionForZip } from '../engine/region';
 import { useMemo, useState } from 'react';
 import { AISLE_ORDER, STORES, STORE_BY_ID } from '../data';
 import { mergeNeeds } from '../engine/cost';
@@ -425,6 +426,7 @@ function SourceCard({ storeId }: { storeId: StoreId }) {
     ? Object.keys(community).filter((id) => app.ingredients[id] && resolvePrice(storeId, app.ingredients[id], app.priceCtx).source === 'community').length
     : 0;
   const server = app.liveState.status.server;
+  const region = app.liveState.regional ? regionForZip(app.settings.zip) : null;
 
   if (live) {
     return (
@@ -436,6 +438,7 @@ function SourceCard({ storeId }: { storeId: StoreId }) {
         <p className="muted small" style={{ margin: '6px 0 0' }}>
           {Object.keys(live.prices).length} items from the official {live.source}
           {live.locationName ? ` at ${live.locationName}` : storeId === 'walmart' ? ' (walmart.com prices)' : ''}.
+          {live.reference ? ' No Kroger store near you, so this is a reference market — other estimates are scaled to your region.' : ''}
           {communityCount ? ` Plus ${communityCount} shopper-reported prices.` : ''} Your edits still win.
         </p>
       </section>
@@ -452,7 +455,8 @@ function SourceCard({ storeId }: { storeId: StoreId }) {
           : store.liveCapable
             ? 'Add your ZIP and a price server in Settings → Live prices to get your nearest store’s prices daily. Until then these are estimates'
             : `${store.name} has no public price feed, so most prices are estimates`}
-        {app.live && !store.liveCapable ? ', nudged by today’s live Kroger market' : ''}. Edit what you buy most to match your receipt.
+        {app.live && !store.liveCapable ? ', nudged by today’s live Kroger market' : ''}
+        {region ? `${app.live && !store.liveCapable ? ' and' : ','} adjusted to ${REGION_LABEL[region]} price levels (BLS)` : ''}. Edit what you buy most to match your receipt.
         {storeId === 'walmart' && server !== 'ok' ? ' Live walmart.com prices turn on when your price server has Walmart affiliate keys.' : ''}
       </p>
     </section>

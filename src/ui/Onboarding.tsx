@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { REGION_LABEL, regionForZip, stateForZip } from '../engine/region';
+import { defaultPricesApi } from '../state/livePrices';
 import { LIBRARY_RECIPES, STORE_BY_ID } from '../data';
 import { importBackup } from '../db/db';
 import { makePriceFn, recipeUsedCost } from '../engine/cost';
@@ -13,10 +15,11 @@ import { Range, Stepper } from './kit';
 import { DaysPicker, DietPicker, KitchenPicker, PriorityPicker, SkipPicker, StorePicker } from './prefs';
 import { recipeEmoji, recipeTint } from './visuals';
 
-type StepId = 'store' | 'diet' | 'kitchen' | 'skip' | 'priority' | 'days' | 'budget';
-const STEPS: StepId[] = ['store', 'diet', 'kitchen', 'skip', 'priority', 'days', 'budget'];
+type StepId = 'zip' | 'store' | 'diet' | 'kitchen' | 'skip' | 'priority' | 'days' | 'budget';
+const STEPS: StepId[] = ['zip', 'store', 'diet', 'kitchen', 'skip', 'priority', 'days', 'budget'];
 
 const COPY: Record<StepId, { title: string; lede: string }> = {
+  zip: { title: 'Where do you live?', lede: 'Your ZIP code lets us price groceries for your area. It stays on your phone.' },
   store: { title: 'Where do you shop?', lede: 'Every price in your plan is worked out for this store.' },
   diet: { title: 'How do you eat?', lede: 'Pick the closest fit. You can widen it any time.' },
   kitchen: { title: 'What can you cook with?', lede: 'We’ll only suggest dinners your kitchen can handle.' },
@@ -38,9 +41,10 @@ export function Onboarding() {
 
   const id = STEPS[step];
   const canContinue =
+    (id === 'zip' && /^\d{5}$/.test(draft.zip)) ||
     (id === 'kitchen' && draft.appliances.length > 0) ||
     (id === 'days' && draft.cookDays.length > 0) ||
-    !['kitchen', 'days'].includes(id);
+    !['zip', 'kitchen', 'days'].includes(id);
   const last = step === STEPS.length - 1;
 
   return (
@@ -59,6 +63,7 @@ export function Onboarding() {
         <h1 className="display">{COPY[id].title}</h1>
         <p className="lede">{COPY[id].lede}</p>
         <div style={{ marginTop: 26 }}>
+          {id === 'zip' && <ZipStep zip={draft.zip} onChange={(zip) => set({ zip })} />}
           {id === 'store' && <StorePicker value={draft.storeId} onChange={(storeId) => set({ storeId })} />}
           {id === 'diet' && <DietPicker value={draft.diet} onChange={(diet) => set({ diet })} />}
           {id === 'kitchen' && <KitchenPicker value={draft.appliances} onChange={(appliances) => set({ appliances })} />}
@@ -87,7 +92,82 @@ export function Onboarding() {
         >
           {last ? 'Build my week' : 'Continue'}
         </button>
+        {id === 'zip' && (
+          <button className="btn btn-text" style={{ width: '100%' }} onClick={() => { set({ zip: '' }); setStep(step + 1); }}>
+            Skip, use U.S. average prices
+          </button>
+        )}
       </div>
+    </div>
+  );
+}
+
+function ZipStep({ zip, onChange }: { zip: string; onChange: (z: string) => void }) {
+  const app = useApp();
+  const [kroger, setKroger] = useState<{ name: string; reference: boolean } | null | 'loading'>(null);
+  const valid = /^\d{5}$/.test(zip);
+  const state = valid ? stateForZip(zip) : null;
+  const region = valid ? regionForZip(zip) : null;
+  const level = region ? app.liveState.regional?.regions[region] : undefined;
+  const api = app.settings.pricesApi || defaultPricesApi();
+
+  useEffect(() => {
+    if (!valid || !api) return setKroger(null);
+    let off = false;
+    setKroger('loading');
+    fetch(`${api.replace(/\/$/, '')}/v1/kroger?zip=${zip}&ids=egg`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { locationName?: string; reference?: boolean } | null) => {
+        if (!off) setKroger(d?.locationName ? { name: d.locationName.replace(/\s*\(market reference.*\)$/, ''), reference: !!d.reference } : null);
+      })
+      .catch(() => !off && setKroger(null));
+    return () => {
+      off = true;
+    };
+  }, [zip, valid, api]);
+
+  return (
+    <div className="zip-step">
+      <label className="zip-boxes" aria-label="ZIP code">
+        {Array.from({ length: 5 }, (_, i) => (
+          <span key={i} className={`zip-box${i === zip.length ? ' active' : ''}${zip[i] ? ' filled' : ''}`}>{zip[i] ?? '0'}</span>
+        ))}
+        <input
+          className="zip-input"
+          inputMode="numeric"
+          autoComplete="postal-code"
+          maxLength={5}
+          autoFocus
+          value={zip}
+          onChange={(e) => onChange(e.target.value.replace(/\D/g, '').slice(0, 5))}
+        />
+      </label>
+      {valid && (
+        <div className="stack" style={{ marginTop: 26 }}>
+          {state ? (
+            <div className="notice">
+              <span className="emoji">📍</span>
+              <span>
+                <b>{state} · {region ? REGION_LABEL[region] : ''} region.</b>{' '}
+                {level ? `Groceries here run ${Math.abs(Math.round((level - 1) * 1000) / 10)}% ${level >= 1 ? 'above' : 'below'} the U.S. average (BLS, ${app.liveState.regional?.period}). We’ll adjust estimates to match.` : 'We’ll adjust estimates for your region.'}
+              </span>
+            </div>
+          ) : (
+            <div className="notice"><span className="emoji">🤔</span><span>We don’t recognize that ZIP. You can still continue.</span></div>
+          )}
+          {kroger === 'loading' && <div className="notice"><span className="emoji">🔎</span><span>Looking for live store prices near you…</span></div>}
+          {kroger && kroger !== 'loading' && (
+            <div className="notice">
+              <span className="emoji">{kroger.reference ? '🧭' : '🟢'}</span>
+              <span>
+                {kroger.reference
+                  ? 'No Kroger-family store nearby, so we’ll use live Kroger prices from a reference market and adjust them for your area.'
+                  : <>Live prices from <b>{kroger.name}</b>, your nearest Kroger-family store.</>}
+              </span>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

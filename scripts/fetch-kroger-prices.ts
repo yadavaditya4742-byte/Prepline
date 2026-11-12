@@ -15,6 +15,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { INGREDIENTS } from '../src/data/ingredients';
 import { pickProduct, type KrogerProduct } from '../src/engine/kroger';
+import { regionForZip } from '../src/engine/region';
 import type { LivePriceFile } from '../src/types';
 import { KROGER_TERMS } from './kroger-terms';
 
@@ -105,6 +106,7 @@ async function main() {
     if (ref) {
       locationId = ref.id;
       locationName = ref.name;
+      usedFallback = true;
     }
   }
   console.log(`Pricing at ${locationName ?? locationId}`);
@@ -130,6 +132,9 @@ async function main() {
   }
 
   const file: LivePriceFile = {
+    storeId: 'kroger',
+    reference: usedFallback,
+    region: regionForZip(usedFallback ? KROGER_FALLBACK_ZIP : KROGER_ZIP ?? '') ?? undefined,
     source: 'Kroger Products API',
     fetchedAt: new Date().toISOString(),
     locationId,

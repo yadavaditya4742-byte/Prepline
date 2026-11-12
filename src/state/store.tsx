@@ -6,6 +6,7 @@ import { effectivePantry } from '../engine/pantry';
 import { generatePlan, type PlanInput } from '../engine/plan';
 import { overrideKey, resolvePrice, type PriceContext } from '../engine/prices';
 import { useLivePrices, type LiveState } from './livePrices';
+import { regionForZip } from '../engine/region';
 import { isoDate, mondayOf } from '../engine/week';
 import type { Ingredient, LivePriceFile, PlanDay, PriceOverride, Recipe, Settings, StoreId, WeekPlan } from '../types';
 
@@ -94,8 +95,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const liveState = useLivePrices({ zip: settings.zip, pricesApi: settings.pricesApi, ingredientIds: allIds });
   const live = liveState.liveByStore.kroger ?? null;
   const priceCtx = useMemo<PriceContext>(
-    () => ({ overrides, live, liveByStore: liveState.liveByStore, community: liveState.community }),
-    [overrides, live, liveState],
+    () => ({
+      overrides,
+      live,
+      liveByStore: liveState.liveByStore,
+      community: liveState.community,
+      regional: liveState.regional,
+      region: regionForZip(settings.zip),
+    }),
+    [overrides, live, liveState, settings.zip],
   );
   const priceOf = useMemo(
     () => makePriceFn(ingredients, (ing) => resolvePrice(settings.storeId, ing, priceCtx)),

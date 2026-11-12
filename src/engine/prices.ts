@@ -3,6 +3,8 @@ import type {
   CommunityPriceFile,
   Ingredient,
   LivePriceFile,
+  Region,
+  RegionalPriceFile,
   Pack,
   PriceOverride,
   ResolvedPrice,
@@ -40,6 +42,29 @@ export interface PriceContext {
   community?: CommunityPriceFile | null;
   /** "Today" for freshness checks (tests pass a fixed date). */
   now?: Date;
+  /** User's Census region (from ZIP) and BLS regional price levels. */
+  region?: Region | null;
+  regional?: RegionalPriceFile | null;
+}
+
+/**
+ * How much to scale an estimate for the user's region.
+ * - If the live Kroger price for this item is from the user's own area, it already reflects
+ *   local prices, so no extra regional step.
+ * - If it's from a reference market elsewhere, convert from that market's region to the user's.
+ * - If there's no live price, scale the national estimate to the user's region.
+ */
+export function regionalFactor(ing: Ingredient, ctx: PriceContext): number {
+  const levels = ctx.regional?.regions;
+  if (!levels || !ctx.region) return 1;
+  const user = levels[ctx.region] ?? 1;
+  const kroger = liveFileFor('kroger', ctx);
+  if (kroger?.prices[ing.id]) {
+    if (!kroger.reference) return 1;
+    const from = kroger.region ? levels[kroger.region] ?? 1 : 1;
+    return user / from;
+  }
+  return user;
 }
 
 /** Community prices older than this are ignored. */
@@ -91,9 +116,11 @@ export function resolvePrice(
       };
     }
   }
-  const factor = liveFactor(ing, ctx.live);
-  if (factor !== null) {
-    return { ...seed, price: shelfRound(seed.price * factor), source: 'seed', tracksLive: true };
+  const live = liveFactor(ing, liveFileFor('kroger', ctx));
+  const regional = regionalFactor(ing, ctx);
+  const factor = Math.min(LIVE_FACTOR_MAX, Math.max(LIVE_FACTOR_MIN, (live ?? 1) * regional));
+  if (live !== null || regional !== 1) {
+    return { ...seed, price: shelfRound(seed.price * factor), source: 'seed', ...(live !== null && { tracksLive: true }) };
   }
   return { ...seed, source: 'seed' };
 }

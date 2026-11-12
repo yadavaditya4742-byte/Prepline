@@ -1738,3 +1738,46 @@ html {
   white-space: pre-wrap;
   word-break: break-word;
 }
+
+/* ── ZIP step ──────────────────────────────────────────────── */
+.zip-boxes {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 40px;
+  cursor: text;
+}
+.zip-box {
+  width: 54px;
+  height: 72px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--line);
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.zip-box.filled {
+  color: var(--ink);
+}
+.zip-box.active {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 4px var(--glow);
+}
+.zip-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  font-size: 16px; /* avoids iOS zoom */
+}
+.btn-text {
+  background: transparent;
+  color: var(--muted);
+  font-weight: 600;
+  margin-top: 6px;
+}

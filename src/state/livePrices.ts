@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import * as db from '../db/db';
 import { isLivePriceFile } from '../engine/prices';
-import type { CommunityPriceFile, LivePriceFile, StoreId } from '../types';
+import type { CommunityPriceFile, LivePriceFile, RegionalPriceFile, StoreId } from '../types';
 
 /*
  * Gathers every price source the app can use, newest-first, and keeps the
@@ -16,6 +16,7 @@ import type { CommunityPriceFile, LivePriceFile, StoreId } from '../types';
 export interface LiveState {
   liveByStore: Partial<Record<StoreId, LivePriceFile>>;
   community: CommunityPriceFile | null;
+  regional: RegionalPriceFile | null;
   /** Human-readable status per source, for the Prices screen. */
   status: { kroger?: string; walmart?: string; community?: string; server?: 'off' | 'ok' | 'error' };
   /** Which features the price server has keys for (from /v1/health). */
@@ -27,6 +28,11 @@ const NO_FEATURES = { kroger: false, walmart: false, instacart: false };
 const BATCH = 40;
 
 export const defaultPricesApi = (): string => (import.meta.env.VITE_PRICES_API as string | undefined) ?? '';
+
+function isRegionalFile(x: unknown): x is RegionalPriceFile {
+  const f = x as RegionalPriceFile;
+  return !!f && typeof f.fetchedAt === 'string' && !!f.regions && typeof f.regions.south === 'number';
+}
 
 function isCommunityFile(x: unknown): x is CommunityPriceFile {
   const f = x as CommunityPriceFile;
@@ -80,16 +86,20 @@ async function fromServer(api: string, path: string, query: string, ids: string[
 }
 
 export function useLivePrices(opts: { zip: string; pricesApi: string; ingredientIds: string[] }): LiveState {
-  const [state, setState] = useState<LiveState>({ liveByStore: {}, community: null, status: {}, features: NO_FEATURES });
+  const [state, setState] = useState<LiveState>({ liveByStore: {}, community: null, regional: null, status: {}, features: NO_FEATURES });
   const api = opts.pricesApi || defaultPricesApi();
   const idsKey = opts.ingredientIds.join(',');
 
   useEffect(() => {
     let cancelled = false;
     void (async () => {
-      const [kroger, community] = await Promise.all([staticFile('live', isLivePriceFile), staticFile('community', isCommunityFile)]);
+      const [kroger, community, regional] = await Promise.all([
+        staticFile('live', isLivePriceFile),
+        staticFile('community', isCommunityFile),
+        staticFile('regional', isRegionalFile),
+      ]);
       if (cancelled) return;
-      const next: LiveState = { liveByStore: {}, community, status: {}, features: NO_FEATURES };
+      const next: LiveState = { liveByStore: {}, community, regional, status: {}, features: NO_FEATURES };
       if (kroger) next.liveByStore.kroger = { storeId: 'kroger', ...kroger };
       next.status.community = community ? `${Object.values(community.stores).reduce((n, m) => n + Object.keys(m ?? {}).length, 0)} shopper prices` : undefined;
       setState({ ...next });

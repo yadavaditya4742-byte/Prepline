@@ -17,6 +17,7 @@
 import { INGREDIENT_BY_ID } from '../../src/data/ingredients';
 import { buildInstacartList, listKey, type InstacartListRequest } from '../../src/engine/instacart';
 import { pickProduct, type KrogerProduct } from '../../src/engine/kroger';
+import { regionForZip } from '../../src/engine/region';
 import { pickWalmart, walmartHeaders, WALMART_SEARCH, type WalmartItem } from '../../src/engine/walmart';
 import type { LivePriceFile } from '../../src/types';
 import { KROGER_TERMS } from '../../scripts/kroger-terms';
@@ -110,7 +111,7 @@ async function kroger(url: URL, env: Env): Promise<{ status: number; body: unkno
 
   const token = await krogerAuth(env);
   const KROGER_API = env.KROGER_API_BASE || KROGER_DEFAULT;
-  const loc = await cached(`kroger-loc:${zip}`, 7 * DAY, async () => {
+  const loc = await cached<{ id: string; name: string; reference?: boolean; zipUsed?: string }>(`kroger-loc2:${zip}`, 7 * DAY, async () => {
     // Nearest store within 100 miles; otherwise a large Kroger market (Atlanta) as a price reference.
     for (const [z, miles] of [[zip, 10], [zip, 50], [zip, 100], ['30303', 25]] as const) {
       const res = await fetch(`${KROGER_API}/locations?filter.zipCode.near=${z}&filter.radiusInMiles=${miles}&filter.limit=10`, { headers: { Authorization: `Bearer ${token}` } });
@@ -118,7 +119,7 @@ async function kroger(url: URL, env: Env): Promise<{ status: number; body: unkno
       const d = ((await res.json()) as { data: { locationId: string; name: string; chain: string }[] }).data?.find(
         (l) => !/spoke|fulfil|delivery|ocado|\bhub\b|warehouse/i.test(l.name), // delivery hubs have no shelf prices
       );
-      if (d) return { id: d.locationId, name: `${d.chain} · ${d.name}${z !== zip ? ' (market reference)' : ''}` };
+      if (d) return { id: d.locationId, name: `${d.chain} · ${d.name}${z !== zip ? ' (market reference)' : ''}`, reference: z !== zip, zipUsed: z };
     }
     return null;
   });
@@ -139,7 +140,16 @@ async function kroger(url: URL, env: Env): Promise<{ status: number; body: unkno
       if (pick) prices[id] = pick;
     }),
   );
-  const file: LivePriceFile = { storeId: 'kroger', source: 'Kroger API', fetchedAt: new Date().toISOString(), locationId: loc.id, locationName: loc.name, prices };
+  const file: LivePriceFile = {
+    storeId: 'kroger',
+    source: 'Kroger API',
+    fetchedAt: new Date().toISOString(),
+    locationId: loc.id,
+    locationName: loc.name,
+    reference: !!loc.reference,
+    region: regionForZip(loc.zipUsed ?? zip) ?? undefined,
+    prices,
+  };
   return { status: 200, body: file };
 }
 

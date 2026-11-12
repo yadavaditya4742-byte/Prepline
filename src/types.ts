@@ -124,6 +124,10 @@ export interface PriceOverride {
 export interface LivePriceFile {
   /** Which store this file prices. Defaults to 'kroger' for older files. */
   storeId?: StoreId;
+  /** True when prices come from a store outside the user's area (a market reference). */
+  reference?: boolean;
+  /** Census region of the priced store, when known. */
+  region?: Region;
   source: string;
   fetchedAt: string;
   locationId?: string;
