@@ -50,17 +50,20 @@ async function get<T>(path: string, bearer: string): Promise<T> {
 
 /** Kroger doesn't operate everywhere (e.g. Tampa). Widen the search, then fall back to a big Kroger market. */
 export const KROGER_FALLBACK_ZIP = '30303'; // Atlanta
-async function findKrogerStore(zip: string, bearer: string): Promise<{ id: string; name: string } | null> {
-  const tries: [string, number][] = [[zip, 10], [zip, 50], [zip, 100], [KROGER_FALLBACK_ZIP, 25]];
+/** Delivery hubs ("spokes") and fulfillment centers have no shelf prices. */
+const NOT_A_STORE = /spoke|fulfil|delivery|ocado|\bhub\b|warehouse/i;
+
+async function findKrogerStore(zip: string, bearer: string, skipNear = false): Promise<{ id: string; name: string; reference: boolean } | null> {
+  const tries: [string, number][] = skipNear ? [[KROGER_FALLBACK_ZIP, 25]] : [[zip, 10], [zip, 50], [zip, 100], [KROGER_FALLBACK_ZIP, 25]];
   for (const [z, miles] of tries) {
     const locs = await get<{ data: { locationId: string; name: string; chain: string }[] }>(
-      `/locations?filter.zipCode.near=${encodeURIComponent(z)}&filter.radiusInMiles=${miles}&filter.limit=1`,
+      `/locations?filter.zipCode.near=${encodeURIComponent(z)}&filter.radiusInMiles=${miles}&filter.limit=10`,
       bearer,
     );
-    const d = locs.data?.[0];
+    const d = (locs.data ?? []).find((l) => !NOT_A_STORE.test(l.name));
     if (d) {
-      const reference = z !== zip ? ' (market reference — no Kroger store near you)' : '';
-      return { id: d.locationId, name: `${d.chain} · ${d.name}${reference}` };
+      const reference = z !== zip;
+      return { id: d.locationId, name: `${d.chain} · ${d.name}${reference ? ' (market reference — no Kroger store near you)' : ''}`, reference };
     }
   }
   return null;
@@ -75,6 +78,7 @@ async function main() {
 
   let locationId = KROGER_LOCATION_ID;
   let locationName: string | undefined;
+  let usedFallback = false;
   if (!locationId) {
     if (!KROGER_ZIP) throw new Error('Set KROGER_ZIP or KROGER_LOCATION_ID.');
     // Nearest store within 100 miles; otherwise a large Kroger market as a price reference.
@@ -82,6 +86,26 @@ async function main() {
     if (!found) throw new Error(`No Kroger-family store found near ${KROGER_ZIP} or the fallback market.`);
     locationId = found.id;
     locationName = found.name;
+    usedFallback = found.reference;
+  }
+  // Probe: some locations list products without shelf prices. If two staples come back unpriced, use the reference market.
+  const probe = async (loc: string) => {
+    let ok = 0;
+    for (const id of ['egg', 'milk']) {
+      const ing = INGREDIENTS.find((i) => i.id === id)!;
+      const q = KROGER_TERMS[id] ?? ing.name;
+      const r = await get<{ data: KrogerProduct[] }>(`/products?filter.term=${encodeURIComponent(q)}&filter.locationId=${loc}&filter.limit=10`, bearer).catch(() => ({ data: [] }));
+      if (pickProduct(ing, q, r.data ?? [])) ok++;
+    }
+    return ok > 0;
+  };
+  if (!(await probe(locationId!)) && !usedFallback && KROGER_ZIP) {
+    console.log(`No shelf prices at ${locationName}; switching to the reference market.`);
+    const ref = await findKrogerStore(KROGER_ZIP, bearer, true);
+    if (ref) {
+      locationId = ref.id;
+      locationName = ref.name;
+    }
   }
   console.log(`Pricing at ${locationName ?? locationId}`);
 
