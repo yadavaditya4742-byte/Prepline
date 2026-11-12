@@ -21,5 +21,5 @@ jobs:
         run: |
           curl -fsS -H "Origin: https://yadavaditya4742-byte.github.io" \
             "${{ inputs.url }}/v1/kroger?zip=${{ inputs.zip }}&ids=egg,milk,tofu,chicken-breast,onion" \
-            | python3 -c "import json,sys; d=json.load(sys.stdin); print('Store:', d.get('locationName')); [print(f\"  {k}: \${v['price']} ({v['label']}) {v.get('productName','')}\") for k,v in d['prices'].items()]" \
+            | python3 -c "import json,sys; d=json.load(sys.stdin); print('Store:', d.get('locationName'), '| reference:', d.get('reference'), '| region:', d.get('region')); [print(f\"  {k}: \${v['price']} ({v['label']}) {v.get('productName','')}\") for k,v in d['prices'].items()]" \
             | tee -a "$GITHUB_STEP_SUMMARY"
