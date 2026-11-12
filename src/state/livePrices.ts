@@ -18,9 +18,12 @@ export interface LiveState {
   community: CommunityPriceFile | null;
   /** Human-readable status per source, for the Prices screen. */
   status: { kroger?: string; walmart?: string; community?: string; server?: 'off' | 'ok' | 'error' };
+  /** Which features the price server has keys for (from /v1/health). */
+  features: { kroger: boolean; walmart: boolean; instacart: boolean };
 }
 
 const FRESH_MS = 12 * 3600_000;
+const NO_FEATURES = { kroger: false, walmart: false, instacart: false };
 const BATCH = 40;
 
 export const defaultPricesApi = (): string => (import.meta.env.VITE_PRICES_API as string | undefined) ?? '';
@@ -77,7 +80,7 @@ async function fromServer(api: string, path: string, query: string, ids: string[
 }
 
 export function useLivePrices(opts: { zip: string; pricesApi: string; ingredientIds: string[] }): LiveState {
-  const [state, setState] = useState<LiveState>({ liveByStore: {}, community: null, status: {} });
+  const [state, setState] = useState<LiveState>({ liveByStore: {}, community: null, status: {}, features: NO_FEATURES });
   const api = opts.pricesApi || defaultPricesApi();
   const idsKey = opts.ingredientIds.join(',');
 
@@ -86,7 +89,7 @@ export function useLivePrices(opts: { zip: string; pricesApi: string; ingredient
     void (async () => {
       const [kroger, community] = await Promise.all([staticFile('live', isLivePriceFile), staticFile('community', isCommunityFile)]);
       if (cancelled) return;
-      const next: LiveState = { liveByStore: {}, community, status: {} };
+      const next: LiveState = { liveByStore: {}, community, status: {}, features: NO_FEATURES };
       if (kroger) next.liveByStore.kroger = { storeId: 'kroger', ...kroger };
       next.status.community = community ? `${Object.values(community.stores).reduce((n, m) => n + Object.keys(m ?? {}).length, 0)} shopper prices` : undefined;
       setState({ ...next });
@@ -95,6 +98,12 @@ export function useLivePrices(opts: { zip: string; pricesApi: string; ingredient
         next.status.server = 'off';
         setState({ ...next });
         return;
+      }
+      try {
+        const h = await fetch(`${api.replace(/\/$/, '')}/v1/health`);
+        if (h.ok) next.features = { ...NO_FEATURES, ...((await h.json()) as Partial<LiveState['features']>) };
+      } catch {
+        /* offline: features stay off */
       }
       const ids = idsKey.split(',').filter(Boolean);
       let ok = false;
@@ -105,7 +114,7 @@ export function useLivePrices(opts: { zip: string; pricesApi: string; ingredient
           ok = true;
         }
       }
-      const w = await fromServer(api, '/v1/walmart', '', ids, 'api:walmart');
+      const w = next.features.walmart ? await fromServer(api, '/v1/walmart', '', ids, 'api:walmart') : null;
       if (w && Object.keys(w.prices).length) {
         next.liveByStore.walmart = { ...w, storeId: 'walmart' };
         ok = true;

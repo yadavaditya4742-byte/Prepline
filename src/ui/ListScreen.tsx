@@ -135,7 +135,7 @@ export function ListScreen() {
         </div>
       </section>
 
-      {api ? (
+      {api && app.liveState.features.instacart ? (
         <button className="btn instacart-btn" onClick={openInstacart} disabled={icBusy}>
           <span aria-hidden>🥕</span>
           {icBusy ? 'Building your Instacart list…' : 'See live prices at any store on Instacart'}
