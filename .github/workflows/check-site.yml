@@ -1,0 +1,22 @@
+# Fetches the live site and reports what visitors (and verification bots) see.
+name: Check website
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'Address to check'
+        default: 'https://yadavaditya4742-byte.github.io/Prepline/'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch
+        run: |
+          for u in "${{ inputs.url }}" "https://yadavaditya4742-byte.github.io/Prepline" "https://yadavaditya4742-byte.github.io/prepline/" "https://yadavaditya4742-byte.github.io/"; do
+            code=$(curl -s -o page.html -w '%{http_code}' -L -A "Mozilla/5.0 (compatible; verification-check)" "$u")
+            tag=$(grep -o '<meta name="impact-site-verification"[^>]*>' page.html || echo "NOT FOUND")
+            age=$(curl -sI -L "$u" | grep -iE '^(age|cache-control|last-modified):' | tr -d '\r' | paste -sd' ')
+            echo "$u → HTTP $code | $tag | $age" | tee -a "$GITHUB_STEP_SUMMARY"
+          done
