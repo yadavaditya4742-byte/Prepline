@@ -1,7 +1,980 @@
 {
  "source": "Kroger Products API",
- "fetchedAt": "2026-11-12T19:09:50.379Z",
- "locationId": "540FC221",
- "locationName": "KROGER · Kroger - - Orlando Spoke",
- "prices": {}
+ "fetchedAt": "2026-11-12T19:15:35.920Z",
+ "locationId": "01100695",
+ "locationName": "KROGER · Kroger - Ponce (market reference — no Kroger store near you)",
+ "prices": {
+  "onion": {
+   "size": 1360.7759999999998,
+   "price": 3.39,
+   "label": "3 lb",
+   "productName": "Kroger® Yellow Onion 3 lb Bag"
+  },
+  "red-onion": {
+   "size": 1360.7759999999998,
+   "price": 3.99,
+   "label": "3 lb",
+   "productName": "Kroger® Red Onion 3 lb Bag"
+  },
+  "tomato": {
+   "size": 425.2425,
+   "price": 1.49,
+   "label": "15 oz",
+   "productName": "Private Selection® Roma Tomato Sauce"
+  },
+  "cherry-tomato": {
+   "size": 680.3879999999999,
+   "price": 5,
+   "label": "24 oz",
+   "productName": "Private Selection® Fresh Petite Cherry Snacking Tomatoes"
+  },
+  "garlic": {
+   "size": 150,
+   "price": 0.89,
+   "label": "1 ct",
+   "productName": "Garlic"
+  },
+  "ginger": {
+   "size": 453.592,
+   "price": 3.99,
+   "label": "per lb",
+   "productName": "Organic Ginger Root"
+  },
+  "green-chili": {
+   "size": 453.592,
+   "price": 3.99,
+   "label": "per lb",
+   "productName": "Fresh Green Serrano Peppers"
+  },
+  "jalapeno": {
+   "size": 737.087,
+   "price": 2.19,
+   "label": "26 oz",
+   "productName": "La Costena® Whole Jalapeno Peppers"
+  },
+  "cilantro": {
+   "size": 60,
+   "price": 0.99,
+   "label": "1 ct",
+   "productName": "Cilantro"
+  },
+  "mint": {
+   "size": 1273.743035,
+   "price": 17.99,
+   "label": "44.93 oz",
+   "productName": "Life Savers Wint-O-Green Breath Mint Bulk Hard Candy Party Size Bag"
+  },
+  "curry-leaves": {
+   "size": 283.495,
+   "price": 4.99,
+   "label": "10 oz",
+   "productName": "Tasty Bite Vegetable Tikka Masala 10oz Creamy vegetable curry"
+  },
+  "lemon": {
+   "size": 4,
+   "price": 3,
+   "label": "4 ct",
+   "productName": "Kroger® Lemon Trays"
+  },
+  "lime": {
+   "size": 1,
+   "price": 0.69,
+   "label": "1 each",
+   "productName": "Fresh Large Limes - Each"
+  },
+  "spinach": {
+   "size": 283.495,
+   "price": 2.49,
+   "label": "10 oz",
+   "productName": "Kroger® Tender Baby Spinach Bag Salad"
+  },
+  "kale": {
+   "size": 283,
+   "price": 1.49,
+   "label": "1 ct",
+   "productName": "Kale Lettuce Bunch"
+  },
+  "romaine": {
+   "size": 907.184,
+   "price": 4.29,
+   "label": "32 oz",
+   "productName": "Taylor Farms® Chopped Hearts of Romaine Lettuce"
+  },
+  "cabbage": {
+   "size": 453.592,
+   "price": 0.99,
+   "label": "per lb",
+   "productName": "Green Cabbage"
+  },
+  "potato": {
+   "size": 2267.96,
+   "price": 3.99,
+   "label": "5 lb",
+   "productName": "Russet Potatoes Bag"
+  },
+  "sweet-potato": {
+   "size": 1133.98,
+   "price": 3.29,
+   "label": "40 oz",
+   "productName": "Kroger® Cut Sweet Potato Yams in Syrup"
+  },
+  "cauliflower": {
+   "size": 340.19399999999996,
+   "price": 1.89,
+   "label": "12 oz",
+   "productName": "Kroger® Frozen Cauliflower"
+  },
+  "broccoli": {
+   "size": 1474.174,
+   "price": 6.29,
+   "label": "52 oz",
+   "productName": "Kroger® Frozen Broccoli Florets BIG DEAL!"
+  },
+  "bell-pepper": {
+   "size": 130.40769999999998,
+   "price": 4.99,
+   "label": "2 ct / 2.3 oz",
+   "productName": "Three Bridges™ Spinach & Bell Pepper Egg White Bites"
+  },
+  "carrot": {
+   "size": 907.184,
+   "price": 2.29,
+   "label": "2 lb",
+   "productName": "Kroger® Whole Carrots"
+  },
+  "cucumber": {
+   "size": 300,
+   "price": 0.79,
+   "label": "1 ct",
+   "productName": "Cucumber"
+  },
+  "zucchini": {
+   "size": 2296.3095,
+   "price": 6.79,
+   "label": "9 ct / 9 oz",
+   "productName": "Evergreen™ Zucchini & Carrot Frozen Mini Waffles"
+  },
+  "mushroom": {
+   "size": 680.3879999999999,
+   "price": 6,
+   "label": "24 oz",
+   "productName": "Kroger® Whole Baby Bella Mushrooms BIG DEAL!"
+  },
+  "eggplant": {
+   "size": 550,
+   "price": 1.79,
+   "label": "1 each",
+   "productName": "Eggplant"
+  },
+  "green-beans": {
+   "size": 2891.649,
+   "price": 5.99,
+   "label": "102 oz",
+   "productName": "Kroger® Cut Green Beans"
+  },
+  "scallion": {
+   "size": 340.19399999999996,
+   "price": 1.59,
+   "label": "12 oz",
+   "productName": "Kroger® Frozen Mirepoix Cajun Style Blend Onions Celery and Green Peppers"
+  },
+  "bok-choy": {
+   "size": 453.592,
+   "price": 2.99,
+   "label": "per lb",
+   "productName": "Organic Baby Bok Choy"
+  },
+  "avocado": {
+   "size": 6,
+   "price": 3.99,
+   "label": "6 ct",
+   "productName": "Mission Fresh Mini Avocados Bag"
+  },
+  "mango": {
+   "size": 4,
+   "price": 3.99,
+   "label": "4 ct",
+   "productName": "Mission® Fresh Mangos Value Pack"
+  },
+  "chicken-breast": {
+   "size": 453.592,
+   "price": 2.59,
+   "label": "per lb",
+   "productName": "Heritage Farm® Boneless Skinless Chicken Breasts"
+  },
+  "chicken-thigh": {
+   "size": 453.592,
+   "price": 3.49,
+   "label": "per lb",
+   "productName": "Heritage Farm Boneless Skinless Fresh Chicken Thighs"
+  },
+  "ground-turkey": {
+   "size": 1360.7759999999998,
+   "price": 15,
+   "label": "48 oz",
+   "productName": "Butterball All Natural Fresh Ground Turkey, 93%/7%"
+  },
+  "ground-chicken": {
+   "size": 623.689,
+   "price": 2.59,
+   "label": "22 oz",
+   "productName": "Pedigree Chopped Ground Dinner Adult Canned Soft Wet Dog Food Chicken"
+  },
+  "salmon": {
+   "size": 453.592,
+   "price": 9.99,
+   "label": "per lb",
+   "productName": "Kroger® Fresh Farm Raised Atlantic Salmon Fillet"
+  },
+  "tilapia": {
+   "size": 907.184,
+   "price": 10,
+   "label": "32 ounces",
+   "productName": "Kroger® Farm Raised Tilapia Fillets Frozen BIG DEAL!"
+  },
+  "cod": {
+   "size": 907.184,
+   "price": 21.99,
+   "label": "32 ounces",
+   "productName": "Kroger® Wild Caught Pacific Cod Fillets Frozen BIG DEAL!"
+  },
+  "shrimp": {
+   "size": 907.184,
+   "price": 17.98,
+   "label": "2 lb",
+   "productName": "Kroger® Peeled & Deveined Tail Off White Raw Shrimp"
+  },
+  "ground-beef": {
+   "size": 1814.368,
+   "price": 10,
+   "label": "4 ct / 1 lb",
+   "productName": "Private Selection® 90/10 Angus Ground Beef Patties"
+  },
+  "ground-lamb": {
+   "size": 1814.368,
+   "price": 12,
+   "label": "4 ct / 1 lb",
+   "productName": "Simple Truth® Natural Ground Lamb Patties"
+  },
+  "pork-tenderloin": {
+   "size": 453.592,
+   "price": 4.99,
+   "label": "per lb",
+   "productName": "Kroger® Fresh Natural Pork Tenderloin"
+  },
+  "sirloin": {
+   "size": 827.2384099999999,
+   "price": 15,
+   "label": "2 ct / 14.59 oz",
+   "productName": "Kroger® Bacon Wrapped Petite Beef Sirloin Steak"
+  },
+  "egg": {
+   "size": 12,
+   "price": 4.89,
+   "label": "12 ct",
+   "productName": "Eggland's Best Classic Extra Large White Eggs, 12 Count"
+  },
+  "paneer": {
+   "size": 226.796,
+   "price": 7.99,
+   "label": "8 oz",
+   "productName": "Sach™ Paneer The Original Soft and Creamy"
+  },
+  "greek-yogurt": {
+   "size": 907.184,
+   "price": 4.29,
+   "label": "32 oz",
+   "productName": "Kroger® Plain Nonfat Greek Yogurt Tub"
+  },
+  "yogurt": {
+   "size": 907.184,
+   "price": 5.99,
+   "label": "32 oz",
+   "productName": "Stonyfield Organic Whole Milk Probiotic Yogurt, Plain, 32 oz"
+  },
+  "cottage-cheese": {
+   "size": 680.3879999999999,
+   "price": 3.29,
+   "label": "24 oz",
+   "productName": "Kroger® 2% Low Fat Small Curd Cottage Cheese"
+  },
+  "milk": {
+   "size": 3785.41,
+   "price": 3.29,
+   "label": "1 gal",
+   "productName": "Kroger® 2% Reduced Fat Milk Gallon"
+  },
+  "mozzarella": {
+   "size": 453.592,
+   "price": 3.79,
+   "label": "16 oz",
+   "productName": "Kroger® Low-Moisture Part Skim Mozzarella Shredded Cheese"
+  },
+  "parmesan": {
+   "size": 170.09699999999998,
+   "price": 2,
+   "label": "6 oz",
+   "productName": "Kroger® Parmesan Shredded Cheese"
+  },
+  "feta": {
+   "size": 226.796,
+   "price": 5.99,
+   "label": "8 oz",
+   "productName": "Private Selection® Traditional Feta Cheese Chunk"
+  },
+  "cheddar": {
+   "size": 907.184,
+   "price": 7.29,
+   "label": "32 oz",
+   "productName": "Kroger® Mild Cheddar Shredded Cheese Family Size"
+  },
+  "butter": {
+   "size": 1814.368,
+   "price": 9.99,
+   "label": "4 ct / 16 oz",
+   "productName": "Kerrygold Grass-Fed Pure Irish Salted Butter Sticks"
+  },
+  "ghee": {
+   "size": 396.893,
+   "price": 12.29,
+   "label": "14 oz",
+   "productName": "Simple Truth Organic® Grass Fed Ghee Clarified Butter Spread"
+  },
+  "cream": {
+   "size": 946.353,
+   "price": 5,
+   "label": "1 qt",
+   "productName": "Kroger® Heavy Whipping Cream Quart"
+  },
+  "tofu": {
+   "size": 396.893,
+   "price": 1.99,
+   "label": "14 oz",
+   "productName": "Simple Truth Organic® Extra Firm Tofu"
+  },
+  "tempeh": {
+   "size": 226.796,
+   "price": 4.39,
+   "label": "8 oz",
+   "productName": "Lightlife Original Organic Plant-Based Tempeh"
+  },
+  "seitan": {
+   "size": 226.796,
+   "price": 6.49,
+   "label": "8 oz",
+   "productName": "Franklin Farms Plant-Based Chik'n Seitan"
+  },
+  "vital-wheat-gluten": {
+   "size": 566.99,
+   "price": 10.29,
+   "label": "20 oz",
+   "productName": "Bob's Red Mill Vital Wheat Gluten Flour"
+  },
+  "basmati": {
+   "size": 2267.96,
+   "price": 8.99,
+   "label": "5 lb",
+   "productName": "Kroger® Basmati Rice"
+  },
+  "brown-rice": {
+   "size": 907.184,
+   "price": 1.89,
+   "label": "32 oz",
+   "productName": "Kroger® Long Grain Brown Rice"
+  },
+  "quinoa": {
+   "size": 453.592,
+   "price": 3.99,
+   "label": "16 oz",
+   "productName": "Simple Truth Organic® Quinoa"
+  },
+  "atta": {
+   "size": 2267.96,
+   "price": 3.59,
+   "label": "5 lb",
+   "productName": "Kroger® Traditional Whole Wheat Flour"
+  },
+  "besan": {
+   "size": 453.592,
+   "price": 4.49,
+   "label": "16 oz",
+   "productName": "Bob's Red Mill Gluten Free Chickpea Flour"
+  },
+  "semolina": {
+   "size": 453.592,
+   "price": 1.99,
+   "label": "16 oz",
+   "productName": "Barilla Semolina Elbows Pasta"
+  },
+  "pasta": {
+   "size": 453.592,
+   "price": 1.33,
+   "label": "16 oz",
+   "productName": "Kroger® Penne Rigate Pasta"
+  },
+  "chickpea-pasta": {
+   "size": 226.796,
+   "price": 2.99,
+   "label": "8 oz",
+   "productName": "Simple Truth® Protein Gluten Free Organic Chickpea Fusilli Pasta"
+  },
+  "couscous": {
+   "size": 751.26175,
+   "price": 9.29,
+   "label": "26.5 oz",
+   "productName": "RiceSelect Original Moroccan-Style Couscous"
+  },
+  "rice-noodles": {
+   "size": 453.592,
+   "price": 5.29,
+   "label": "16 oz",
+   "productName": "A Taste of Thai® Rice Noodles"
+  },
+  "oats": {
+   "size": 1190.6789999999999,
+   "price": 4.49,
+   "label": "42 oz",
+   "productName": "Kroger® 100% Whole Grain Old Fashioned Oats"
+  },
+  "tortilla": {
+   "size": 10,
+   "price": 3.19,
+   "label": "10 ct",
+   "productName": "Kroger® 100% Whole Wheat Soft Taco Tortillas"
+  },
+  "corn-tortilla": {
+   "size": 30,
+   "price": 1.99,
+   "label": "30 ct",
+   "productName": "Kroger® Soft Traditional White Corn Tortillas"
+  },
+  "masoor-dal": {
+   "size": 453.592,
+   "price": 3.29,
+   "label": "16 oz",
+   "productName": "Kroger® Red Lentils"
+  },
+  "chana-dal": {
+   "size": 907.184,
+   "price": 10.29,
+   "label": "32 oz",
+   "productName": "24 Mantra Organic® Chana Dal"
+  },
+  "rajma": {
+   "size": 453.592,
+   "price": 2.19,
+   "label": "16 oz",
+   "productName": "Kroger® Light Red Kidney Beans"
+  },
+  "green-lentils": {
+   "size": 249.47560000000001,
+   "price": 2.99,
+   "label": "8.8 oz",
+   "productName": "Simple Truth® Protein Black Pepper Lentils Brown Rice and Ancient Grains Whole Grain Blend"
+  },
+  "chickpeas-can": {
+   "size": 439.41724999999997,
+   "price": 1,
+   "label": "15.5 oz",
+   "productName": "Kroger® Garbanzo Beans"
+  },
+  "black-beans-can": {
+   "size": 439.41724999999997,
+   "price": 1,
+   "label": "15.5 oz",
+   "productName": "Kroger® Black Beans"
+  },
+  "kidney-beans-can": {
+   "size": 439.41724999999997,
+   "price": 1,
+   "label": "15.5 oz",
+   "productName": "Kroger® Dark Red Kidney Beans"
+  },
+  "white-beans-can": {
+   "size": 439.41724999999997,
+   "price": 1,
+   "label": "15.5 oz",
+   "productName": "Kroger® Cannellini Beans"
+  },
+  "crushed-tomato": {
+   "size": 793.786,
+   "price": 1.89,
+   "label": "28 oz",
+   "productName": "Kroger Crushed Tomatoes in Puree"
+  },
+  "tomato-paste": {
+   "size": 793.786,
+   "price": 3.19,
+   "label": "28 oz",
+   "productName": "Pastene® Tomato Puree"
+  },
+  "coconut-milk": {
+   "size": 399.24225,
+   "price": 2.49,
+   "label": "13.5 fl oz",
+   "productName": "Simple Truth Organic® Lite Unsweetened Coconut Milk"
+  },
+  "tuna-can": {
+   "size": 340.19399999999996,
+   "price": 2.29,
+   "label": "12 oz",
+   "productName": "Kroger® Wild Caught Chunk Light Tuna in Water"
+  },
+  "marinara": {
+   "size": 1219.0285,
+   "price": 3.29,
+   "label": "43 oz",
+   "productName": "Kroger® Marinara Pasta Sauce"
+  },
+  "salsa": {
+   "size": 453.592,
+   "price": 2.19,
+   "label": "16 oz",
+   "productName": "Kroger® Mild Traditional Salsa"
+  },
+  "peanut-butter": {
+   "size": 1814.368,
+   "price": 6.49,
+   "label": "64 oz",
+   "productName": "Kroger® Peanut Butter Creamy BIG Deal!"
+  },
+  "tahini": {
+   "size": 453.592,
+   "price": 6.99,
+   "label": "16 oz",
+   "productName": "Simple Truth Organic® Tahini"
+  },
+  "soy-sauce": {
+   "size": 443.60249999999996,
+   "price": 1.99,
+   "label": "15 fl oz",
+   "productName": "Kroger® Less Sodium Soy Sauce"
+  },
+  "honey": {
+   "size": 680.3879999999999,
+   "price": 5.99,
+   "label": "24 oz",
+   "productName": "Smart Way™ Honey"
+  },
+  "vinegar": {
+   "size": 3785.41,
+   "price": 3.99,
+   "label": "1 gal",
+   "productName": "Kroger® Distilled White Vinegar"
+  },
+  "dijon": {
+   "size": 340.19399999999996,
+   "price": 1.89,
+   "label": "12 oz",
+   "productName": "Kroger® Dijon Mustard"
+  },
+  "peanuts": {
+   "size": 453.592,
+   "price": 2.49,
+   "label": "16 oz",
+   "productName": "Kroger® Shelled Salted Roasted Peanuts"
+  },
+  "cashews": {
+   "size": 1814.368,
+   "price": 28.78,
+   "label": "2x 32 oz",
+   "productName": "Kroger® Salted Whole Cashews x 2"
+  },
+  "almonds": {
+   "size": 453.592,
+   "price": 7.99,
+   "label": "16 oz",
+   "productName": "Simple Truth® Raw Almonds"
+  },
+  "hemp-hearts": {
+   "size": 226.796,
+   "price": 7.99,
+   "label": "8 oz",
+   "productName": "Simple Truth® Protein Hemp Hearts Shelled Hemp Seeds"
+  },
+  "pumpkin-seeds": {
+   "size": 326.01925,
+   "price": 5.49,
+   "label": "11.5 oz",
+   "productName": "Nature's Path Organic® Pumpkin Seed + Flax Granola"
+  },
+  "sesame-seeds": {
+   "size": 411.06775,
+   "price": 4.29,
+   "label": "14.5 oz",
+   "productName": "Pepperidge Farm White Hoagie Rolls With Sesame Seeds"
+  },
+  "olive-oil": {
+   "size": 751.1668999999999,
+   "price": 9.79,
+   "label": "25.4 fl oz",
+   "productName": "Kroger® Extra Virgin Olive Oil"
+  },
+  "oil": {
+   "size": 3785.41,
+   "price": 10.99,
+   "label": "1 gal",
+   "productName": "Kroger® 100% Pure Canola Oil"
+  },
+  "sesame-oil": {
+   "size": 375.58344999999997,
+   "price": 12.29,
+   "label": "12.7 fl oz",
+   "productName": "Napa Valley Naturals® Organic Toasted Sesame Oil"
+  },
+  "salt": {
+   "size": 737.087,
+   "price": 1,
+   "label": "26 oz",
+   "productName": "Kroger® Iodized Salt"
+  },
+  "black-pepper": {
+   "size": 148.83487499999998,
+   "price": 2.79,
+   "label": "5.25 oz",
+   "productName": "Morton Iodized Salt & Black Pepper 1 ea"
+  },
+  "cumin-seeds": {
+   "size": 53.86405,
+   "price": 6.79,
+   "label": "1.9 oz",
+   "productName": "Spice Islands Ground Cumin Seed, 1.9 oz"
+  },
+  "cumin": {
+   "size": 56.699,
+   "price": 2.99,
+   "label": "2 oz",
+   "productName": "Lawry's Ground Cumin"
+  },
+  "coriander": {
+   "size": 42.240755,
+   "price": 3.99,
+   "label": "1.49 oz",
+   "productName": "Simple Truth Organic® Ground Coriander"
+  },
+  "turmeric": {
+   "size": 453.592,
+   "price": 9.49,
+   "label": "per lb",
+   "productName": "Turmeric Root"
+  },
+  "garam-masala": {
+   "size": 85.04849999999999,
+   "price": 5.79,
+   "label": "3 oz",
+   "productName": "Spice Islands Garam Masala Seasoning"
+  },
+  "paprika": {
+   "size": 49.611625,
+   "price": 4.99,
+   "label": "1.75 oz",
+   "productName": "McCormick Smoked Paprika"
+  },
+  "italian-herbs": {
+   "size": 85.04849999999999,
+   "price": 5.79,
+   "label": "3 oz",
+   "productName": "Kroger® Italian Seasoning Shaker"
+  },
+  "chili-flakes": {
+   "size": 226.796,
+   "price": 3.29,
+   "label": "8 oz",
+   "productName": "Kroger® Grated Parmesan Cheese and Red Pepper Flakes Shaker"
+  },
+  "cinnamon": {
+   "size": 311.8445,
+   "price": 6,
+   "label": "11 oz",
+   "productName": "Kroger® Cinnamon Donut Medium Roast Ground Coffee"
+  },
+  "taco-seasoning": {
+   "size": 28.3495,
+   "price": 0.5,
+   "label": "1 oz",
+   "productName": "ORIGINAL TACO SEASONING - KROGER - 1 OZ"
+  },
+  "curry-powder": {
+   "size": 170.09699999999998,
+   "price": 3.39,
+   "label": "6 oz",
+   "productName": "Grace® Jamaican Style Mild Curry Powder"
+  },
+  "oregano": {
+   "size": 7.937860000000001,
+   "price": 7.29,
+   "label": "0.28 oz",
+   "productName": "Litehouse® Oregano Freeze Dried Herbs"
+  },
+  "peas": {
+   "size": 1700.97,
+   "price": 5.49,
+   "label": "60 oz",
+   "productName": "Kroger® Traditional Favorites Frozen Green Peas BIG DEAL!"
+  },
+  "mixed-veg": {
+   "size": 907.184,
+   "price": 3.19,
+   "label": "32 oz",
+   "productName": "Kroger® Frozen Mixed Vegetables"
+  },
+  "corn": {
+   "size": 1700.97,
+   "price": 5.49,
+   "label": "60 oz",
+   "productName": "Kroger® Traditional Favorites Frozen Sweet Corn BIG DEAL!"
+  },
+  "frozen-okra": {
+   "size": 340.19399999999996,
+   "price": 1.79,
+   "label": "12 oz",
+   "productName": "Kroger® Southern Style Frozen Okra Breaded Cut"
+  },
+  "frozen-spinach": {
+   "size": 340.19399999999996,
+   "price": 1.59,
+   "label": "12 oz",
+   "productName": "Kroger® Frozen Spinach Chopped"
+  },
+  "edamame": {
+   "size": 340.19399999999996,
+   "price": 3.59,
+   "label": "12 oz",
+   "productName": "Seapoint Farms Shelled Soybeans Edamame"
+  },
+  "cauli-rice": {
+   "size": 340.19399999999996,
+   "price": 2.59,
+   "label": "12 oz",
+   "productName": "Kroger® Recipe Beginnings® Frozen Cauliflower Rice"
+  },
+  "frozen-broccoli": {
+   "size": 1474.174,
+   "price": 6.29,
+   "label": "52 oz",
+   "productName": "Kroger® Frozen Broccoli Florets BIG DEAL!"
+  },
+  "stir-fry-veg": {
+   "size": 1479.8439,
+   "price": 7.99,
+   "label": "52.2 oz",
+   "productName": "Birds Eye Asian Style Stir Fry Vegetables, Frozen Vegetables"
+  },
+  "butternut": {
+   "size": 453.592,
+   "price": 1.49,
+   "label": "per lb",
+   "productName": "Butternut Squash"
+  },
+  "celery": {
+   "size": 450,
+   "price": 2.19,
+   "label": "1 ct",
+   "productName": "Sleeved Celery"
+  },
+  "basil": {
+   "size": 340.19399999999996,
+   "price": 4.99,
+   "label": "12 oz",
+   "productName": "Fresh Cravings® Classic Bruschetta Tomato Basil Dip and Spread"
+  },
+  "flank-steak": {
+   "size": 453.592,
+   "price": 12.99,
+   "label": "per lb",
+   "productName": "Beef Choice Boneless Flank Steak"
+  },
+  "pork-chop": {
+   "size": 9071.84,
+   "price": 10,
+   "label": "10 ct / 2 lb",
+   "productName": "Kroger® Boneless Center Cut Pork Loin Chops"
+  },
+  "salmon-can": {
+   "size": 418.155125,
+   "price": 4.79,
+   "label": "14.75 oz",
+   "productName": "Double \"Q\"® Wild Caught Alaskan Pink Salmon"
+  },
+  "sardines": {
+   "size": 106.310625,
+   "price": 1.69,
+   "label": "3.75 oz",
+   "productName": "Chicken of the Sea Wild Caught Sardines in Water"
+  },
+  "halloumi": {
+   "size": 223.96105,
+   "price": 8.49,
+   "label": "7.9 oz",
+   "productName": "Dodoni® Cypriot Halloumi Cheese"
+  },
+  "ricotta": {
+   "size": 425.2425,
+   "price": 3.29,
+   "label": "15 oz",
+   "productName": "Kroger® Part Skim Ricotta Cheese"
+  },
+  "bulgur": {
+   "size": 3175.144,
+   "price": 1.99,
+   "label": "8 ct / 14 oz",
+   "productName": "Kroger® 100% Whole Wheat Hamburger Buns"
+  },
+  "farro": {
+   "size": 453.592,
+   "price": 7.49,
+   "label": "16 oz",
+   "productName": "Kroger® Low Fat Ancient Grains Farro"
+  },
+  "orzo": {
+   "size": 453.592,
+   "price": 1.33,
+   "label": "16 oz",
+   "productName": "Kroger® Orzo Pasta"
+  },
+  "ww-pasta": {
+   "size": 453.592,
+   "price": 1.59,
+   "label": "16 oz",
+   "productName": "Simple Truth Organic® 100% Whole Wheat Rotini Pasta"
+  },
+  "udon": {
+   "size": 1247.378,
+   "price": 10.49,
+   "label": "44 oz",
+   "productName": "J-Basket Sanuki-Fu Udon Japanese Style Noodles"
+  },
+  "panko": {
+   "size": 30560.761,
+   "price": 11.99,
+   "label": "44 ct / 24.5 oz",
+   "productName": "Gorton’s Crunchy Breaded Fish Sticks Cut from Real Fish, Crunchy Panko Breadcrumbs, Frozen"
+  },
+  "pinto-beans-can": {
+   "size": 439.41724999999997,
+   "price": 1,
+   "label": "15.5 oz",
+   "productName": "Kroger® Pinto Beans"
+  },
+  "lobia": {
+   "size": 340.19399999999996,
+   "price": 1.99,
+   "label": "12 oz",
+   "productName": "Dixie Lily™ Blacked Eyed Peas"
+  },
+  "red-curry-paste": {
+   "size": 127.57275,
+   "price": 3.59,
+   "label": "4.5 oz",
+   "productName": "Private Selection® Thai Style Red Curry Paste"
+  },
+  "gochujang": {
+   "size": 609.51425,
+   "price": 6.29,
+   "label": "21.5 oz",
+   "productName": "Kikkoman® Gochujang Spicy Miso Teriyaki Sauce"
+  },
+  "miso": {
+   "size": 399.72794999999996,
+   "price": 6.99,
+   "label": "14.1 oz",
+   "productName": "Norita® White Miso Soy Bean Paste"
+  },
+  "fish-sauce": {
+   "size": 199.91685999999999,
+   "price": 5.99,
+   "label": "6.76 fl oz",
+   "productName": "Thai Kitchen Gluten Free Premium Fish Sauce"
+  },
+  "hoisin": {
+   "size": 433.74735,
+   "price": 3.99,
+   "label": "15.3 oz",
+   "productName": "Kroger® Hoisin Sauce"
+  },
+  "harissa": {
+   "size": 127.57275,
+   "price": 3.49,
+   "label": "4.5 oz",
+   "productName": "Private Selection® Medium Harissa Paste"
+  },
+  "pesto": {
+   "size": 411.06775,
+   "price": 2.89,
+   "label": "14.5 oz",
+   "productName": "Prego Creamy Basil Pesto Pasta Sauce, 14.5 oz Jar"
+  },
+  "olives": {
+   "size": 289.1649,
+   "price": 4.39,
+   "label": "10.2 oz",
+   "productName": "Simple Truth Organic® Pitted Kalamata Olives with Oregano"
+  },
+  "enchilada-sauce": {
+   "size": 793.786,
+   "price": 4.99,
+   "label": "28 oz",
+   "productName": "Old El Paso™ Mild Red Enchilada Sauce"
+  },
+  "bbq-sauce": {
+   "size": 793.786,
+   "price": 3.79,
+   "label": "28 oz",
+   "productName": "Sweet Baby Ray's® BBQ Sauce"
+  },
+  "chipotle": {
+   "size": 198.4465,
+   "price": 1.59,
+   "label": "7 oz",
+   "productName": "Kroger® Gluten Free Whole Chipotle Peppers in Adobo Sauce"
+  },
+  "sweet-chili": {
+   "size": 588.252125,
+   "price": 4.99,
+   "label": "20.75 oz",
+   "productName": "Panda Express® Sweet Chili Sauce"
+  },
+  "rice-vinegar": {
+   "size": 375.58344999999997,
+   "price": 2.69,
+   "label": "12.7 fl oz",
+   "productName": "Kroger® Seasoned Rice Vinegar"
+  },
+  "mustard-oil": {
+   "size": 502.7495,
+   "price": 9.19,
+   "label": "17 fl oz",
+   "productName": "Laxmi Kachi Ghani Mustard Oil"
+  },
+  "rasam-powder": {
+   "size": 19.9863975,
+   "price": 13.99,
+   "label": "0.705 oz",
+   "productName": "Maybelline Fit Me Loose Setting Powder 02 Pink Rose"
+  },
+  "fennel-seeds": {
+   "size": 41.95726,
+   "price": 3.99,
+   "label": "1.48 oz",
+   "productName": "Simple Truth Organic® Whole Fennel Seeds Shaker"
+  },
+  "zaatar": {
+   "size": 340.19399999999996,
+   "price": 4.29,
+   "label": "12 oz",
+   "productName": "Private Selection® Lemon Za'atar Broccoli"
+  },
+  "cajun": {
+   "size": 226.796,
+   "price": 2.49,
+   "label": "8 oz",
+   "productName": "Louisiana Fish Fry Products Original Cajun Seasoning"
+  },
+  "jerk": {
+   "size": 283.495,
+   "price": 5.99,
+   "label": "10 oz",
+   "productName": "Grace® Mild Jamaican Jerk Seasoning"
+  }
+ }
 }
