@@ -1,0 +1,76 @@
+{
+ "source": "U.S. Bureau of Labor Statistics, Average Price Data",
+ "fetchedAt": "2026-11-12T20:36:10.233Z",
+ "period": "October 2026",
+ "regions": {
+  "northeast": 1.071,
+  "midwest": 1.005,
+  "south": 0.985,
+  "west": 1.033
+ },
+ "items": {
+  "chicken": {
+   "northeast": 2.182,
+   "us": 2.026,
+   "midwest": 2.001,
+   "south": 1.915,
+   "west": 2.184
+  },
+  "ground-beef": {
+   "northeast": 6.681,
+   "us": 6.755,
+   "midwest": 6.693,
+   "south": 6.32,
+   "west": 7.29
+  },
+  "bread": {
+   "northeast": 1.921,
+   "us": 1.861,
+   "midwest": 1.658,
+   "south": 1.742,
+   "west": 2.135
+  },
+  "bananas": {
+   "northeast": 0.684,
+   "us": 0.655,
+   "midwest": 0.621,
+   "south": 0.613,
+   "west": 0.732
+  },
+  "tomatoes": {
+   "northeast": 2.75,
+   "us": 2.084,
+   "midwest": 2.085,
+   "south": 2.178,
+   "west": 1.622
+  },
+  "potatoes": {
+   "northeast": 0.988,
+   "us": 0.99,
+   "midwest": 0.861,
+   "south": 1.064,
+   "west": 1.006
+  },
+  "eggs": {
+   "midwest": 3.626,
+   "us": 2.32,
+   "south": 2.372
+  },
+  "cheddar": {
+   "midwest": 5.673,
+   "us": 6.127,
+   "south": 5.521,
+   "west": 7.849
+  },
+  "milk": {
+   "south": 3.927,
+   "us": 4.101,
+   "west": 4.546
+  },
+  "rice": {
+   "south": 1.233,
+   "us": 1.101,
+   "west": 0.879
+  }
+ }
+}
