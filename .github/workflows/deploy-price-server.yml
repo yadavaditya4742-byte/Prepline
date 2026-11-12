@@ -48,6 +48,22 @@ jobs:
         if: env.CLOUDFLARE_API_TOKEN != ''
         working-directory: worker
         run: npm ci
+      - name: Set up feedback storage
+        if: env.CLOUDFLARE_API_TOKEN != ''
+        working-directory: worker
+        continue-on-error: true
+        run: |
+          # Finds (or creates once) a free Workers KV namespace called "prepline-feedback"
+          # and connects it to the server, so in-app feedback has somewhere to go.
+          find_id() { npx wrangler kv namespace list 2>/dev/null | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const a=JSON.parse(s.slice(s.indexOf("[")));const n=a.find(x=>/prepline-feedback$/.test(x.title));if(n)console.log(n.id)})'; }
+          id=$(find_id)
+          if [ -z "$id" ]; then npx wrangler kv namespace create prepline-feedback >/dev/null; id=$(find_id); fi
+          if [ -n "$id" ]; then
+            printf '\n[[kv_namespaces]]\nbinding = "FEEDBACK"\nid = "%s"\n' "$id" >> wrangler.toml
+            echo "✓ Feedback storage connected (Workers KV: prepline-feedback)"
+          else
+            echo "::warning::Could not create the feedback storage. Feedback stays off until the Cloudflare token has 'Workers KV Storage: Edit'."
+          fi
       - name: Deploy
         if: env.CLOUDFLARE_API_TOKEN != ''
         working-directory: worker

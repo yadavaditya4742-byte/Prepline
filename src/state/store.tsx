@@ -1,3 +1,4 @@
+import { flushFeedback } from './feedback';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { DEFAULT_SETTINGS, INGREDIENTS, LIBRARY_RECIPES } from '../data';
 import * as db from '../db/db';
@@ -76,6 +77,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     void reload();
   }, [reload]);
+
+  // Send feedback written while offline, on start and whenever the phone reconnects.
+  useEffect(() => {
+    if (!ready) return;
+    const flush = () => void flushFeedback(settings.pricesApi).catch(() => undefined);
+    flush();
+    window.addEventListener('online', flush);
+    return () => window.removeEventListener('online', flush);
+  }, [ready, settings.pricesApi]);
 
   // Theme
   useEffect(() => {

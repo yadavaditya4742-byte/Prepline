@@ -1781,3 +1781,34 @@ html {
   font-weight: 600;
   margin-top: 6px;
 }
+
+/* ── Feedback ──────────────────────────────────────────────── */
+.field-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+.faces {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+.face {
+  flex: 1;
+  height: 52px;
+  border-radius: 14px;
+  font-size: 26px;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  filter: grayscale(0.7);
+  opacity: 0.75;
+  transition: transform 0.15s, filter 0.15s, opacity 0.15s;
+}
+.face.on {
+  filter: none;
+  opacity: 1;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 4px var(--glow);
+  transform: scale(1.05);
+}

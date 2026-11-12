@@ -165,7 +165,14 @@ Before submitting:
 - **Store logos** are off in store builds. Apple and Google can reject apps that show other companies' logos without permission.
 - Apple's guideline 4.2 rejects apps that are only a website. Prepline's offline planning, grocery list and on-device storage help, but expect Apple to look closely.
 
-## 5. Your data
+## 5. Feedback, accounts and payments
+
+Testers tap **Settings → Send feedback**. Notes land in your Cloudflare account
+(**Storage & databases → Workers KV → prepline-feedback**), set up automatically by the
+*Deploy price server* workflow. Sign-in and paid plans aren't switched on yet. The plan and the
+app-store rules are in [docs/ACCOUNTS-AND-PAYMENTS.md](docs/ACCOUNTS-AND-PAYMENTS.md).
+
+## 6. Your data
 Everything lives in your browser or app (IndexedDB). **Settings → Your data → Export backup** saves a JSON file, and **Import backup** restores it (for example, on a new phone). There are no accounts and no analytics. See `public/privacy.html`.
 
 ## Develop

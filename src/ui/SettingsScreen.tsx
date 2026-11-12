@@ -4,6 +4,7 @@ import { isoDate } from '../engine/week';
 import { defaultPricesApi } from '../state/livePrices';
 import { useApp } from '../state/store';
 import type { Settings } from '../types';
+import { FeedbackSheet } from './FeedbackSheet';
 import { money } from './format';
 import { IconRefresh } from './icons';
 import { Range, Segmented, Stepper, useToast } from './kit';
@@ -27,6 +28,7 @@ export function SettingsScreen() {
   const [dirty, setDirty] = useState(false);
   const [toast, showToast] = useToast();
   const fileRef = useRef<HTMLInputElement>(null);
+  const [feedback, setFeedback] = useState(false);
 
   const set = async (patch: Partial<Settings>, affectsPlan = true) => {
     await app.updateSettings(patch);
@@ -65,6 +67,19 @@ export function SettingsScreen() {
           </button>
         </div>
       )}
+
+      <section className="card feedback-card" style={{ marginTop: 18 }}>
+        <div className="row" style={{ gap: 12, alignItems: 'center' }}>
+          <span style={{ fontSize: 30 }} aria-hidden>💬</span>
+          <div style={{ flex: 1 }}>
+            <b>Help shape Prepline</b>
+            <div className="muted small">Beta: everything is free while we test. Tell us what to fix or add.</div>
+          </div>
+        </div>
+        <button className="btn btn-dark" style={{ width: '100%', marginTop: 12 }} onClick={() => setFeedback(true)}>
+          Send feedback
+        </button>
+      </section>
 
       <Block title="Budget & people">
         <div className="card">
@@ -194,6 +209,8 @@ export function SettingsScreen() {
           Prepline is not affiliated with or endorsed by any store.
         </p>
       </Block>
+      <p className="muted small" style={{ textAlign: 'center', margin: '18px 0 0' }}>Prepline beta · build {__APP_BUILD__}</p>
+      {feedback && <FeedbackSheet onClose={() => setFeedback(false)} onSent={showToast} />}
       {toast}
     </>
   );

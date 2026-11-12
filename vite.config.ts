@@ -6,6 +6,7 @@ import { defineConfig } from 'vitest/config'
 // and inside the app-store wrappers (Capacitor).
 export default defineConfig({
   base: './',
+  define: { __APP_BUILD__: JSON.stringify(new Date().toISOString().slice(0, 10)) },
   plugins: [
     react(),
     VitePWA({

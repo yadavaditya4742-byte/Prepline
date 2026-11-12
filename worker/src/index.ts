@@ -22,6 +22,12 @@ import { pickWalmart, walmartHeaders, WALMART_SEARCH, type WalmartItem } from '.
 import type { LivePriceFile } from '../../src/types';
 import { KROGER_TERMS } from '../../scripts/kroger-terms';
 
+/** The slice of the Workers KV API this server uses. */
+export interface KV {
+  get(key: string): Promise<string | null>;
+  put(key: string, value: string, opts?: { expirationTtl?: number }): Promise<void>;
+}
+
 export interface Env {
   KROGER_CLIENT_ID?: string;
   KROGER_CLIENT_SECRET?: string;
@@ -33,6 +39,8 @@ export interface Env {
   ALLOWED_ORIGINS?: string;
   /** https://api.kroger.com/v1 (production, default) or https://api-ce.kroger.com/v1 (certification). */
   KROGER_API_BASE?: string;
+  /** Workers KV namespace where in-app feedback is stored (created by the deploy workflow). */
+  FEEDBACK?: KV;
 }
 
 const KROGER_DEFAULT = 'https://api.kroger.com/v1';
@@ -212,6 +220,70 @@ async function instacart(req: Request, env: Env): Promise<{ status: number; body
   return url ? { status: 200, body: { url } } : { status: 502, body: { error: 'Instacart did not return a link' } };
 }
 
+// ── feedback ──────────────────────────────────────────────────
+export const FEEDBACK_KINDS = ['idea', 'bug', 'price', 'recipe', 'love', 'other'] as const;
+const FEEDBACK_PER_DAY = 20; // per sender, keeps spam and KV writes in check
+const clip = (x: unknown, n: number) => (typeof x === 'string' ? x.trim().slice(0, n) : '');
+
+/** Validate and trim a feedback post. Returns null when there is nothing worth storing. */
+export function cleanFeedback(raw: unknown) {
+  const b = (raw ?? {}) as Record<string, unknown>;
+  const message = clip(b.message, 2000);
+  if (message.length < 3) return null;
+  const kind = (FEEDBACK_KINDS as readonly string[]).includes(b.kind as string) ? (b.kind as string) : 'other';
+  const rating = typeof b.rating === 'number' && b.rating >= 1 && b.rating <= 5 ? Math.round(b.rating) : undefined;
+  const ctx = (b.context ?? {}) as Record<string, unknown>;
+  return {
+    kind,
+    message,
+    ...(rating && { rating }),
+    contact: clip(b.contact, 120) || undefined,
+    installId: clip(b.installId, 64) || undefined,
+    context: {
+      app: clip(ctx.app, 40),
+      store: clip(ctx.store, 30),
+      region: clip(ctx.region, 20),
+      diet: clip(ctx.diet, 30),
+      screen: clip(ctx.screen, 30),
+      device: clip(ctx.device, 160),
+    },
+  };
+}
+
+async function feedback(req: Request, env: Env): Promise<{ status: number; body: unknown }> {
+  if (!env.FEEDBACK) return { status: 501, body: { error: 'Feedback is not set up on this server.' } };
+  const allowed = (env.ALLOWED_ORIGINS ?? '*').split(',').map((s) => s.trim());
+  const origin = req.headers.get('Origin') ?? '';
+  if (!allowed.includes('*') && !allowed.includes(origin)) return { status: 403, body: { error: 'origin not allowed' } };
+  const text = await req.text();
+  if (text.length > 8000) return { status: 413, body: { error: 'too long' } };
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(text);
+  } catch {
+    return { status: 400, body: { error: 'bad json' } };
+  }
+  const fb = cleanFeedback(parsed);
+  if (!fb) return { status: 400, body: { error: 'empty message' } };
+
+  // Rate limit by a one-way hash of the sender's IP + day (the IP itself is never stored).
+  const day = new Date().toISOString().slice(0, 10);
+  const ip = req.headers.get('CF-Connecting-IP') ?? 'unknown';
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(`${ip}|${day}`));
+  const sender = [...new Uint8Array(digest)].slice(0, 8).map((x) => x.toString(16).padStart(2, '0')).join('');
+  const rlKey = `rl:${sender}`;
+  const count = Number((await env.FEEDBACK.get(rlKey)) ?? 0);
+  if (count >= FEEDBACK_PER_DAY) return { status: 429, body: { error: 'Thanks! That’s plenty for today.' } };
+  await env.FEEDBACK.put(rlKey, String(count + 1), { expirationTtl: DAY });
+
+  const at = new Date().toISOString();
+  // Key reads well in the Cloudflare dashboard list: date, type, first words.
+  const preview = fb.message.replace(/\s+/g, ' ').slice(0, 40);
+  const key = `fb:${at.slice(0, 19)}:${fb.kind}:${crypto.randomUUID().slice(0, 6)} ${preview}`;
+  await env.FEEDBACK.put(key, JSON.stringify({ at, ...fb }, null, 2));
+  return { status: 200, body: { ok: true } };
+}
+
 // ── router ────────────────────────────────────────────────────
 export default {
   async fetch(req: Request, env: Env): Promise<Response> {
@@ -220,7 +292,12 @@ export default {
     const url = new URL(req.url);
     try {
       if (req.method === 'GET' && url.pathname === '/v1/health') {
-        return json({ kroger: !!env.KROGER_CLIENT_ID, walmart: !!env.WALMART_CONSUMER_ID, instacart: !!env.INSTACART_API_KEY }, 200, h, 300);
+        return json(
+          { kroger: !!env.KROGER_CLIENT_ID, walmart: !!env.WALMART_CONSUMER_ID, instacart: !!env.INSTACART_API_KEY, feedback: !!env.FEEDBACK },
+          200,
+          h,
+          300,
+        );
       }
       if (req.method === 'GET' && url.pathname === '/v1/kroger') {
         const r = await kroger(url, env);
@@ -229,6 +306,10 @@ export default {
       if (req.method === 'GET' && url.pathname === '/v1/walmart') {
         const r = await walmart(url, env);
         return json(r.body, r.status, h, r.status === 200 ? 3600 : 0);
+      }
+      if (req.method === 'POST' && url.pathname === '/v1/feedback') {
+        const r = await feedback(req, env);
+        return json(r.body, r.status, h);
       }
       if (req.method === 'POST' && url.pathname === '/v1/instacart/list') {
         const r = await instacart(req, env);

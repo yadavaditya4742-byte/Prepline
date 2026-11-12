@@ -20,11 +20,11 @@ export interface LiveState {
   /** Human-readable status per source, for the Prices screen. */
   status: { kroger?: string; walmart?: string; community?: string; server?: 'off' | 'ok' | 'error' };
   /** Which features the price server has keys for (from /v1/health). */
-  features: { kroger: boolean; walmart: boolean; instacart: boolean };
+  features: { kroger: boolean; walmart: boolean; instacart: boolean; feedback: boolean };
 }
 
 const FRESH_MS = 12 * 3600_000;
-const NO_FEATURES = { kroger: false, walmart: false, instacart: false };
+const NO_FEATURES = { kroger: false, walmart: false, instacart: false, feedback: false };
 const BATCH = 40;
 
 export const defaultPricesApi = (): string => (import.meta.env.VITE_PRICES_API as string | undefined) ?? '';

@@ -16,7 +16,7 @@ const call = (path: string, init?: RequestInit, env = {}) => worker.fetch(new Re
 describe('price server', () => {
   it('reports which sources are configured', async () => {
     const r = await call('/v1/health', undefined, { INSTACART_API_KEY: 'k' });
-    expect(await r.json()).toEqual({ kroger: false, walmart: false, instacart: true });
+    expect(await r.json()).toEqual({ kroger: false, walmart: false, instacart: true, feedback: false });
     expect(r.headers.get('Access-Control-Allow-Origin')).toBe('*');
   });
 
@@ -64,5 +64,40 @@ describe('price server', () => {
   it('rejects malformed Instacart requests', async () => {
     const r = await call('/v1/instacart/list', { method: 'POST', body: JSON.stringify({ title: 'x', line_items: [] }) }, { INSTACART_API_KEY: 'k' });
     expect(r.status).toBe(400);
+  });
+});
+
+describe('feedback', () => {
+  const kv = () => {
+    const m = new Map<string, string>();
+    return { m, get: async (k: string) => m.get(k) ?? null, put: async (k: string, v: string) => void m.set(k, v) };
+  };
+  const post = (body: unknown, env: object, origin = 'https://a.example') =>
+    call('/v1/feedback', { method: 'POST', headers: { Origin: origin, 'Content-Type': 'application/json' }, body: JSON.stringify(body) }, env);
+
+  it('stores a cleaned message', async () => {
+    const FEEDBACK = kv();
+    const r = await post({ kind: 'idea', message: '  More paneer dinners please ', rating: 5, context: { store: 'kroger', secret: 'x' } }, { FEEDBACK, ALLOWED_ORIGINS: 'https://a.example' });
+    expect(r.status).toBe(200);
+    const [key, value] = [...FEEDBACK.m].find(([k]) => k.startsWith('fb:'))!;
+    expect(key).toContain(':idea:');
+    const saved = JSON.parse(value);
+    expect(saved.message).toBe('More paneer dinners please');
+    expect(saved.rating).toBe(5);
+    expect(saved.context.store).toBe('kroger');
+    expect(saved.context.secret).toBeUndefined();
+  });
+
+  it('rejects empty messages, other sites, and floods', async () => {
+    const FEEDBACK = kv();
+    const env = { FEEDBACK, ALLOWED_ORIGINS: 'https://a.example' };
+    expect((await post({ message: ' ' }, env)).status).toBe(400);
+    expect((await post({ message: 'hello there' }, env, 'https://evil.example')).status).toBe(403);
+    for (let i = 0; i < 20; i++) expect((await post({ message: `note ${i}` }, env)).status).toBe(200);
+    expect((await post({ message: 'one more' }, env)).status).toBe(429);
+  });
+
+  it('says so when feedback storage is not set up', async () => {
+    expect((await post({ message: 'hello there' }, {})).status).toBe(501);
   });
 });
