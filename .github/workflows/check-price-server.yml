@@ -1,0 +1,25 @@
+# Quick health check for the price server. Run it from the Actions tab any time.
+name: Check price server
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'Price server address'
+        default: 'https://prepline-prices.yadavaditya4742.workers.dev'
+      zip:
+        description: 'ZIP code to test'
+        default: '33610'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Health
+        run: curl -fsS "${{ inputs.url }}/v1/health" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Kroger prices for ZIP
+        run: |
+          curl -fsS -H "Origin: https://yadavaditya4742-byte.github.io" \
+            "${{ inputs.url }}/v1/kroger?zip=${{ inputs.zip }}&ids=egg,milk,tofu,chicken-breast,onion" \
+            | python3 -c "import json,sys; d=json.load(sys.stdin); print('Store:', d.get('locationName')); [print(f\"  {k}: \${v['price']} ({v['label']}) {v.get('productName','')}\") for k,v in d['prices'].items()]" \
+            | tee -a "$GITHUB_STEP_SUMMARY"
