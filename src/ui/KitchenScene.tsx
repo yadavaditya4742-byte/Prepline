@@ -26,7 +26,7 @@ const BODY = 'var(--k-body)';
 const STEEL = 'var(--k-steel)';
 const GLASS = 'var(--k-glass)';
 const INK = 'var(--k-ink)';
-const SAFFRON = '#ffc94a';
+const SAFFRON = '#d6f35f'; // accent (lime) — name kept for brevity
 
 const SPOTS: Spot[] = [
   {

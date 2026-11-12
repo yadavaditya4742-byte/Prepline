@@ -1,44 +1,45 @@
-@import '@fontsource/plus-jakarta-sans/500.css';
-@import '@fontsource/plus-jakarta-sans/600.css';
-@import '@fontsource/plus-jakarta-sans/700.css';
-@import '@fontsource/plus-jakarta-sans/800.css';
-@import '@fontsource/fraunces/600-italic.css';
+@import '@fontsource/figtree/500.css';
+@import '@fontsource/figtree/600.css';
+@import '@fontsource/figtree/700.css';
+@import '@fontsource/figtree/800.css';
+@import '@fontsource/bricolage-grotesque/700.css';
+@import '@fontsource/bricolage-grotesque/800.css';
 
-/* ── Tokens: pine & saffron ────────────────────────────────── */
+/* ── Tokens: forest, lime & warm paper ─────────────────────── */
 :root {
-  --bg: #f6f3ec;
+  --bg: #f4f3ee;
   --surface: #ffffff;
-  --surface-2: #eeeae0;
-  --ink: #13322c;
-  --ink-soft: #3d5852;
-  --muted: #6e7c75;
-  --line: #e7e2d6;
-  --accent: #ffc94a;
-  --accent-strong: #f4b41a;
-  --accent-ink: #13322c;
-  --glow: rgb(255 201 74 / 55%);
-  --hero: #13322c;
-  --hero-ink: #f6f3ec;
-  --hero-muted: #a9bdb5;
-  --good: #2f8f5b;
-  --warn: #c2410c;
+  --surface-2: #ebeae3;
+  --ink: #12301f;
+  --ink-soft: #3b5244;
+  --muted: #6b786f;
+  --line: #e4e2da;
+  --accent: #d6f35f;
+  --accent-strong: #b9de3a;
+  --accent-ink: #12301f;
+  --glow: rgb(214 243 95 / 55%);
+  --hero: #12301f;
+  --hero-ink: #f4f3ee;
+  --hero-muted: #a7bcae;
+  --good: #2f8f4e;
+  --warn: #e5533d;
   --radius: 22px;
   --radius-sm: 14px;
-  --shadow: 0 1px 2px rgb(19 50 44 / 5%), 0 10px 30px rgb(19 50 44 / 7%);
-  --font: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mark: 'Fraunces', Georgia, serif;
+  --shadow: 0 1px 2px rgb(18 48 31 / 4%), 0 12px 32px rgb(18 48 31 / 8%);
+  --font: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Bricolage Grotesque', 'Figtree', system-ui, sans-serif;
   --dock-h: 76px;
-  --tint-indian: #ffe8b5;
-  --tint-med: #dcefd6;
-  --tint-mex: #ffdcc8;
-  --tint-asia: #f8dede;
-  --tint-me: #efe2cc;
-  --tint-ita: #fbe1d3;
-  --tint-ame: #dbe6f4;
-  --k-wall: #efe9dc;
-  --k-tile: #f7f3ea;
-  --k-cab: #1f4a41;
-  --k-cab-line: #173a33;
+  --tint-indian: #ffedbd;
+  --tint-med: #e4f4c8;
+  --tint-mex: #ffdccb;
+  --tint-asia: #ffe1e7;
+  --tint-me: #f4e7d0;
+  --tint-ita: #ffe4d8;
+  --tint-ame: #dceaff;
+  --k-wall: #efede4;
+  --k-tile: #f8f7f1;
+  --k-cab: #1d4a30;
+  --k-cab-line: #163a25;
   --k-handle: #e9c46a;
   --k-wood: #dcc49a;
   --k-floor: #e2dacb;
@@ -54,34 +55,34 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #0e1715;
-    --surface: #16221f;
-    --surface-2: #1e2d29;
-    --ink: #f2efe7;
-    --ink-soft: #cfd9d4;
-    --muted: #93a49d;
-    --line: #26362f;
-    --accent: #ffc94a;
-    --accent-strong: #ffd56e;
-    --accent-ink: #13322c;
-    --glow: rgb(255 201 74 / 30%);
-    --hero: #1d3a33;
-    --hero-ink: #f6f3ec;
-    --hero-muted: #a9bdb5;
-    --good: #5fd08f;
-    --warn: #fb923c;
+    --bg: #0c1711;
+    --surface: #14211a;
+    --surface-2: #1b2c22;
+    --ink: #eef3ea;
+    --ink-soft: #c9d6cc;
+    --muted: #8fa396;
+    --line: #24352b;
+    --accent: #d6f35f;
+    --accent-strong: #e4fa8a;
+    --accent-ink: #12301f;
+    --glow: rgb(214 243 95 / 22%);
+    --hero: #1a3a28;
+    --hero-ink: #f4f3ee;
+    --hero-muted: #a7bcae;
+    --good: #6fdc8c;
+    --warn: #ff8a6b;
     --shadow: none;
-    --tint-indian: #3a3020;
-    --tint-med: #22352a;
-    --tint-mex: #3b2a22;
-    --tint-asia: #3a2528;
-    --tint-me: #352d22;
-    --tint-ita: #3a2a24;
-    --tint-ame: #222d3a;
+    --tint-indian: #3a321c;
+    --tint-med: #26361f;
+    --tint-mex: #3b291f;
+    --tint-asia: #3a2329;
+    --tint-me: #352c20;
+    --tint-ita: #3a2a22;
+    --tint-ame: #1f2b3b;
     --k-wall: #17231f;
     --k-tile: #1d2b27;
-    --k-cab: #24493f;
-    --k-cab-line: #1a3a32;
+    --k-cab: #24503a;
+    --k-cab-line: #1a3d2b;
     --k-handle: #e9c46a;
     --k-wood: #8d7853;
     --k-floor: #121b18;
@@ -96,34 +97,34 @@
   }
 }
 :root[data-theme='dark'] {
-  --bg: #0e1715;
-  --surface: #16221f;
-  --surface-2: #1e2d29;
-  --ink: #f2efe7;
-  --ink-soft: #cfd9d4;
-  --muted: #93a49d;
-  --line: #26362f;
-  --accent: #ffc94a;
-  --accent-strong: #ffd56e;
-  --accent-ink: #13322c;
-  --glow: rgb(255 201 74 / 30%);
-  --hero: #1d3a33;
-  --hero-ink: #f6f3ec;
-  --hero-muted: #a9bdb5;
-  --good: #5fd08f;
-  --warn: #fb923c;
+  --bg: #0c1711;
+  --surface: #14211a;
+  --surface-2: #1b2c22;
+  --ink: #eef3ea;
+  --ink-soft: #c9d6cc;
+  --muted: #8fa396;
+  --line: #24352b;
+  --accent: #d6f35f;
+  --accent-strong: #e4fa8a;
+  --accent-ink: #12301f;
+  --glow: rgb(214 243 95 / 22%);
+  --hero: #1a3a28;
+  --hero-ink: #f4f3ee;
+  --hero-muted: #a7bcae;
+  --good: #6fdc8c;
+  --warn: #ff8a6b;
   --shadow: none;
-  --tint-indian: #3a3020;
-  --tint-med: #22352a;
-  --tint-mex: #3b2a22;
-  --tint-asia: #3a2528;
-  --tint-me: #352d22;
-  --tint-ita: #3a2a24;
-  --tint-ame: #222d3a;
+  --tint-indian: #3a321c;
+  --tint-med: #26361f;
+  --tint-mex: #3b291f;
+  --tint-asia: #3a2329;
+  --tint-me: #352c20;
+  --tint-ita: #3a2a22;
+  --tint-ame: #1f2b3b;
   --k-wall: #17231f;
   --k-tile: #1d2b27;
-  --k-cab: #24493f;
-  --k-cab-line: #1a3a32;
+  --k-cab: #24503a;
+  --k-cab-line: #1a3d2b;
   --k-handle: #e9c46a;
   --k-wood: #8d7853;
   --k-floor: #121b18;
@@ -176,17 +177,20 @@ h1,
 h2,
 h3 {
   margin: 0;
-  letter-spacing: -0.025em;
+  font-family: var(--font-display);
+  letter-spacing: -0.035em;
 }
 
 /* ── Type ──────────────────────────────────────────────────── */
 .display {
+  font-family: var(--font-display);
   font-weight: 800;
-  font-size: 34px;
-  line-height: 1.08;
-  letter-spacing: -0.035em;
+  font-size: 38px;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
 }
 .title {
+  font-family: var(--font-display);
   font-weight: 800;
   font-size: 28px;
   line-height: 1.1;
@@ -211,26 +215,37 @@ h3 {
   font-size: 13px;
 }
 .num {
+  font-family: var(--font-display);
   font-variant-numeric: tabular-nums;
   font-weight: 800;
   letter-spacing: -0.02em;
 }
-.wordmark {
-  font-family: var(--font-mark);
-  font-style: italic;
-  font-weight: 600;
-  font-size: 26px;
-  letter-spacing: -0.01em;
+.logo {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  color: var(--ink);
 }
-.wordmark .dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 4px var(--glow);
+.logo img.mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+}
+.logo .word {
+  display: inline-flex;
+  height: 26px;
+}
+.logo .word svg {
+  height: 100%;
+  width: auto;
+}
+.logo.lg img.mark {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+}
+.logo.lg .word {
+  height: 34px;
 }
 
 /* ── Layout ────────────────────────────────────────────────── */
@@ -1614,4 +1629,91 @@ h3 {
   background: var(--surface);
   border: 1.5px solid var(--line);
   justify-content: center;
+}
+
+/* ── Display type for headline elements ───────────────────── */
+.meal-title,
+.stat b,
+.big-figure .value,
+.macro b,
+.store-card .name,
+.option-card b,
+.swap-row .total b,
+.day-badge b,
+.stepper .num {
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+}
+.meal-title {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* ── Week strip (plan header) ──────────────────────────────── */
+.week-strip {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-top: 16px;
+}
+.ws-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 0 8px;
+  border-radius: 999px;
+  color: var(--hero-muted);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+}
+.ws-day b {
+  font-family: var(--font-display);
+  font-size: 17px;
+  color: var(--hero-ink);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+.ws-day i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: transparent;
+}
+.ws-day.planned i {
+  background: var(--accent);
+}
+.ws-day.today b {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.day-row {
+  scroll-margin-top: 16px;
+}
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+/* Food art: bigger, with a soft lift so emoji read as little 3D objects */
+.thumb {
+  font-size: 38px;
+  box-shadow: inset 0 -6px 14px rgb(0 0 0 / 5%);
+}
+.thumb,
+.float-card .thumb,
+.option-card .emoji,
+.chip .emoji {
+  text-shadow: 0 6px 10px rgb(18 48 31 / 18%);
+}
+.btn-primary {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
 }

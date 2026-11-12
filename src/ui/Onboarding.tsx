@@ -7,6 +7,7 @@ import { resolvePrice } from '../engine/prices';
 import { useApp } from '../state/store';
 import type { Settings } from '../types';
 import { money } from './format';
+import { Logo } from './Logo';
 import { IconArrow, IconBack } from './icons';
 import { Range, Stepper } from './kit';
 import { DaysPicker, DietPicker, KitchenPicker, PriorityPicker, SkipPicker, StorePicker } from './prefs';
@@ -161,9 +162,7 @@ function Welcome({ onStart }: { onStart: () => void }) {
   return (
     <div className="onb">
       <div className="onb-top" style={{ justifyContent: 'center' }}>
-        <span className="wordmark">
-          Prepline<span className="dot" />
-        </span>
+        <Logo size="lg" />
       </div>
       <div className="onb-body" style={{ display: 'flex', flexDirection: 'column' }}>
         <div className="welcome-art" aria-hidden>

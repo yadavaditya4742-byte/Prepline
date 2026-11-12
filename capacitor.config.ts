@@ -12,7 +12,7 @@ const config: CapacitorConfig = {
   appId: 'app.prepline.mealplanner', // change to a reverse-domain you control before publishing
   appName: 'Prepline',
   webDir: 'dist',
-  backgroundColor: '#f6f3ec',
+  backgroundColor: '#f4f3ee',
   ios: { contentInset: 'automatic' },
   android: { allowMixedContent: false },
 };

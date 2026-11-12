@@ -7,6 +7,7 @@ import { addDays, DAY_NAMES, isoDate, monthDay } from '../engine/week';
 import { useApp } from '../state/store';
 import type { PlanDay, Recipe } from '../types';
 import { money } from './format';
+import { Logo } from './Logo';
 import { IconList, IconLock, IconRefresh, IconSwap, IconUnlock } from './icons';
 import { Segmented, Sheet, useToast } from './kit';
 import { RecipeSheet } from './RecipeSheet';
@@ -46,9 +47,7 @@ export function PlanScreen({ onOpenList }: { onOpenList: () => void }) {
   return (
     <>
       <div className="topline">
-        <span className="wordmark">
-          Prepline<span className="dot" />
-        </span>
+        <Logo />
         <span className="tag" style={{ padding: '6px 12px', fontSize: 12 }}>{STORE_BY_ID[settings.storeId].name}</span>
       </div>
 
@@ -68,6 +67,19 @@ export function PlanScreen({ onOpenList }: { onOpenList: () => void }) {
           {over
             ? `${money(cost.bought - settings.weeklyBudget)} over budget, try swapping a dinner`
             : `${money(settings.weeklyBudget - cost.bought)} left · ${planned.length} dinners for ${settings.servings}`}
+        </div>
+        <div className="week-strip" role="list" aria-label="This week">
+          {days.map((d, i) => {
+            const date = addDays(app.weekStart, i);
+            const today = isoDate(date) === todayIso;
+            return (
+              <a key={i} role="listitem" href={`#day-${i}`} className={`ws-day${today ? ' today' : ''}${d.recipeId ? ' planned' : ''}`}>
+                <span>{DAY_NAMES[i][0]}</span>
+                <b>{date.getDate()}</b>
+                <i aria-hidden />
+              </a>
+            );
+          })}
         </div>
         <div className="stats">
           <div className="stat"><b>{avg('protein')}g</b><span>protein avg*</span></div>
@@ -97,7 +109,7 @@ export function PlanScreen({ onOpenList }: { onOpenList: () => void }) {
           );
           if (!r) {
             return (
-              <div className="day-row" key={i}>
+              <div className="day-row" key={i} id={`day-${i}`}>
                 {badge}
                 <div className="empty-day">
                   No dinner planned
@@ -109,7 +121,7 @@ export function PlanScreen({ onOpenList }: { onOpenList: () => void }) {
           }
           const pp = recipeUsedCost(r, settings.servings, app.priceOf, app.pantry) / settings.servings;
           return (
-            <div className="day-row" key={i}>
+            <div className="day-row" key={i} id={`day-${i}`}>
               {badge}
               <div className={`meal${d.locked ? ' locked' : ''}`}>
                 <button type="button" className="meal-open" onClick={() => setOpen(r)} aria-label={`Open ${r.title}`}>
