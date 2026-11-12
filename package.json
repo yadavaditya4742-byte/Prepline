@@ -14,7 +14,8 @@
     "prices:community": "tsx scripts/fetch-community-prices.ts",
     "build:store": "node scripts/copy-ocr.mjs && VITE_STORE_BUILD=1 vite build",
     "cap:sync": "npm run build:store && cap sync",
-    "deploy:worker": "cd worker && npm install && npx wrangler deploy"
+    "deploy:worker": "cd worker && npm install && npx wrangler deploy",
+    "prices:regional": "tsx scripts/fetch-regional-prices.ts"
   },
   "dependencies": {
     "@capacitor/core": "^8.6.0",

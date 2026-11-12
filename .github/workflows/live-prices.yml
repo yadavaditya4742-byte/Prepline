@@ -38,6 +38,9 @@ jobs:
       - run: npm ci
       - name: Shopper-reported prices (Open Prices)
         run: npm run prices:community
+      - name: Regional price levels (U.S. Bureau of Labor Statistics)
+        run: npm run prices:regional
+        continue-on-error: true
       - name: Kroger live prices
         if: env.KROGER_CLIENT_ID != ''
         run: npm run prices:kroger

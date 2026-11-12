@@ -230,3 +230,17 @@ export interface CommunityPriceFile {
   /** storeId → ingredientId → median price per base unit. */
   stores: Partial<Record<StoreId, Record<string, { unitPrice: number; reports: number; lastDate: string }>>>;
 }
+
+/** Census regions used for regional price levels. */
+export type Region = 'northeast' | 'midwest' | 'south' | 'west';
+
+/** Regional price levels vs. the U.S. average (public/prices/regional.json). */
+export interface RegionalPriceFile {
+  source: string;
+  fetchedAt: string;
+  /** e.g. "September 2026" */
+  period: string;
+  /** 1.00 = U.S. average. */
+  regions: Record<Region, number>;
+  items: Record<string, Partial<Record<Region | 'us', number>>>;
+}
