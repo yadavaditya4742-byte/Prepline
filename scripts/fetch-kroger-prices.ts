@@ -18,7 +18,8 @@ import { pickProduct, type KrogerProduct } from '../src/engine/kroger';
 import type { LivePriceFile } from '../src/types';
 import { KROGER_TERMS } from './kroger-terms';
 
-const API = 'https://api.kroger.com/v1';
+// Production by default; set KROGER_API_BASE=https://api-ce.kroger.com/v1 for a Certification (test) key.
+const API = process.env.KROGER_API_BASE || 'https://api.kroger.com/v1';
 const OUT = new URL('../public/prices/live.json', import.meta.url);
 
 const { KROGER_CLIENT_ID, KROGER_CLIENT_SECRET, KROGER_ZIP, KROGER_LOCATION_ID } = process.env;

@@ -6,9 +6,11 @@ compatibility_date = "2026-10-01"
 [vars]
 # Comma-separated list of sites allowed to call this server, e.g.
 # "https://yourname.github.io,https://prepline.pages.dev,capacitor://localhost,https://localhost"
-ALLOWED_ORIGINS = "*"
+ALLOWED_ORIGINS = "https://yadavaditya4742-byte.github.io,capacitor://localhost,https://localhost,http://localhost:5173,http://localhost:4173"
 # Use https://connect.dev.instacart.tools with a development key
-INSTACART_BASE = "https://connect.instacart.com"
+INSTACART_BASE = "https://connect.dev.instacart.tools"
+# Kroger: production by default; "https://api-ce.kroger.com/v1" for a certification key
+KROGER_API_BASE = "https://api.kroger.com/v1"
 
 # Secrets are NOT stored here. Add them with:
 #   npx wrangler secret put KROGER_CLIENT_ID

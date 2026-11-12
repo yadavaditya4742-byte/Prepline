@@ -30,9 +30,11 @@ export interface Env {
   INSTACART_API_KEY?: string;
   INSTACART_BASE?: string;
   ALLOWED_ORIGINS?: string;
+  /** https://api.kroger.com/v1 (production, default) or https://api-ce.kroger.com/v1 (certification). */
+  KROGER_API_BASE?: string;
 }
 
-const KROGER_API = 'https://api.kroger.com/v1';
+const KROGER_DEFAULT = 'https://api.kroger.com/v1';
 const MAX_IDS = 40; // Workers free plan allows 50 outbound requests per call
 const DAY = 86_400;
 
@@ -83,6 +85,7 @@ function parseIds(url: URL): string[] {
 let krogerToken: { value: string; expires: number } | null = null;
 
 async function krogerAuth(env: Env): Promise<string> {
+  const KROGER_API = env.KROGER_API_BASE || KROGER_DEFAULT;
   if (krogerToken && krogerToken.expires > Date.now() + 60_000) return krogerToken.value;
   const res = await fetch(`${KROGER_API}/connect/oauth2/token`, {
     method: 'POST',
@@ -106,6 +109,7 @@ async function kroger(url: URL, env: Env): Promise<{ status: number; body: unkno
   if (!ids.length) return { status: 400, body: { error: 'ids required' } };
 
   const token = await krogerAuth(env);
+  const KROGER_API = env.KROGER_API_BASE || KROGER_DEFAULT;
   const loc = await cached(`kroger-loc:${zip}`, 7 * DAY, async () => {
     const res = await fetch(`${KROGER_API}/locations?filter.zipCode.near=${zip}&filter.limit=1`, { headers: { Authorization: `Bearer ${token}` } });
     if (!res.ok) return null;

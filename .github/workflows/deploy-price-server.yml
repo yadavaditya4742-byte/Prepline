@@ -1,0 +1,79 @@
+# Deploys the Prepline price server (worker/) to Cloudflare Workers — free plan.
+# No command line needed: add the secrets below in GitHub, then run this workflow.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions → Secrets):
+#   CLOUDFLARE_API_TOKEN   Cloudflare → My Profile → API Tokens → "Edit Cloudflare Workers" template
+#   CLOUDFLARE_ACCOUNT_ID  Cloudflare dashboard → Workers & Pages → Account ID (right side)
+# Optional (each one switches a feature on):
+#   KROGER_CLIENT_ID, KROGER_CLIENT_SECRET   per-person Kroger prices
+#   INSTACART_API_KEY                        "See live prices on Instacart" button
+#   WALMART_CONSUMER_ID, WALMART_KEY_VERSION, WALMART_PRIVATE_KEY   walmart.com prices
+# Optional repository variables:
+#   INSTACART_BASE   https://connect.dev.instacart.tools (default) or https://connect.instacart.com once you have a production key
+#   KROGER_API_BASE  https://api.kroger.com/v1 (default) or https://api-ce.kroger.com/v1
+name: Deploy price server
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ['worker/**', 'src/engine/**', 'src/data/**', 'scripts/kroger-terms.ts']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: price-server
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - name: Check Cloudflare secrets
+        if: env.CLOUDFLARE_API_TOKEN == '' || env.CLOUDFLARE_ACCOUNT_ID == ''
+        run: |
+          echo "::notice::Add CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID repository secrets to deploy the price server."
+          exit 0
+      - uses: actions/checkout@v4
+        if: env.CLOUDFLARE_API_TOKEN != ''
+      - uses: actions/setup-node@v4
+        if: env.CLOUDFLARE_API_TOKEN != ''
+        with:
+          node-version: 22
+      - name: Install
+        if: env.CLOUDFLARE_API_TOKEN != ''
+        working-directory: worker
+        run: npm ci
+      - name: Deploy
+        if: env.CLOUDFLARE_API_TOKEN != ''
+        working-directory: worker
+        run: |
+          npx wrangler deploy \
+            --var "INSTACART_BASE:${{ vars.INSTACART_BASE || 'https://connect.dev.instacart.tools' }}" \
+            --var "KROGER_API_BASE:${{ vars.KROGER_API_BASE || 'https://api.kroger.com/v1' }}" | tee deploy.log
+          url=$(grep -Eo 'https://[a-z0-9.-]+\.workers\.dev' deploy.log | head -1)
+          echo "### Price server is live: $url" >> "$GITHUB_STEP_SUMMARY"
+          echo "Set the repository variable VITE_PRICES_API to $url, then run 'Deploy to GitHub Pages'." >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload API keys to the price server
+        if: env.CLOUDFLARE_API_TOKEN != ''
+        working-directory: worker
+        env:
+          KROGER_CLIENT_ID: ${{ secrets.KROGER_CLIENT_ID }}
+          KROGER_CLIENT_SECRET: ${{ secrets.KROGER_CLIENT_SECRET }}
+          INSTACART_API_KEY: ${{ secrets.INSTACART_API_KEY }}
+          WALMART_CONSUMER_ID: ${{ secrets.WALMART_CONSUMER_ID }}
+          WALMART_KEY_VERSION: ${{ secrets.WALMART_KEY_VERSION }}
+          WALMART_PRIVATE_KEY: ${{ secrets.WALMART_PRIVATE_KEY }}
+        run: |
+          for name in KROGER_CLIENT_ID KROGER_CLIENT_SECRET INSTACART_API_KEY WALMART_CONSUMER_ID WALMART_KEY_VERSION WALMART_PRIVATE_KEY; do
+            value="${!name}"
+            if [ -n "$value" ]; then
+              printf '%s' "$value" | npx wrangler secret put "$name" >/dev/null && echo "✓ $name"
+            else
+              echo "· $name not set (feature stays off)"
+            fi
+          done
