@@ -28,12 +28,22 @@ const ITEMS: Record<string, string> = {
 
 async function bls(series: string[]): Promise<Record<string, { value: number; period: string }>> {
   const year = new Date().getFullYear();
-  const res = await fetch('https://api.bls.gov/publicAPI/v1/timeseries/data/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ seriesid: series, startyear: String(year - 1), endyear: String(year) }),
-  });
-  if (!res.ok) throw new Error(`BLS ${res.status}`);
+  let res: Response | null = null;
+  for (let attempt = 0; attempt < 4; attempt++) {
+    res = await fetch('https://api.bls.gov/publicAPI/v1/timeseries/data/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'User-Agent': 'Prepline/1.0 (open-source meal planner; monthly regional price levels)',
+      },
+      body: JSON.stringify({ seriesid: series, startyear: String(year - 1), endyear: String(year) }),
+    });
+    if (res.ok) break;
+    console.log(`BLS: HTTP ${res.status}, retrying…`);
+    await new Promise((r) => setTimeout(r, 5000 * (attempt + 1)));
+  }
+  if (!res || !res.ok) throw new Error(`BLS ${res?.status}`);
   const body = (await res.json()) as {
     status: string;
     message?: string[];
