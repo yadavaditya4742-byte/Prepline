@@ -1,6 +1,9 @@
 {
+ "storeId": "kroger",
+ "reference": true,
+ "region": "south",
  "source": "Kroger Products API",
- "fetchedAt": "2026-11-12T20:38:35.988Z",
+ "fetchedAt": "2026-11-13T10:18:15.926Z",
  "locationId": "01100695",
  "locationName": "KROGER · Kroger - Ponce (market reference — no Kroger store near you)",
  "prices": {
@@ -167,10 +170,10 @@
    "productName": "Eggplant"
   },
   "green-beans": {
-   "size": 2891.649,
-   "price": 5.99,
-   "label": "102 oz",
-   "productName": "Kroger® Cut Green Beans"
+   "size": 1644.271,
+   "price": 3.89,
+   "label": "4 ct / 14.5 oz",
+   "productName": "Kroger® Cut Green Beans BIG DEAL!"
   },
   "scallion": {
    "size": 340.19399999999996,
@@ -326,13 +329,13 @@
    "size": 907.184,
    "price": 7.29,
    "label": "32 oz",
-   "productName": "Kroger® Mild Cheddar Shredded Cheese Family Size"
+   "productName": "Kroger® Sharp Cheddar Shredded Cheese Family Size"
   },
   "butter": {
-   "size": 1814.368,
-   "price": 9.99,
-   "label": "4 ct / 16 oz",
-   "productName": "Kerrygold Grass-Fed Pure Irish Salted Butter Sticks"
+   "size": 453.592,
+   "price": 3.59,
+   "label": "4 sticks / 16 oz",
+   "productName": "Kroger® Salted Butter Sticks"
   },
   "ghee": {
    "size": 396.893,
@@ -527,9 +530,9 @@
    "productName": "Kroger® Marinara Pasta Sauce"
   },
   "salsa": {
-   "size": 453.592,
-   "price": 2.19,
-   "label": "16 oz",
+   "size": 680.3879999999999,
+   "price": 3.19,
+   "label": "24 oz",
    "productName": "Kroger® Mild Traditional Salsa"
   },
   "peanut-butter": {
@@ -629,10 +632,10 @@
    "productName": "Kroger® Iodized Salt"
   },
   "black-pepper": {
-   "size": 148.83487499999998,
-   "price": 2.79,
-   "label": "5.25 oz",
-   "productName": "Morton Iodized Salt & Black Pepper 1 ea"
+   "size": 63.786375,
+   "price": 1.25,
+   "label": "2.25 oz",
+   "productName": "Smart Way™ Ground Black Pepper"
   },
   "cumin-seeds": {
    "size": 53.86405,
@@ -902,7 +905,7 @@
    "size": 411.06775,
    "price": 2.89,
    "label": "14.5 oz",
-   "productName": "Prego Creamy Basil Pesto Pasta Sauce, 14.5 oz Jar"
+   "productName": "Prego Creamy Basil Pesto Sauce"
   },
   "olives": {
    "size": 289.1649,
@@ -917,10 +920,10 @@
    "productName": "Old El Paso™ Mild Red Enchilada Sauce"
   },
   "bbq-sauce": {
-   "size": 793.786,
-   "price": 3.79,
-   "label": "28 oz",
-   "productName": "Sweet Baby Ray's® BBQ Sauce"
+   "size": 510.291,
+   "price": 1.99,
+   "label": "18 oz",
+   "productName": "Kraft Sweet Brown Sugar Slow-Simmered BBQ Sauce"
   },
   "chipotle": {
    "size": 198.4465,
