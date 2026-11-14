@@ -3,7 +3,7 @@
  "reference": true,
  "region": "south",
  "source": "Kroger Products API",
- "fetchedAt": "2026-11-13T10:18:15.926Z",
+ "fetchedAt": "2026-11-14T10:01:27.177Z",
  "locationId": "01100695",
  "locationName": "KROGER · Kroger - Ponce (market reference — no Kroger store near you)",
  "prices": {
@@ -50,10 +50,10 @@
    "productName": "Fresh Green Serrano Peppers"
   },
   "jalapeno": {
-   "size": 737.087,
+   "size": 453.592,
    "price": 2.19,
-   "label": "26 oz",
-   "productName": "La Costena® Whole Jalapeno Peppers"
+   "label": "per lb",
+   "productName": "Fresh Jalapeno Peppers"
   },
   "cilantro": {
    "size": 60,
@@ -170,10 +170,10 @@
    "productName": "Eggplant"
   },
   "green-beans": {
-   "size": 1644.271,
-   "price": 3.89,
-   "label": "4 ct / 14.5 oz",
-   "productName": "Kroger® Cut Green Beans BIG DEAL!"
+   "size": 2891.649,
+   "price": 5.99,
+   "label": "102 oz",
+   "productName": "Kroger® Cut Green Beans"
   },
   "scallion": {
    "size": 340.19399999999996,
@@ -278,10 +278,10 @@
    "productName": "Eggland's Best Classic Extra Large White Eggs, 12 Count"
   },
   "paneer": {
-   "size": 226.796,
+   "size": 623.689,
    "price": 7.99,
-   "label": "8 oz",
-   "productName": "Sach™ Paneer The Original Soft and Creamy"
+   "label": "22 oz",
+   "productName": "Private Selection® Indian Inspired Palak Paneer"
   },
   "greek-yogurt": {
    "size": 907.184,
@@ -530,16 +530,16 @@
    "productName": "Kroger® Marinara Pasta Sauce"
   },
   "salsa": {
-   "size": 680.3879999999999,
-   "price": 3.19,
-   "label": "24 oz",
+   "size": 453.592,
+   "price": 2.19,
+   "label": "16 oz",
    "productName": "Kroger® Mild Traditional Salsa"
   },
   "peanut-butter": {
-   "size": 1814.368,
-   "price": 6.49,
-   "label": "64 oz",
-   "productName": "Kroger® Peanut Butter Creamy BIG Deal!"
+   "size": 1133.98,
+   "price": 4.99,
+   "label": "40 oz",
+   "productName": "Kroger® Creamy Peanut Butter"
   },
   "tahini": {
    "size": 453.592,
@@ -602,10 +602,10 @@
    "productName": "Nature's Path Organic® Pumpkin Seed + Flax Granola"
   },
   "sesame-seeds": {
-   "size": 411.06775,
-   "price": 4.29,
-   "label": "14.5 oz",
-   "productName": "Pepperidge Farm White Hoagie Rolls With Sesame Seeds"
+   "size": 997.9024000000001,
+   "price": 4.99,
+   "label": "4 ct / 8.8 oz",
+   "productName": "St Pierre Sesame Seed Brioche Burger Buns"
   },
   "olive-oil": {
    "size": 751.1668999999999,
