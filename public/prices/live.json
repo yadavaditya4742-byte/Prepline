@@ -3,7 +3,7 @@
  "reference": true,
  "region": "south",
  "source": "Kroger Products API",
- "fetchedAt": "2026-11-15T10:02:28.859Z",
+ "fetchedAt": "2026-11-16T10:51:18.508Z",
  "locationId": "01100695",
  "locationName": "KROGER · Kroger - Ponce (market reference — no Kroger store near you)",
  "prices": {
@@ -56,16 +56,16 @@
    "productName": "La Costena® Whole Jalapeno Peppers"
   },
   "cilantro": {
-   "size": 240.97074999999998,
-   "price": 2.49,
-   "label": "8.5oz",
-   "productName": "Ben Rdyrc Cilantro Lime 8.5oz"
+   "size": 60,
+   "price": 0.99,
+   "label": "1 ct",
+   "productName": "Cilantro"
   },
   "mint": {
-   "size": 1273.743035,
-   "price": 17.99,
-   "label": "44.93 oz",
-   "productName": "Life Savers Wint-O-Green Breath Mint Bulk Hard Candy Party Size Bag"
+   "size": 368.5435,
+   "price": 6.79,
+   "label": "13 oz",
+   "productName": "Life Savers Wint-O-Green Candy Hard Mints Sharing Size Bag"
   },
   "curry-leaves": {
    "size": 283.495,
@@ -278,16 +278,22 @@
    "productName": "Eggland's Best Classic Extra Large White Eggs, 12 Count"
   },
   "paneer": {
-   "size": 226.796,
+   "size": 623.689,
    "price": 7.99,
-   "label": "8 oz",
-   "productName": "Sach™ Paneer The Original Soft and Creamy"
+   "label": "22 oz",
+   "productName": "Private Selection® Indian Inspired Palak Paneer"
   },
   "greek-yogurt": {
    "size": 907.184,
    "price": 4.29,
    "label": "32 oz",
    "productName": "Kroger® Plain Nonfat Greek Yogurt Tub"
+  },
+  "yogurt": {
+   "size": 907.184,
+   "price": 5.99,
+   "label": "32 oz",
+   "productName": "Stonyfield Organic Whole Milk Probiotic Yogurt, Plain, 32 oz"
   },
   "cottage-cheese": {
    "size": 680.3879999999999,
@@ -320,16 +326,16 @@
    "productName": "Private Selection® Traditional Feta Cheese Chunk"
   },
   "cheddar": {
-   "size": 907.184,
-   "price": 7.29,
-   "label": "32 oz",
-   "productName": "Kroger® Sharp Cheddar Shredded Cheese Family Size"
+   "size": 453.592,
+   "price": 3.79,
+   "label": "16 oz",
+   "productName": "Kroger® Sharp Cheddar Shredded Cheese"
   },
   "butter": {
-   "size": 453.592,
-   "price": 3.59,
-   "label": "4 sticks / 16 oz",
-   "productName": "Kroger® Salted Butter Sticks"
+   "size": 1814.368,
+   "price": 9.99,
+   "label": "4 ct / 16 oz",
+   "productName": "Kerrygold Grass-Fed Pure Irish Salted Butter Sticks"
   },
   "ghee": {
    "size": 396.893,
@@ -451,12 +457,6 @@
    "label": "16 oz",
    "productName": "Kroger® Red Lentils"
   },
-  "chana-dal": {
-   "size": 907.184,
-   "price": 10.29,
-   "label": "32 oz",
-   "productName": "24 Mantra Organic® Chana Dal"
-  },
   "rajma": {
    "size": 453.592,
    "price": 2.19,
@@ -530,9 +530,9 @@
    "productName": "Kroger® Mild Traditional Salsa"
   },
   "peanut-butter": {
-   "size": 1133.98,
-   "price": 4.99,
-   "label": "40 oz",
+   "size": 453.592,
+   "price": 2.59,
+   "label": "16 oz",
    "productName": "Kroger® Creamy Peanut Butter"
   },
   "tahini": {
@@ -578,10 +578,10 @@
    "productName": "Kroger® Salted Whole Cashews x 2"
   },
   "almonds": {
-   "size": 907.184,
-   "price": 15.29,
-   "label": "32 oz",
-   "productName": "Kroger® Roasted Unsalted Almonds"
+   "size": 453.592,
+   "price": 7.99,
+   "label": "16 oz",
+   "productName": "Simple Truth® Raw Almonds"
   },
   "hemp-hearts": {
    "size": 226.796,
@@ -590,21 +590,21 @@
    "productName": "Simple Truth® Protein Hemp Hearts Shelled Hemp Seeds"
   },
   "pumpkin-seeds": {
-   "size": 170.09699999999998,
-   "price": 3.99,
-   "label": "6 oz",
-   "productName": "Kroger® Roasted and Salted Pumpkin Seeds"
+   "size": 326.01925,
+   "price": 5.49,
+   "label": "11.5 oz",
+   "productName": "Nature's Path Organic® Pumpkin Seed + Flax Granola"
   },
   "sesame-seeds": {
-   "size": 997.9024000000001,
-   "price": 4.99,
-   "label": "4 ct / 8.8 oz",
-   "productName": "St Pierre Sesame Seed Brioche Burger Buns"
+   "size": 411.06775,
+   "price": 4.29,
+   "label": "14.5 oz",
+   "productName": "Pepperidge Farm White Hoagie Rolls With Sesame Seeds"
   },
   "olive-oil": {
-   "size": 751.1668999999999,
-   "price": 9.79,
-   "label": "25.4 fl oz",
+   "size": 2010.998,
+   "price": 25.49,
+   "label": "68 fl oz",
    "productName": "Kroger® Extra Virgin Olive Oil"
   },
   "oil": {
@@ -836,10 +836,10 @@
    "productName": "Simple Truth Organic® 100% Whole Wheat Rotini Pasta"
   },
   "udon": {
-   "size": 1247.378,
-   "price": 10.49,
-   "label": "44 oz",
-   "productName": "J-Basket Sanuki-Fu Udon Japanese Style Noodles"
+   "size": 402.56289999999996,
+   "price": 4.79,
+   "label": "14.2 oz",
+   "productName": "Ka-Me® Udon Stir-Fry Noodles"
   },
   "panko": {
    "size": 30560.761,
@@ -926,28 +926,16 @@
    "productName": "Kroger® Gluten Free Whole Chipotle Peppers in Adobo Sauce"
   },
   "sweet-chili": {
-   "size": 588.252125,
-   "price": 4.99,
-   "label": "20.75 oz",
-   "productName": "Panda Express® Sweet Chili Sauce"
+   "size": 439.41724999999997,
+   "price": 3.99,
+   "label": "15.5 oz",
+   "productName": "Private Selection® Asian Sweet Chili Wing Sauce"
   },
   "rice-vinegar": {
    "size": 375.58344999999997,
    "price": 2.69,
    "label": "12.7 fl oz",
    "productName": "Kroger® Seasoned Rice Vinegar"
-  },
-  "mustard-oil": {
-   "size": 502.7495,
-   "price": 9.19,
-   "label": "17 fl oz",
-   "productName": "Laxmi Kachi Ghani Mustard Oil"
-  },
-  "rasam-powder": {
-   "size": 19.9863975,
-   "price": 13.99,
-   "label": "0.705 oz",
-   "productName": "Maybelline Fit Me Loose Setting Powder 02 Pink Rose"
   },
   "fennel-seeds": {
    "size": 41.95726,
@@ -971,7 +959,7 @@
    "size": 283.495,
    "price": 5.99,
    "label": "10 oz",
-   "productName": "Grace® Mild Jamaican Jerk Seasoning"
+   "productName": "Grace® Hot Jamaican Jerk Seasoning"
   }
  }
 }
