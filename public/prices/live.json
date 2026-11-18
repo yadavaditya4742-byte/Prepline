@@ -3,13 +3,13 @@
  "reference": true,
  "region": "south",
  "source": "Kroger Products API",
- "fetchedAt": "2026-11-16T10:51:18.508Z",
+ "fetchedAt": "2026-11-18T10:24:23.209Z",
  "locationId": "01100695",
  "locationName": "KROGER · Kroger - Ponce (market reference — no Kroger store near you)",
  "prices": {
   "onion": {
    "size": 1360.7759999999998,
-   "price": 3.39,
+   "price": 3.29,
    "label": "3 lb",
    "productName": "Kroger® Yellow Onion 3 lb Bag"
   },
@@ -50,10 +50,10 @@
    "productName": "Fresh Green Serrano Peppers"
   },
   "jalapeno": {
-   "size": 737.087,
+   "size": 453.592,
    "price": 2.19,
-   "label": "26 oz",
-   "productName": "La Costena® Whole Jalapeno Peppers"
+   "label": "per lb",
+   "productName": "Fresh Jalapeno Peppers"
   },
   "cilantro": {
    "size": 60,
@@ -170,9 +170,9 @@
    "productName": "Eggplant"
   },
   "green-beans": {
-   "size": 2891.649,
-   "price": 5.99,
-   "label": "102 oz",
+   "size": 411.06775,
+   "price": 1,
+   "label": "14.5 oz",
    "productName": "Kroger® Cut Green Beans"
   },
   "scallion": {
@@ -227,7 +227,7 @@
    "size": 453.592,
    "price": 9.99,
    "label": "per lb",
-   "productName": "Fresh Atlantic Farm Raised Whole Salmon Fillet"
+   "productName": "Kroger® Fresh Farm Raised Atlantic Salmon Fillet"
   },
   "tilapia": {
    "size": 907.184,
@@ -297,7 +297,7 @@
   },
   "cottage-cheese": {
    "size": 680.3879999999999,
-   "price": 3.29,
+   "price": 3.39,
    "label": "24 oz",
    "productName": "Kroger® 2% Low Fat Small Curd Cottage Cheese"
   },
@@ -326,16 +326,16 @@
    "productName": "Private Selection® Traditional Feta Cheese Chunk"
   },
   "cheddar": {
-   "size": 453.592,
-   "price": 3.79,
-   "label": "16 oz",
-   "productName": "Kroger® Sharp Cheddar Shredded Cheese"
+   "size": 907.184,
+   "price": 7.29,
+   "label": "32 oz",
+   "productName": "Kroger® Sharp Cheddar Shredded Cheese Family Size"
   },
   "butter": {
-   "size": 1814.368,
-   "price": 9.99,
-   "label": "4 ct / 16 oz",
-   "productName": "Kerrygold Grass-Fed Pure Irish Salted Butter Sticks"
+   "size": 453.592,
+   "price": 3.59,
+   "label": "4 sticks / 16 oz",
+   "productName": "Kroger® Salted Butter Sticks"
   },
   "ghee": {
    "size": 396.893,
@@ -393,7 +393,7 @@
   },
   "atta": {
    "size": 2267.96,
-   "price": 3.59,
+   "price": 4.49,
    "label": "5 lb",
    "productName": "Kroger® Traditional Whole Wheat Flour"
   },
@@ -456,6 +456,12 @@
    "price": 3.29,
    "label": "16 oz",
    "productName": "Kroger® Red Lentils"
+  },
+  "chana-dal": {
+   "size": 907.184,
+   "price": 10.29,
+   "label": "32 oz",
+   "productName": "24 Mantra Organic® Chana Dal"
   },
   "rajma": {
    "size": 453.592,
@@ -530,10 +536,10 @@
    "productName": "Kroger® Mild Traditional Salsa"
   },
   "peanut-butter": {
-   "size": 453.592,
-   "price": 2.59,
-   "label": "16 oz",
-   "productName": "Kroger® Creamy Peanut Butter"
+   "size": 1814.368,
+   "price": 6.49,
+   "label": "64 oz",
+   "productName": "Kroger® Peanut Butter Creamy BIG Deal!"
   },
   "tahini": {
    "size": 453.592,
@@ -548,10 +554,10 @@
    "productName": "Kroger® Less Sodium Soy Sauce"
   },
   "honey": {
-   "size": 680.3879999999999,
-   "price": 5.99,
-   "label": "24 oz",
-   "productName": "Smart Way™ Honey"
+   "size": 340.19399999999996,
+   "price": 4,
+   "label": "12 oz",
+   "productName": "Kroger® Clover Honey Bear"
   },
   "vinegar": {
    "size": 3785.41,
@@ -596,15 +602,15 @@
    "productName": "Nature's Path Organic® Pumpkin Seed + Flax Granola"
   },
   "sesame-seeds": {
-   "size": 411.06775,
-   "price": 4.29,
-   "label": "14.5 oz",
-   "productName": "Pepperidge Farm White Hoagie Rolls With Sesame Seeds"
+   "size": 997.9024000000001,
+   "price": 4.99,
+   "label": "4 ct / 8.8 oz",
+   "productName": "St Pierre Sesame Seed Brioche Burger Buns"
   },
   "olive-oil": {
-   "size": 2010.998,
-   "price": 25.49,
-   "label": "68 fl oz",
+   "size": 751.1668999999999,
+   "price": 9.79,
+   "label": "25.4 fl oz",
    "productName": "Kroger® Extra Virgin Olive Oil"
   },
   "oil": {
@@ -633,7 +639,7 @@
   },
   "cumin-seeds": {
    "size": 53.86405,
-   "price": 6.79,
+   "price": 6.29,
    "label": "1.9 oz",
    "productName": "Spice Islands Ground Cumin Seed, 1.9 oz"
   },
@@ -743,7 +749,7 @@
    "size": 340.19399999999996,
    "price": 2.59,
    "label": "12 oz",
-   "productName": "Kroger® Recipe Beginnings® Frozen Cauliflower Rice"
+   "productName": "Simple Truth Organic® Steamable Riced Cauliflower"
   },
   "frozen-broccoli": {
    "size": 1474.174,
@@ -754,8 +760,8 @@
   "stir-fry-veg": {
    "size": 1479.8439,
    "price": 7.99,
-   "label": "52.2 oz",
-   "productName": "Birds Eye Asian Style Stir Fry Vegetables, Frozen Vegetables"
+   "label": "52.200 oz",
+   "productName": "Birds Eye Teriyaki Frozen Stir Fry Veggies and Sauce, Frozen Vegetables"
   },
   "butternut": {
    "size": 453.592,
@@ -765,7 +771,7 @@
   },
   "celery": {
    "size": 450,
-   "price": 2.19,
+   "price": 1.49,
    "label": "1 ct",
    "productName": "Sleeved Celery"
   },
@@ -789,9 +795,9 @@
   },
   "salmon-can": {
    "size": 418.155125,
-   "price": 4.79,
+   "price": 4.59,
    "label": "14.75 oz",
-   "productName": "Double \"Q\"® Wild Caught Alaskan Pink Salmon"
+   "productName": "Kroger® Wild Caught Canned Alaskan Pink Salmon"
   },
   "sardines": {
    "size": 106.310625,
@@ -836,10 +842,10 @@
    "productName": "Simple Truth Organic® 100% Whole Wheat Rotini Pasta"
   },
   "udon": {
-   "size": 402.56289999999996,
-   "price": 4.79,
-   "label": "14.2 oz",
-   "productName": "Ka-Me® Udon Stir-Fry Noodles"
+   "size": 1247.378,
+   "price": 10.49,
+   "label": "44 oz",
+   "productName": "J-Basket Sanuki-Fu Udon Japanese Style Noodles"
   },
   "panko": {
    "size": 30560.761,
@@ -914,9 +920,9 @@
    "productName": "Old El Paso™ Mild Red Enchilada Sauce"
   },
   "bbq-sauce": {
-   "size": 793.786,
-   "price": 3.79,
-   "label": "28 oz",
+   "size": 510.291,
+   "price": 2.69,
+   "label": "18 oz",
    "productName": "Sweet Baby Ray's® BBQ Sauce"
   },
   "chipotle": {
@@ -926,16 +932,28 @@
    "productName": "Kroger® Gluten Free Whole Chipotle Peppers in Adobo Sauce"
   },
   "sweet-chili": {
-   "size": 439.41724999999997,
-   "price": 3.99,
-   "label": "15.5 oz",
-   "productName": "Private Selection® Asian Sweet Chili Wing Sauce"
+   "size": 588.252125,
+   "price": 4.99,
+   "label": "20.75 oz",
+   "productName": "Panda Express® Sweet Chili Sauce"
   },
   "rice-vinegar": {
    "size": 375.58344999999997,
    "price": 2.69,
    "label": "12.7 fl oz",
    "productName": "Kroger® Seasoned Rice Vinegar"
+  },
+  "mustard-oil": {
+   "size": 502.7495,
+   "price": 9.19,
+   "label": "17 fl oz",
+   "productName": "Laxmi Kachi Ghani Mustard Oil"
+  },
+  "rasam-powder": {
+   "size": 19.9863975,
+   "price": 13.99,
+   "label": "0.705 oz",
+   "productName": "Maybelline Fit Me Loose Setting Powder 02 Pink Rose"
   },
   "fennel-seeds": {
    "size": 41.95726,
@@ -950,16 +968,16 @@
    "productName": "Private Selection® Lemon Za'atar Broccoli"
   },
   "cajun": {
-   "size": 226.796,
-   "price": 2.49,
-   "label": "8 oz",
-   "productName": "Louisiana Fish Fry Products Original Cajun Seasoning"
+   "size": 109.99606,
+   "price": 1.25,
+   "label": "3.88 oz",
+   "productName": "Smart Way™ Cajun Seasoning"
   },
   "jerk": {
    "size": 283.495,
    "price": 5.99,
    "label": "10 oz",
-   "productName": "Grace® Hot Jamaican Jerk Seasoning"
+   "productName": "Grace® Mild Jamaican Jerk Seasoning"
   }
  }
 }
