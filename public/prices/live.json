@@ -3,7 +3,7 @@
  "reference": true,
  "region": "south",
  "source": "Kroger Products API",
- "fetchedAt": "2026-11-18T10:24:23.209Z",
+ "fetchedAt": "2026-11-19T10:25:59.473Z",
  "locationId": "01100695",
  "locationName": "KROGER · Kroger - Ponce (market reference — no Kroger store near you)",
  "prices": {
@@ -50,10 +50,10 @@
    "productName": "Fresh Green Serrano Peppers"
   },
   "jalapeno": {
-   "size": 453.592,
+   "size": 737.087,
    "price": 2.19,
-   "label": "per lb",
-   "productName": "Fresh Jalapeno Peppers"
+   "label": "26 oz",
+   "productName": "La Costena® Whole Jalapeno Peppers"
   },
   "cilantro": {
    "size": 60,
@@ -113,7 +113,7 @@
    "size": 2267.96,
    "price": 3.99,
    "label": "5 lb",
-   "productName": "Russet Potatoes Bag"
+   "productName": "Kroger® Russet Potatoes Bag"
   },
   "sweet-potato": {
    "size": 1133.98,
@@ -170,9 +170,9 @@
    "productName": "Eggplant"
   },
   "green-beans": {
-   "size": 411.06775,
-   "price": 1,
-   "label": "14.5 oz",
+   "size": 2891.649,
+   "price": 5.99,
+   "label": "102 oz",
    "productName": "Kroger® Cut Green Beans"
   },
   "scallion": {
@@ -227,7 +227,7 @@
    "size": 453.592,
    "price": 9.99,
    "label": "per lb",
-   "productName": "Kroger® Fresh Farm Raised Atlantic Salmon Fillet"
+   "productName": "Fresh Atlantic Farm Raised Whole Salmon Fillet"
   },
   "tilapia": {
    "size": 907.184,
@@ -266,10 +266,10 @@
    "productName": "Kroger® Fresh Natural Pork Tenderloin"
   },
   "sirloin": {
-   "size": 827.2384099999999,
-   "price": 15,
-   "label": "2 ct / 14.59 oz",
-   "productName": "Kroger® Bacon Wrapped Petite Beef Sirloin Steak"
+   "size": 453.592,
+   "price": 10.49,
+   "label": "per lb",
+   "productName": "Beef Choice Sirloin Tip Steak Thin Cut Family Pack"
   },
   "egg": {
    "size": 12,
@@ -596,16 +596,16 @@
    "productName": "Simple Truth® Protein Hemp Hearts Shelled Hemp Seeds"
   },
   "pumpkin-seeds": {
-   "size": 326.01925,
-   "price": 5.49,
-   "label": "11.5 oz",
-   "productName": "Nature's Path Organic® Pumpkin Seed + Flax Granola"
+   "size": 700.2326499999999,
+   "price": 9.99,
+   "label": "24.7 oz",
+   "productName": "Nature's Path Pumpkin Seed + Flax Granola"
   },
   "sesame-seeds": {
-   "size": 997.9024000000001,
-   "price": 4.99,
-   "label": "4 ct / 8.8 oz",
-   "productName": "St Pierre Sesame Seed Brioche Burger Buns"
+   "size": 411.06775,
+   "price": 4.29,
+   "label": "14.5 oz",
+   "productName": "Pepperidge Farm White Hoagie Rolls With Sesame Seeds"
   },
   "olive-oil": {
    "size": 751.1668999999999,
@@ -760,8 +760,8 @@
   "stir-fry-veg": {
    "size": 1479.8439,
    "price": 7.99,
-   "label": "52.200 oz",
-   "productName": "Birds Eye Teriyaki Frozen Stir Fry Veggies and Sauce, Frozen Vegetables"
+   "label": "52.2 oz",
+   "productName": "Birds Eye Asian Style Stir Fry Vegetables, Frozen Vegetables"
   },
   "butternut": {
    "size": 453.592,
