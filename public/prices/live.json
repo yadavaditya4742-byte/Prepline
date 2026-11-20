@@ -3,7 +3,7 @@
  "reference": true,
  "region": "south",
  "source": "Kroger Products API",
- "fetchedAt": "2026-11-19T10:25:59.473Z",
+ "fetchedAt": "2026-11-20T10:25:19.929Z",
  "locationId": "01100695",
  "locationName": "KROGER · Kroger - Ponce (market reference — no Kroger store near you)",
  "prices": {
@@ -27,7 +27,7 @@
   },
   "cherry-tomato": {
    "size": 680.3879999999999,
-   "price": 5,
+   "price": 6,
    "label": "24 oz",
    "productName": "Private Selection® Fresh Petite Cherry Snacking Tomatoes"
   },
@@ -227,7 +227,7 @@
    "size": 453.592,
    "price": 9.99,
    "label": "per lb",
-   "productName": "Fresh Atlantic Farm Raised Whole Salmon Fillet"
+   "productName": "Kroger® Fresh Farm Raised Atlantic Salmon Fillet"
   },
   "tilapia": {
    "size": 907.184,
@@ -332,10 +332,10 @@
    "productName": "Kroger® Sharp Cheddar Shredded Cheese Family Size"
   },
   "butter": {
-   "size": 453.592,
-   "price": 3.59,
-   "label": "4 sticks / 16 oz",
-   "productName": "Kroger® Salted Butter Sticks"
+   "size": 1814.368,
+   "price": 9.99,
+   "label": "4 ct / 16 oz",
+   "productName": "Kerrygold Grass-Fed Pure Irish Salted Butter Sticks"
   },
   "ghee": {
    "size": 396.893,
@@ -584,10 +584,10 @@
    "productName": "Kroger® Salted Whole Cashews x 2"
   },
   "almonds": {
-   "size": 453.592,
-   "price": 7.99,
-   "label": "16 oz",
-   "productName": "Simple Truth® Raw Almonds"
+   "size": 907.184,
+   "price": 15.29,
+   "label": "32 oz",
+   "productName": "Kroger® Roasted Sea Salted Almonds"
   },
   "hemp-hearts": {
    "size": 226.796,
@@ -632,10 +632,10 @@
    "productName": "Kroger® Iodized Salt"
   },
   "black-pepper": {
-   "size": 63.786375,
-   "price": 1.25,
-   "label": "2.25 oz",
-   "productName": "Smart Way™ Ground Black Pepper"
+   "size": 148.83487499999998,
+   "price": 2.79,
+   "label": "5.25 oz",
+   "productName": "Morton Iodized Salt & Black Pepper 1 ea"
   },
   "cumin-seeds": {
    "size": 53.86405,
@@ -666,6 +666,12 @@
    "price": 5.79,
    "label": "3 oz",
    "productName": "Spice Islands Garam Masala Seasoning"
+  },
+  "sambar-powder": {
+   "size": 229.63094999999998,
+   "price": 2.49,
+   "label": "8.1 oz",
+   "productName": "Kroger® Baking Powder"
   },
   "paprika": {
    "size": 49.611625,
@@ -749,7 +755,7 @@
    "size": 340.19399999999996,
    "price": 2.59,
    "label": "12 oz",
-   "productName": "Simple Truth Organic® Steamable Riced Cauliflower"
+   "productName": "Kroger® Recipe Beginnings® Frozen Cauliflower Rice"
   },
   "frozen-broccoli": {
    "size": 1474.174,
@@ -761,7 +767,7 @@
    "size": 1479.8439,
    "price": 7.99,
    "label": "52.2 oz",
-   "productName": "Birds Eye Asian Style Stir Fry Vegetables, Frozen Vegetables"
+   "productName": "Birds Eye Asian Style Stir Fry Vegetables Frozen Vegetables"
   },
   "butternut": {
    "size": 453.592,
@@ -920,9 +926,9 @@
    "productName": "Old El Paso™ Mild Red Enchilada Sauce"
   },
   "bbq-sauce": {
-   "size": 510.291,
-   "price": 2.69,
-   "label": "18 oz",
+   "size": 793.786,
+   "price": 3.79,
+   "label": "28 oz",
    "productName": "Sweet Baby Ray's® BBQ Sauce"
   },
   "chipotle": {
