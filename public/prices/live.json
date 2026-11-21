@@ -3,7 +3,7 @@
  "reference": true,
  "region": "south",
  "source": "Kroger Products API",
- "fetchedAt": "2026-11-20T10:25:19.929Z",
+ "fetchedAt": "2026-11-21T10:04:42.328Z",
  "locationId": "01100695",
  "locationName": "KROGER · Kroger - Ponce (market reference — no Kroger store near you)",
  "prices": {
@@ -62,10 +62,10 @@
    "productName": "Cilantro"
   },
   "mint": {
-   "size": 368.5435,
-   "price": 6.79,
-   "label": "13 oz",
-   "productName": "Life Savers Wint-O-Green Candy Hard Mints Sharing Size Bag"
+   "size": 1273.743035,
+   "price": 17.99,
+   "label": "44.93 oz",
+   "productName": "Life Savers Wint-O-Green Breath Mint Bulk Hard Candy Party Size Bag"
   },
   "curry-leaves": {
    "size": 283.495,
@@ -266,10 +266,10 @@
    "productName": "Kroger® Fresh Natural Pork Tenderloin"
   },
   "sirloin": {
-   "size": 453.592,
-   "price": 10.49,
-   "label": "per lb",
-   "productName": "Beef Choice Sirloin Tip Steak Thin Cut Family Pack"
+   "size": 827.2384099999999,
+   "price": 15,
+   "label": "2 ct / 14.59 oz",
+   "productName": "Kroger® Bacon Wrapped Petite Beef Sirloin Steak"
   },
   "egg": {
    "size": 12,
@@ -278,10 +278,10 @@
    "productName": "Eggland's Best Classic Extra Large White Eggs, 12 Count"
   },
   "paneer": {
-   "size": 623.689,
-   "price": 7.99,
-   "label": "22 oz",
-   "productName": "Private Selection® Indian Inspired Palak Paneer"
+   "size": 283.495,
+   "price": 6.49,
+   "label": "10 oz",
+   "productName": "Amy's® Indian Palak Paneer Frozen Meal"
   },
   "greek-yogurt": {
    "size": 907.184,
@@ -536,10 +536,10 @@
    "productName": "Kroger® Mild Traditional Salsa"
   },
   "peanut-butter": {
-   "size": 1814.368,
-   "price": 6.49,
-   "label": "64 oz",
-   "productName": "Kroger® Peanut Butter Creamy BIG Deal!"
+   "size": 1133.98,
+   "price": 4.99,
+   "label": "40 oz",
+   "productName": "Kroger® Creamy Peanut Butter"
   },
   "tahini": {
    "size": 453.592,
@@ -554,10 +554,10 @@
    "productName": "Kroger® Less Sodium Soy Sauce"
   },
   "honey": {
-   "size": 340.19399999999996,
-   "price": 4,
-   "label": "12 oz",
-   "productName": "Kroger® Clover Honey Bear"
+   "size": 5556.502,
+   "price": 11.29,
+   "label": "20 ct / 9.8 oz",
+   "productName": "Nate's Honey 100% Pure Raw & Unfiltered Single-Serve Honey Packets"
   },
   "vinegar": {
    "size": 3785.41,
@@ -584,10 +584,10 @@
    "productName": "Kroger® Salted Whole Cashews x 2"
   },
   "almonds": {
-   "size": 907.184,
-   "price": 15.29,
-   "label": "32 oz",
-   "productName": "Kroger® Roasted Sea Salted Almonds"
+   "size": 453.592,
+   "price": 7.99,
+   "label": "16 oz",
+   "productName": "Simple Truth® Raw Almonds"
   },
   "hemp-hearts": {
    "size": 226.796,
@@ -602,10 +602,10 @@
    "productName": "Nature's Path Pumpkin Seed + Flax Granola"
   },
   "sesame-seeds": {
-   "size": 411.06775,
-   "price": 4.29,
-   "label": "14.5 oz",
-   "productName": "Pepperidge Farm White Hoagie Rolls With Sesame Seeds"
+   "size": 997.9024000000001,
+   "price": 4.99,
+   "label": "4 ct / 8.8 oz",
+   "productName": "St Pierre Sesame Seed Brioche Burger Buns"
   },
   "olive-oil": {
    "size": 751.1668999999999,
@@ -632,10 +632,10 @@
    "productName": "Kroger® Iodized Salt"
   },
   "black-pepper": {
-   "size": 148.83487499999998,
-   "price": 2.79,
-   "label": "5.25 oz",
-   "productName": "Morton Iodized Salt & Black Pepper 1 ea"
+   "size": 63.786375,
+   "price": 1.25,
+   "label": "2.25 oz",
+   "productName": "Smart Way™ Ground Black Pepper"
   },
   "cumin-seeds": {
    "size": 53.86405,
@@ -666,12 +666,6 @@
    "price": 5.79,
    "label": "3 oz",
    "productName": "Spice Islands Garam Masala Seasoning"
-  },
-  "sambar-powder": {
-   "size": 229.63094999999998,
-   "price": 2.49,
-   "label": "8.1 oz",
-   "productName": "Kroger® Baking Powder"
   },
   "paprika": {
    "size": 49.611625,
