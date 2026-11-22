@@ -3,7 +3,7 @@
  "reference": true,
  "region": "south",
  "source": "Kroger Products API",
- "fetchedAt": "2026-11-21T10:04:42.328Z",
+ "fetchedAt": "2026-11-22T10:03:12.070Z",
  "locationId": "01100695",
  "locationName": "KROGER · Kroger - Ponce (market reference — no Kroger store near you)",
  "prices": {
@@ -62,10 +62,10 @@
    "productName": "Cilantro"
   },
   "mint": {
-   "size": 1273.743035,
-   "price": 17.99,
-   "label": "44.93 oz",
-   "productName": "Life Savers Wint-O-Green Breath Mint Bulk Hard Candy Party Size Bag"
+   "size": 368.5435,
+   "price": 6.79,
+   "label": "13 oz",
+   "productName": "Life Savers Wint-O-Green Candy Hard Mints Sharing Size Bag"
   },
   "curry-leaves": {
    "size": 283.495,
@@ -278,10 +278,10 @@
    "productName": "Eggland's Best Classic Extra Large White Eggs, 12 Count"
   },
   "paneer": {
-   "size": 283.495,
-   "price": 6.49,
-   "label": "10 oz",
-   "productName": "Amy's® Indian Palak Paneer Frozen Meal"
+   "size": 226.796,
+   "price": 7.99,
+   "label": "8 oz",
+   "productName": "Sach™ Paneer The Original Soft and Creamy"
   },
   "greek-yogurt": {
    "size": 907.184,
@@ -554,10 +554,10 @@
    "productName": "Kroger® Less Sodium Soy Sauce"
   },
   "honey": {
-   "size": 5556.502,
-   "price": 11.29,
-   "label": "20 ct / 9.8 oz",
-   "productName": "Nate's Honey 100% Pure Raw & Unfiltered Single-Serve Honey Packets"
+   "size": 340.19399999999996,
+   "price": 4,
+   "label": "12 oz",
+   "productName": "Kroger® Clover Honey Bear"
   },
   "vinegar": {
    "size": 3785.41,
@@ -587,7 +587,7 @@
    "size": 453.592,
    "price": 7.99,
    "label": "16 oz",
-   "productName": "Simple Truth® Raw Almonds"
+   "productName": "Simple Truth® Sea Salt Roasted Almonds"
   },
   "hemp-hearts": {
    "size": 226.796,
@@ -656,10 +656,10 @@
    "productName": "Simple Truth Organic® Ground Coriander"
   },
   "turmeric": {
-   "size": 453.592,
-   "price": 9.49,
-   "label": "per lb",
-   "productName": "Turmeric Root"
+   "size": 57.83298,
+   "price": 3.99,
+   "label": "2.04 oz",
+   "productName": "Simple Truth Organic® Ground Turmeric Shaker"
   },
   "garam-masala": {
    "size": 85.04849999999999,
@@ -749,7 +749,7 @@
    "size": 340.19399999999996,
    "price": 2.59,
    "label": "12 oz",
-   "productName": "Kroger® Recipe Beginnings® Frozen Cauliflower Rice"
+   "productName": "Simple Truth Organic® Steamable Riced Cauliflower"
   },
   "frozen-broccoli": {
    "size": 1474.174,
@@ -783,9 +783,9 @@
   },
   "flank-steak": {
    "size": 453.592,
-   "price": 12.99,
+   "price": 14.99,
    "label": "per lb",
-   "productName": "Beef Choice Boneless Flank Steak"
+   "productName": "Beef Choice Flank Steak (1 Steak)"
   },
   "pork-chop": {
    "size": 9071.84,
