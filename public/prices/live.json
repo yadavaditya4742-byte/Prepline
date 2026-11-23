@@ -3,7 +3,7 @@
  "reference": true,
  "region": "south",
  "source": "Kroger Products API",
- "fetchedAt": "2026-11-22T10:03:12.070Z",
+ "fetchedAt": "2026-11-23T10:32:07.511Z",
  "locationId": "01100695",
  "locationName": "KROGER · Kroger - Ponce (market reference — no Kroger store near you)",
  "prices": {
@@ -584,10 +584,10 @@
    "productName": "Kroger® Salted Whole Cashews x 2"
   },
   "almonds": {
-   "size": 453.592,
-   "price": 7.99,
-   "label": "16 oz",
-   "productName": "Simple Truth® Sea Salt Roasted Almonds"
+   "size": 170.09699999999998,
+   "price": 3.39,
+   "label": "6 oz",
+   "productName": "Kroger® Roasted Lightly Sea Salted Almonds"
   },
   "hemp-hearts": {
    "size": 226.796,
@@ -656,10 +656,10 @@
    "productName": "Simple Truth Organic® Ground Coriander"
   },
   "turmeric": {
-   "size": 57.83298,
-   "price": 3.99,
-   "label": "2.04 oz",
-   "productName": "Simple Truth Organic® Ground Turmeric Shaker"
+   "size": 453.592,
+   "price": 9.49,
+   "label": "per lb",
+   "productName": "Turmeric Root"
   },
   "garam-masala": {
    "size": 85.04849999999999,
