@@ -3,7 +3,7 @@
  "reference": true,
  "region": "south",
  "source": "Kroger Products API",
- "fetchedAt": "2026-11-24T10:27:14.240Z",
+ "fetchedAt": "2026-11-25T10:28:18.594Z",
  "locationId": "01100695",
  "locationName": "KROGER · Kroger - Ponce (market reference — no Kroger store near you)",
  "prices": {
@@ -50,10 +50,10 @@
    "productName": "Fresh Green Serrano Peppers"
   },
   "jalapeno": {
-   "size": 737.087,
+   "size": 453.592,
    "price": 2.19,
-   "label": "26 oz",
-   "productName": "La Costena® Whole Jalapeno Peppers"
+   "label": "per lb",
+   "productName": "Fresh Jalapeno Peppers"
   },
   "cilantro": {
    "size": 60,
@@ -536,9 +536,9 @@
    "productName": "Kroger® Mild Traditional Salsa"
   },
   "peanut-butter": {
-   "size": 453.592,
-   "price": 2.59,
-   "label": "16 oz",
+   "size": 1133.98,
+   "price": 4.99,
+   "label": "40 oz",
    "productName": "Kroger® Creamy Peanut Butter"
   },
   "tahini": {
@@ -760,8 +760,8 @@
   "stir-fry-veg": {
    "size": 1479.8439,
    "price": 7.99,
-   "label": "52.2 oz",
-   "productName": "Birds Eye Asian Style Stir Fry Vegetables Frozen Vegetables"
+   "label": "52.200 oz",
+   "productName": "Birds Eye Teriyaki Frozen Stir Fry Veggies and Sauce, Frozen Vegetables"
   },
   "butternut": {
    "size": 453.592,
@@ -914,15 +914,15 @@
    "productName": "Simple Truth Organic® Pitted Kalamata Olives with Oregano"
   },
   "enchilada-sauce": {
-   "size": 793.786,
-   "price": 4.99,
-   "label": "28 oz",
-   "productName": "Old El Paso™ Mild Red Enchilada Sauce"
+   "size": 822.1355,
+   "price": 4.19,
+   "label": "29 oz",
+   "productName": "Rosarita Red Enchilada Mild Sauce"
   },
   "bbq-sauce": {
-   "size": 793.786,
-   "price": 3.79,
-   "label": "28 oz",
+   "size": 510.291,
+   "price": 2.69,
+   "label": "18 oz",
    "productName": "Sweet Baby Ray's® BBQ Sauce"
   },
   "chipotle": {
