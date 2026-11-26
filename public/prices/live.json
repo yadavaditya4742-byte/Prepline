@@ -3,7 +3,7 @@
  "reference": true,
  "region": "south",
  "source": "Kroger Products API",
- "fetchedAt": "2026-11-25T10:28:18.594Z",
+ "fetchedAt": "2026-11-26T10:29:55.511Z",
  "locationId": "01100695",
  "locationName": "KROGER · Kroger - Ponce (market reference — no Kroger store near you)",
  "prices": {
@@ -128,10 +128,10 @@
    "productName": "Kroger® Frozen Cauliflower"
   },
   "broccoli": {
-   "size": 340.19399999999996,
-   "price": 1.59,
-   "label": "12 oz",
-   "productName": "Kroger® Frozen Broccoli Florets"
+   "size": 1474.174,
+   "price": 6.29,
+   "label": "52 oz",
+   "productName": "Kroger® Frozen Broccoli Florets BIG DEAL!"
   },
   "bell-pepper": {
    "size": 130.40769999999998,
@@ -536,10 +536,10 @@
    "productName": "Kroger® Mild Traditional Salsa"
   },
   "peanut-butter": {
-   "size": 1133.98,
-   "price": 4.99,
-   "label": "40 oz",
-   "productName": "Kroger® Creamy Peanut Butter"
+   "size": 1814.368,
+   "price": 6.49,
+   "label": "64 oz",
+   "productName": "Kroger® Peanut Butter Creamy BIG Deal!"
   },
   "tahini": {
    "size": 453.592,
@@ -587,7 +587,7 @@
    "size": 453.592,
    "price": 7.99,
    "label": "16 oz",
-   "productName": "Simple Truth® Sea Salt Roasted Almonds"
+   "productName": "Simple Truth® Raw Almonds"
   },
   "hemp-hearts": {
    "size": 226.796,
@@ -608,9 +608,9 @@
    "productName": "St Pierre Sesame Seed Brioche Burger Buns"
   },
   "olive-oil": {
-   "size": 751.1668999999999,
-   "price": 9.79,
-   "label": "25.4 fl oz",
+   "size": 499.79214999999994,
+   "price": 6.79,
+   "label": "16.9 fl oz",
    "productName": "Kroger® Extra Virgin Olive Oil"
   },
   "oil": {
@@ -749,7 +749,7 @@
    "size": 340.19399999999996,
    "price": 2.59,
    "label": "12 oz",
-   "productName": "Simple Truth Organic® Steamable Riced Cauliflower"
+   "productName": "Kroger® Recipe Beginnings® Frozen Cauliflower Rice"
   },
   "frozen-broccoli": {
    "size": 1474.174,
@@ -760,8 +760,8 @@
   "stir-fry-veg": {
    "size": 1479.8439,
    "price": 7.99,
-   "label": "52.200 oz",
-   "productName": "Birds Eye Teriyaki Frozen Stir Fry Veggies and Sauce, Frozen Vegetables"
+   "label": "52.2 oz",
+   "productName": "Birds Eye Asian Style Stir Fry Vegetables Frozen Vegetables"
   },
   "butternut": {
    "size": 453.592,
