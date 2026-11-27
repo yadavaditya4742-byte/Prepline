@@ -3,7 +3,7 @@
  "reference": true,
  "region": "south",
  "source": "Kroger Products API",
- "fetchedAt": "2026-11-26T10:29:55.511Z",
+ "fetchedAt": "2026-11-27T10:25:46.639Z",
  "locationId": "01100695",
  "locationName": "KROGER · Kroger - Ponce (market reference — no Kroger store near you)",
  "prices": {
@@ -33,7 +33,7 @@
   },
   "garlic": {
    "size": 150,
-   "price": 0.89,
+   "price": 0.79,
    "label": "1 ct",
    "productName": "Garlic"
   },
@@ -278,10 +278,10 @@
    "productName": "Eggland's Best Classic Extra Large White Eggs, 12 Count"
   },
   "paneer": {
-   "size": 623.689,
-   "price": 7.99,
-   "label": "22 oz",
-   "productName": "Private Selection® Indian Inspired Palak Paneer"
+   "size": 283.495,
+   "price": 6.49,
+   "label": "10 oz",
+   "productName": "Amy's® Indian Palak Paneer Frozen Meal"
   },
   "greek-yogurt": {
    "size": 907.184,
@@ -602,15 +602,15 @@
    "productName": "Nature's Path Pumpkin Seed + Flax Granola"
   },
   "sesame-seeds": {
-   "size": 997.9024000000001,
-   "price": 4.99,
-   "label": "4 ct / 8.8 oz",
-   "productName": "St Pierre Sesame Seed Brioche Burger Buns"
+   "size": 411.06775,
+   "price": 4.29,
+   "label": "14.5 oz",
+   "productName": "Pepperidge Farm White Hoagie Rolls With Sesame Seeds"
   },
   "olive-oil": {
-   "size": 499.79214999999994,
-   "price": 6.79,
-   "label": "16.9 fl oz",
+   "size": 751.1668999999999,
+   "price": 9.79,
+   "label": "25.4 fl oz",
    "productName": "Kroger® Extra Virgin Olive Oil"
   },
   "oil": {
@@ -848,10 +848,10 @@
    "productName": "J-Basket Sanuki-Fu Udon Japanese Style Noodles"
   },
   "panko": {
-   "size": 30560.761,
-   "price": 11.99,
-   "label": "44 ct / 24.5 oz",
-   "productName": "Gorton’s Crunchy Breaded Fish Sticks Cut from Real Fish, Crunchy Panko Breadcrumbs, Frozen"
+   "size": 226.796,
+   "price": 2.29,
+   "label": "8 oz",
+   "productName": "Kroger® Japanese Style Panko Bread Crumbs"
   },
   "pinto-beans-can": {
    "size": 439.41724999999997,
@@ -920,9 +920,9 @@
    "productName": "Rosarita Red Enchilada Mild Sauce"
   },
   "bbq-sauce": {
-   "size": 510.291,
-   "price": 2.69,
-   "label": "18 oz",
+   "size": 793.786,
+   "price": 3.79,
+   "label": "28 oz",
    "productName": "Sweet Baby Ray's® BBQ Sauce"
   },
   "chipotle": {
