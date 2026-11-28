@@ -3,7 +3,7 @@
  "reference": true,
  "region": "south",
  "source": "Kroger Products API",
- "fetchedAt": "2026-11-27T10:25:46.639Z",
+ "fetchedAt": "2026-11-28T10:08:55.218Z",
  "locationId": "01100695",
  "locationName": "KROGER · Kroger - Ponce (market reference — no Kroger store near you)",
  "prices": {
@@ -50,10 +50,10 @@
    "productName": "Fresh Green Serrano Peppers"
   },
   "jalapeno": {
-   "size": 453.592,
+   "size": 737.087,
    "price": 2.19,
-   "label": "per lb",
-   "productName": "Fresh Jalapeno Peppers"
+   "label": "26 oz",
+   "productName": "La Costena® Whole Jalapeno Peppers"
   },
   "cilantro": {
    "size": 60,
@@ -419,7 +419,7 @@
    "size": 226.796,
    "price": 2.99,
    "label": "8 oz",
-   "productName": "Simple Truth® Protein Gluten Free Organic Chickpea Fusilli Pasta"
+   "productName": "Simple Truth® Gluten Free Organic Chickpea Penne Pasta"
   },
   "couscous": {
    "size": 751.26175,
